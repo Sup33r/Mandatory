@@ -1,0 +1,39 @@
+name: 'Mandatory'
+version: '1.0.0'
+main: 'xyz.supeer.mandatory.Main'
+api-version: '1.17'
+depends: [Votifier]
+author: 'superkrokodilen'
+website: 'https://supeer.xyz'
+
+commands:
+  hej:
+
+  hejda:
+
+  fly:
+
+  broadcast:
+
+  feed:
+
+  me:
+
+  vision:
+
+  bosscast:
+
+  gamemode:
+    aliases: [g]
+
+  speed:
+
+  repair:
+
+  balance:
+    aliases: [b]
+
+  player:
+    aliases: [p]
+
+  love:
