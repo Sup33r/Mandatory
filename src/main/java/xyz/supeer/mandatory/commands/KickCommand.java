@@ -27,6 +27,12 @@ public class KickCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         Player p = (Player) sender;
+
+        if (args.length == 0) {
+            p.sendMessage("§7Syntax: /kick §nspelare§r§7 §nanledning");
+            return true;
+        }
+
         Player t = Bukkit.getPlayerExact(args[0]);
 
         if(!sender.hasPermission("mandatory.command.kick")){
@@ -34,10 +40,7 @@ public class KickCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length == 0) {
-            p.sendMessage("§7Syntax: /kick §nspelare§r§7 §nanledning");
-            return true;
-        }
+
 
         String msg = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         if (Objects.equals(args[1], "spam")) {
