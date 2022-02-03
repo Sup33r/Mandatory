@@ -9,6 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.supeer.mandatory.Main;
 
+import java.util.Objects;
+
 public class GamemodeCommand implements CommandExecutor {
 
     private final Main plugin;
@@ -16,6 +18,15 @@ public class GamemodeCommand implements CommandExecutor {
     public GamemodeCommand(Main plugin) {
         this.plugin = plugin;
         plugin.getCommand("gamemode").setExecutor(this);
+    }
+
+    public boolean isInt(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     @Override
@@ -40,7 +51,31 @@ public class GamemodeCommand implements CommandExecutor {
             }
 
 
-            p.setGameMode(GameMode.getByValue(Integer.parseInt(args[0])));
+            if (isInt(args[0])) {
+                if (Integer.parseInt(args[0]) < 0) {
+                    p.sendMessage("§cVänligen ange ett giltigt spelläge.");
+                    return true;
+                } else if ((Integer.parseInt(args[0]) > 3)) {
+                    p.sendMessage("§cVänligen ange ett giltigt spelläge.");
+                    return true;
+                }
+                p.setGameMode(Objects.requireNonNull(GameMode.getByValue(Integer.parseInt(args[0]))));
+            } else if (!isInt(args[0])) {
+                if (args[0].equalsIgnoreCase("spectator")) {
+                p.setGameMode(GameMode.SPECTATOR);
+                } else  if (args[0].equalsIgnoreCase("creative")) {
+                    p.setGameMode(GameMode.CREATIVE);
+                } else  if (args[0].equalsIgnoreCase("adventure")) {
+                    p.setGameMode(GameMode.ADVENTURE);
+                } else  if (args[0].equalsIgnoreCase("survival")) {
+                    p.setGameMode(GameMode.SURVIVAL);
+
+                } else {
+                    p.sendMessage("§cVänligen ange ett giltigt spelläge.");
+                    return true;
+                }
+
+            }
 
             p.sendMessage(ChatColor.AQUA + "Ditt spelläge har ändrats till " + p.getGameMode() + ".");
         } else if (args.length == 2) {

@@ -29,6 +29,7 @@ public class Main extends JavaPlugin implements Listener{
         new BalanceCommand(this);
         new PlayerCommand(this);
         new LoveCommand(this);
+        new KickCommand(this);
         this.getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
 
     }

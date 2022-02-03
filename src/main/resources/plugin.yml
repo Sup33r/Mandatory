@@ -37,3 +37,5 @@ commands:
     aliases: [p]
 
   love:
+
+  kick:

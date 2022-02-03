@@ -11,7 +11,8 @@ import xyz.supeer.mandatory.Main;
 public class FlyCommand implements CommandExecutor {
 
     private final Main plugin;
-    public FlyCommand(Main plugin){
+
+    public FlyCommand(Main plugin) {
 
         this.plugin = plugin;
         plugin.getCommand("fly").setExecutor(this);
@@ -21,6 +22,7 @@ public class FlyCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
 
         if (args.length == 0) {
 
@@ -50,19 +52,20 @@ public class FlyCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.RED + "Åtkomst nekad.");
                 return true;
             }
+                Player t = Bukkit.getPlayerExact(args[0]);
 
-            Player t = Bukkit.getPlayerExact(args[0]);
+                if (t.getAllowFlight() == false) {
+                    t.setAllowFlight(true);
+                    sender.sendMessage(ChatColor.AQUA + "Flygläge aktiverat för " + t.getDisplayName() + ".");
+                    return true;
+                }
 
-            if (t.getAllowFlight() == false) {
-                t.setAllowFlight(true);
-                sender.sendMessage(ChatColor.AQUA + "Flygläge aktiverat för " + t.getDisplayName() + ".");
-                return true;
-            }
+                t.setAllowFlight(false);
+                sender.sendMessage(ChatColor.AQUA + "Flygläge avaktiverat för " + t.getDisplayName() + ".");
 
-            t.setAllowFlight(false);
-            sender.sendMessage(ChatColor.AQUA + "Flygläge avaktiverat för " + t.getDisplayName() + ".");
+            return false;
         }
+
         return false;
     }
-
 }
