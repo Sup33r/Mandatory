@@ -20,4 +20,6 @@ xyz\supeer\mandatory\utils\DeathUtils.class
 xyz\supeer\mandatory\commands\MeCommand.class
 xyz\supeer\mandatory\commands\VisionCommand.class
 xyz\supeer\mandatory\commands\FlyCommand.class
+xyz\supeer\mandatory\sql\SQLGetter.class
 xyz\supeer\mandatory\utils\MessageManager.class
+xyz\supeer\mandatory\sql\MySQL.class

@@ -8,12 +8,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.supeer.mandatory.Main;
+import xyz.supeer.mandatory.sql.MySQL;
+import xyz.supeer.mandatory.sql.SQLGetter;
 
 import java.util.UUID;
 
 import static org.bukkit.Bukkit.*;
 
 public class BalanceCommand implements CommandExecutor {
+
 
 
         private final Main plugin;
@@ -35,11 +38,11 @@ public class BalanceCommand implements CommandExecutor {
 
              if (args.length == 0) {
 
-          //   if (!SQL.isConnected()) {
-           //   p.sendMessage(ChatColor.RED + "Ditt saldo kan inte hämtas just nu.");
-             //   return true;
-             // }
-            p.sendMessage(ChatColor.GREEN + "Saldo: " + "PLACEHOLDER BALANCE" + " minemynt");
+             if (!MySQL.isConnected()) {
+              p.sendMessage(ChatColor.RED + "Ditt saldo kan inte hämtas just nu.");
+                return true;
+              }
+            p.sendMessage(ChatColor.GREEN + "Saldo: " + SQLGetter.getBalance(p.getUniqueId()) + " minemynt");
             return true;
              } else
              if (args.length == 1) {
@@ -52,7 +55,7 @@ public class BalanceCommand implements CommandExecutor {
                  Player t = Bukkit.getPlayerExact(args[0]);
 
                  if (t == p){
-                     p.sendMessage(ChatColor.GREEN + "Saldo: " + "PLACEHOLDER BALANCE" + " minemynt");
+                     p.sendMessage(ChatColor.GREEN + "Saldo: " + SQLGetter.getBalance(t.getUniqueId()) + " minemynt");
                      return true;
                  }
 
@@ -61,7 +64,7 @@ public class BalanceCommand implements CommandExecutor {
                      return true;
                  }
 
-                 p.sendMessage(ChatColor.GREEN + "Saldo för " + t.getDisplayName() + "SQL PLACEHOLDER TARGET" + " minemynt");
+                 p.sendMessage(ChatColor.GREEN + "Saldo för " + t.getDisplayName() + ": " + SQLGetter.getBalance(t.getUniqueId()) + " minemynt");
                  return true;
 
                  }

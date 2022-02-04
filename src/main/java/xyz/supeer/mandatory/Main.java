@@ -7,6 +7,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import xyz.supeer.mandatory.commands.*;
 import org.bukkit.event.Listener;
 import xyz.supeer.mandatory.listeners.*;
+import xyz.supeer.mandatory.sql.MySQL;
+
 
 public class Main extends JavaPlugin implements Listener{
 
@@ -14,6 +16,9 @@ public class Main extends JavaPlugin implements Listener{
 
     @Override
     public void onEnable() {
+
+        MySQL.connect();
+
         plugin = this;
         new HejCommand(this);
         new HejdaCommand(this);
@@ -32,6 +37,7 @@ public class Main extends JavaPlugin implements Listener{
         new KickCommand(this);
         this.getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
 
+
     }
 
     @EventHandler
@@ -45,8 +51,9 @@ public class Main extends JavaPlugin implements Listener{
     @Override
     public void onDisable() {
 
+        MySQL.disconnect();
+
     }
-
-
-
 }
+
+

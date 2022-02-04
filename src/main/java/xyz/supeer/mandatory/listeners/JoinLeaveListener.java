@@ -7,14 +7,21 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.supeer.mandatory.commands.KickCommand;
+import xyz.supeer.mandatory.sql.MySQL;
+import xyz.supeer.mandatory.sql.SQLGetter;
 
 public class JoinLeaveListener implements Listener {
+
+    public MySQL SQL;
+    public SQLGetter data;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
 
 
         Player player = e.getPlayer();
+
+        data.createPlayer(player);
 
 
 
