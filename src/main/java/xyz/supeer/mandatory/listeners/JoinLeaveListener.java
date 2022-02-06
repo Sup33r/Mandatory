@@ -7,32 +7,24 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.supeer.mandatory.commands.KickCommand;
-import xyz.supeer.mandatory.sql.MySQL;
-import xyz.supeer.mandatory.sql.SQLGetter;
+
 
 public class JoinLeaveListener implements Listener {
 
-    public MySQL SQL;
-    public SQLGetter data;
-
     @EventHandler
-    public void onJoin(PlayerJoinEvent e){
-
-
+    public void OnJoin (PlayerJoinEvent e) {
         Player player = e.getPlayer();
+        player.sendTitle("Tjuhu, " + player.getDisplayName() + "!", "Välkommen till Kottcraft.", 0, 70,20);
 
-        data.createPlayer(player);
+        if (!player.hasPermission("mandatory.hide.join")) {
 
-
-
-        if(player.hasPlayedBefore()){
-            e.setJoinMessage(ChatColor.DARK_GREEN + "[" + ChatColor.GREEN + "+" + ChatColor.DARK_GREEN + "] " + ChatColor.GOLD + player.getDisplayName()+ "");
-        }
-        else{
-            e.setJoinMessage(ChatColor.DARK_GREEN + "[" + ChatColor.GREEN + "+" + ChatColor.DARK_GREEN + "] " + ChatColor.GOLD + player.getDisplayName()+ " loggade in för första gången.");
-        }
-
-
+            if (player.hasPlayedBefore()) {
+                e.setJoinMessage(ChatColor.DARK_GREEN + "[" + ChatColor.GREEN + "+" + ChatColor.DARK_GREEN + "] " + ChatColor.GOLD + player.getDisplayName() + "");
+            } else {
+                e.setJoinMessage(ChatColor.DARK_GREEN + "[" + ChatColor.GREEN + "+" + ChatColor.DARK_GREEN + "] " + ChatColor.GOLD + player.getDisplayName() + " loggade in för första gången.");
+            }
+        } else
+        e.setJoinMessage("");
     }
 
     @EventHandler
@@ -41,12 +33,15 @@ public class JoinLeaveListener implements Listener {
         Player player = e.getPlayer();
 
         if (KickCommand.kicked) {
-        e.setQuitMessage("§4[§c-§4] §6" + player.getDisplayName() + " fick en varning");
-        KickCommand.kicked = false;
-        return;
+            e.setQuitMessage("§4[§c-§4] §6" + player.getDisplayName() + " fick en varning");
+            KickCommand.kicked = false;
+            return;
         }
 
-        e.setQuitMessage(ChatColor.DARK_RED + "[" + ChatColor.RED + "-" + ChatColor.DARK_RED + "] " + ChatColor.GOLD + player.getDisplayName()+ "");
+        if (!player.hasPermission("mandatory.hide.join")) {
+            e.setQuitMessage(ChatColor.DARK_RED + "[" + ChatColor.RED + "-" + ChatColor.DARK_RED + "] " + ChatColor.GOLD + player.getDisplayName()+ "");
+        } else
+            e.setQuitMessage("");
 
     }
 

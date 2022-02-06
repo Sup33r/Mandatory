@@ -52,19 +52,27 @@ public class BalanceCommand implements CommandExecutor {
                      return true;
                  }
 
-                 Player t = Bukkit.getPlayerExact(args[0]);
+                 UUID  uniqueId = UUID.fromString(args[0]);
 
-                 if (t == p){
-                     p.sendMessage(ChatColor.GREEN + "Saldo: " + SQLGetter.getBalance(t.getUniqueId()) + " minemynt");
-                     return true;
-                 }
-
-                 if (!(t instanceof Player)) {
+                 OfflinePlayer op = getOfflinePlayer(args[0]);
+                 if (op.hasPlayedBefore()) {
+                     UUID uuid = op.getUniqueId();
+                 } else {
                      p.sendMessage(ChatColor.RED + "Spelaren kunde inte hittas.");
                      return true;
                  }
 
-                 p.sendMessage(ChatColor.GREEN + "Saldo för " + t.getDisplayName() + ": " + SQLGetter.getBalance(t.getUniqueId()) + " minemynt");
+                 if (op.getUniqueId() == p.getUniqueId()){
+                     p.sendMessage(ChatColor.GREEN + "Saldo: " + SQLGetter.getBalance(op.getUniqueId()) + " minemynt");
+                     return true;
+                 }
+
+                 if (!(SQLGetter.exists(op.getUniqueId()))) {
+                     p.sendMessage(ChatColor.RED + "Spelaren kunde inte hittas.");
+                     return true;
+                 }
+
+                 p.sendMessage(ChatColor.GREEN + "Saldo för " + Bukkit.getPlayer(op.getUniqueId()).getDisplayName() + ": " + SQLGetter.getBalance(op.getUniqueId()) + " minemynt");
                  return true;
 
                  }

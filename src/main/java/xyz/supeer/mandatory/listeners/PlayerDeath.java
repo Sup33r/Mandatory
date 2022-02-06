@@ -7,8 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import xyz.supeer.mandatory.Main;
-import xyz.supeer.mandatory.utils.DeathUtils;
-import org.bukkit.inventory.EntityEquipment;
 
 public class PlayerDeath implements Listener {
 

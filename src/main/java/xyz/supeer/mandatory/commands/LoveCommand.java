@@ -7,9 +7,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.supeer.mandatory.Main;
+import xyz.supeer.mandatory.sql.SQLGetter;
 
 import java.util.Arrays;
-import java.util.Locale;
 
 public class LoveCommand implements CommandExecutor {
 
@@ -53,9 +53,10 @@ public class LoveCommand implements CommandExecutor {
             }
 
             p.sendMessage(ChatColor.GREEN + "Kärleken har framgångsrikt skickats till " + t.getDisplayName() +  "!");
-            t.sendMessage(ChatColor.DARK_RED + "❤");
+            SQLGetter.addLoves(t.getUniqueId(), 1);
+            t.sendMessage(ChatColor.DARK_RED + "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤");
             t.sendMessage(ChatColor.GREEN + "Du har fått en kärlekshälsning från " + ChatColor.BOLD + p.getDisplayName() + "!");
-            t.sendMessage(ChatColor.DARK_RED + "❤");
+            t.sendMessage(ChatColor.DARK_RED + "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤");
 
         } else
         if (args.length >= 2) {
@@ -71,12 +72,13 @@ public class LoveCommand implements CommandExecutor {
             }
 
             p.sendMessage(ChatColor.GREEN + "Kärleken har framgångsrikt skickats till " + t.getDisplayName() +  "!");
+            SQLGetter.addLoves(t.getUniqueId(), 1);
             String msg = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 
-            t.sendMessage(ChatColor.DARK_RED + "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤");
+            t.sendMessage(ChatColor.DARK_RED + "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤");
             t.sendMessage(ChatColor.GREEN + "Du har fått en kärlekshälsning från " + ChatColor.BOLD + p.getDisplayName() + ChatColor.RESET + ChatColor.GREEN + "!");
             t.sendMessage(ChatColor.DARK_GREEN + "Anledning: " + ChatColor.GREEN + msg);
-            t.sendMessage(ChatColor.DARK_RED + "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤");
+            t.sendMessage(ChatColor.DARK_RED + "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤");
 
         }
 

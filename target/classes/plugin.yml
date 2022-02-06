@@ -39,3 +39,9 @@ commands:
   love:
 
   kick:
+
+  modchat:
+    aliases: [mc]
+
+  admin:
+

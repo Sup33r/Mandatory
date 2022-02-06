@@ -1,11 +1,9 @@
 package xyz.supeer.mandatory;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.supeer.mandatory.commands.*;
 import org.bukkit.event.Listener;
+import xyz.supeer.mandatory.commands.admin.CommandManager;
 import xyz.supeer.mandatory.listeners.*;
 import xyz.supeer.mandatory.sql.MySQL;
 
@@ -13,9 +11,15 @@ import xyz.supeer.mandatory.sql.MySQL;
 public class Main extends JavaPlugin implements Listener{
 
     public static Main plugin;
+    private static Main instance;
+    public CommandManager commandManager;
 
     @Override
     public void onEnable() {
+
+        setInstance(this);
+        commandManager = new CommandManager();
+        commandManager.setup();
 
         MySQL.connect();
 
@@ -35,18 +39,10 @@ public class Main extends JavaPlugin implements Listener{
         new PlayerCommand(this);
         new LoveCommand(this);
         new KickCommand(this);
+        new ModchatCommand(this);
         this.getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
 
-
     }
-
-    @EventHandler
-    public void OnJoin (PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        player.sendTitle("Tjuhu, " + player.getDisplayName() + "!", "Välkommen till Kottcraft.", 0, 70,20);
-    }
-
-
 
     @Override
     public void onDisable() {
@@ -54,6 +50,11 @@ public class Main extends JavaPlugin implements Listener{
         MySQL.disconnect();
 
     }
-}
+
+    public static Main getInstance() {return instance; }
+    public static void setInstance(Main instance) { Main.instance = instance;}
+
+        }
+
 
 
