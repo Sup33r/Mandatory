@@ -1,6 +1,4 @@
 xyz\supeer\mandatory\listeners\JoinLeaveListener.class
-xyz\supeer\mandatory\commands\HejdaCommand.class
-xyz\supeer\mandatory\commands\HejCommand.class
 xyz\supeer\mandatory\commands\PlayerCommand.class
 xyz\supeer\mandatory\listeners\PlayerDeath.class
 xyz\supeer\mandatory\commands\GamemodeCommand.class

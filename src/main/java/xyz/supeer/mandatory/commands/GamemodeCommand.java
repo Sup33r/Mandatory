@@ -77,7 +77,7 @@ public class GamemodeCommand implements CommandExecutor {
 
             }
 
-            p.sendMessage(ChatColor.AQUA + "Ditt spelläge har ändrats till " + p.getGameMode() + ".");
+            p.sendMessage(ChatColor.AQUA + "Ditt spelläge har ändrats till: " + p.getGameMode() + ".");
         } else if (args.length == 2) {
 
             if (!sender.hasPermission("mandatory.command.gamemode.others")) {
@@ -90,7 +90,7 @@ public class GamemodeCommand implements CommandExecutor {
             if (t == p){
                 p.setGameMode(GameMode.getByValue(Integer.parseInt(args[0])));
 
-                p.sendMessage(ChatColor.AQUA + "Ditt spelläge har ändrats till " + p.getGameMode() + ".");
+                p.sendMessage(ChatColor.AQUA + "Ditt spelläge har ändrats till: " + p.getGameMode() + ".");
                 return true;
             }
 
@@ -100,7 +100,7 @@ public class GamemodeCommand implements CommandExecutor {
             }
 
             t.setGameMode(GameMode.getByValue(Integer.parseInt(args[0])));
-            p.sendMessage(ChatColor.AQUA + "Spelläge för " + t.getDisplayName() + "har ändrats till: " + t.getGameMode() + ".");
+            p.sendMessage(ChatColor.AQUA + "Spelläge för " + t.getDisplayName() + " har ändrats till: " + t.getGameMode() + ".");
         }
 
         return true;

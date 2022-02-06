@@ -26,7 +26,7 @@ public class LoveCommand implements CommandExecutor {
         Player p = (Player) sender;
 
 
-        if(!sender.hasPermission("mandatory.command.love.others")){
+        if(!sender.hasPermission("mandatory.command.love")){
             sender.sendMessage(ChatColor.RED + "Åtkomst nekad.");
             return true;
         }

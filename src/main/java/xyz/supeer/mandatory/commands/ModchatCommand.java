@@ -24,7 +24,7 @@ public class ModchatCommand implements CommandExecutor {
             return false;
         }
         Player p = (Player) sender;
-        if (!(p.hasPermission("mandatory.modchat"))) {
+        if (!(p.hasPermission("mandatory.command.modchat"))) {
             p.sendMessage("§cÅtkomst nekad");
             return false;
         }
@@ -36,7 +36,7 @@ public class ModchatCommand implements CommandExecutor {
         }
 
         if (args[0] == "help") {
-            
+
         }
 
         String message = "§4#modzone §7| §6" + p.getDisplayName() + "§7> §c";

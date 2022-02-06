@@ -38,7 +38,7 @@ public class JoinLeaveListener implements Listener {
             return;
         }
 
-        if (!player.hasPermission("mandatory.hide.join")) {
+        if (!player.hasPermission("mandatory.hide.quit")) {
             e.setQuitMessage(ChatColor.DARK_RED + "[" + ChatColor.RED + "-" + ChatColor.DARK_RED + "] " + ChatColor.GOLD + player.getDisplayName()+ "");
         } else
             e.setQuitMessage("");

@@ -38,7 +38,7 @@ public class CommandManager implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
-        if (!sender.hasPermission("mandatory.admin")) {
+        if (!sender.hasPermission("mandatory.command.admin")) {
             sender.sendMessage(ChatColor.RED + "Åtkomst nekad");
             return true;
         }

@@ -24,8 +24,6 @@ public class Main extends JavaPlugin implements Listener{
         MySQL.connect();
 
         plugin = this;
-        new HejCommand(this);
-        new HejdaCommand(this);
         new FlyCommand(this);
         new BroadcastCommand(this);
         new FeedCommand(this);
