@@ -100,7 +100,7 @@ public class GamemodeCommand implements CommandExecutor {
             }
 
             t.setGameMode(GameMode.getByValue(Integer.parseInt(args[0])));
-            p.sendMessage(ChatColor.AQUA + "Spelläge för " + t + "har ändrats till: " + t.getGameMode() + ".");
+            p.sendMessage(ChatColor.AQUA + "Spelläge för " + t.getDisplayName() + "har ändrats till: " + t.getGameMode() + ".");
         }
 
         return true;
