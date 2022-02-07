@@ -11,9 +11,11 @@
 - mandatory.command.kick
 - mandatory.command.love
 - mandatory.command.me
+- mandatory.command.message
 - mandatory.command.modchat
 - mandatory.command.player
 - mandatory.command.repair
+- mandatory.command.reply
 - mandatory.command.speed
 - mandatory.command.speed.others
 - mandatory.command.vision
