@@ -35,7 +35,7 @@ public class JoinLeaveListener implements Listener {
         Player player = e.getPlayer();
 
         if (KickCommand.kicked) {
-            e.setQuitMessage("§4[§c-§4] §6" + player.getDisplayName() + " fick en varning");
+            e.setQuitMessage("§4[§c-§4] §6" + player.getDisplayName() + " fick en varning.");
             KickCommand.kicked = false;
             return;
         }

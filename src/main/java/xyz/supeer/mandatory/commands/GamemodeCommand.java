@@ -32,9 +32,14 @@ public class GamemodeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
+        Player p = (Player) sender;
+        if (!sender.hasPermission("mandatory.command.gamemode")) {
+            sender.sendMessage(ChatColor.RED + "Åtkomst nekad.");
+            return true;
+        }
+
         if (args.length == 1) {
 
-            Player p = (Player) sender;
             if (!sender.hasPermission("mandatory.command.gamemode")) {
                 sender.sendMessage(ChatColor.RED + "Åtkomst nekad.");
                 return true;
@@ -84,7 +89,6 @@ public class GamemodeCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.RED + "Åtkomst nekad.");
                 return true;
             }
-            Player p = (Player) sender;
             Player t = Bukkit.getPlayerExact(args[1]);
 
             if (t == p){

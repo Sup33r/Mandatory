@@ -10,6 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
 import xyz.supeer.mandatory.Main;
 
+import java.util.Objects;
+
 public class ModchatCommand implements CommandExecutor {
 
     private final Main plugin;
@@ -38,8 +40,19 @@ public class ModchatCommand implements CommandExecutor {
             return false;
         }
 
-        if (args[0] == "help") {
+        if (args[0].equalsIgnoreCase("help")) {
+            Player t = Bukkit.getPlayerExact(args[1]);
+            if (!(t instanceof Player)) {
+                p.sendMessage("§cDu måste ange ett giltigt spelarnamn.");
+                return false;
+            }
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (player.hasPermission("mandatory.modchat")) {
+                    player.sendMessage("§4#modzone §7| §c" + p.getDisplayName() + " hjälper " + t.getDisplayName() + ".");
+                }
 
+            }
+            return false;
         }
 
         String message = "§4#modzone §7| §6" + p.getDisplayName() + "§7> §c";

@@ -16,6 +16,7 @@ xyz\supeer\mandatory\utils\RepairUtils.class
 xyz\supeer\mandatory\commands\admin\CommandManager.class
 xyz\supeer\mandatory\commands\RepairCommand.class
 xyz\supeer\mandatory\commands\MeCommand.class
+xyz\supeer\mandatory\commands\HelpopCommand.class
 xyz\supeer\mandatory\commands\VisionCommand.class
 xyz\supeer\mandatory\commands\FlyCommand.class
 xyz\supeer\mandatory\commands\ModchatCommand.class

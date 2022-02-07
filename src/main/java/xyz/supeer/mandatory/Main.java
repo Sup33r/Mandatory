@@ -38,6 +38,7 @@ public class Main extends JavaPlugin implements Listener{
         new LoveCommand(this);
         new KickCommand(this);
         new ModchatCommand(this);
+        new HelpopCommand(this);
         this.getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
     }
 
