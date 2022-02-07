@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.supeer.mandatory.commands.KickCommand;
+import xyz.supeer.mandatory.commands.MessageCommand;
 
 
 public class JoinLeaveListener implements Listener {
@@ -31,11 +32,12 @@ public class JoinLeaveListener implements Listener {
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
+        MessageCommand.lastMessageSender.remove(e.getPlayer());
 
         Player player = e.getPlayer();
 
         if (KickCommand.kicked) {
-            e.setQuitMessage("§4[§c-§4] §6" + player.getDisplayName() + " fick en varning.");
+
             KickCommand.kicked = false;
             return;
         }
@@ -49,8 +51,8 @@ public class JoinLeaveListener implements Listener {
 
     @EventHandler
     public  void onKick(PlayerKickEvent e) {
-        if (e.getReason().equals("Det verkar som om att du flög. Om det är så att du fuskar råder vi dig att omedelbart sluta med det. Tack!")); {
-
+        e.setLeaveMessage("§4[§c-§4] §6" + e.getPlayer().getDisplayName() + " fick en varning.");
+        if (e.getReason().equals("Det verkar som om att du flög. Om det är så att du fuskar råder vi dig att omedelbart sluta med det. Tack!")) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.hasPermission("mandatory.modchat")) {
                     player.sendMessage("§4#modzone §7| §c" + e.getPlayer().getDisplayName() + " blev varnad för flygfusk.");

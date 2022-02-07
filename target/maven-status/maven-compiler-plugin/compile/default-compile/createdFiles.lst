@@ -2,6 +2,7 @@ xyz\supeer\mandatory\listeners\JoinLeaveListener.class
 xyz\supeer\mandatory\commands\PlayerCommand.class
 xyz\supeer\mandatory\listeners\PlayerDeath.class
 xyz\supeer\mandatory\commands\GamemodeCommand.class
+xyz\supeer\mandatory\commands\MessageCommand.class
 xyz\supeer\mandatory\commands\BalanceCommand.class
 xyz\supeer\mandatory\Main.class
 xyz\supeer\mandatory\commands\SpeedCommand.class
@@ -13,6 +14,7 @@ xyz\supeer\mandatory\commands\admin\HelpCommand.class
 xyz\supeer\mandatory\commands\BanCommand.class
 xyz\supeer\mandatory\commands\BosscastCommand.class
 xyz\supeer\mandatory\utils\RepairUtils.class
+xyz\supeer\mandatory\commands\ReplyCommand.class
 xyz\supeer\mandatory\commands\admin\CommandManager.class
 xyz\supeer\mandatory\commands\RepairCommand.class
 xyz\supeer\mandatory\commands\MeCommand.class

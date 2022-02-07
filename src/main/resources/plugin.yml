@@ -47,3 +47,8 @@ commands:
 
   helpop:
 
+  message:
+    aliases: [msg,m]
+
+  reply:
+    aliases: [r]
