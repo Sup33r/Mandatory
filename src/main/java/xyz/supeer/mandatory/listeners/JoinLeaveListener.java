@@ -1,10 +1,12 @@
 package xyz.supeer.mandatory.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.supeer.mandatory.commands.KickCommand;
 
@@ -43,6 +45,19 @@ public class JoinLeaveListener implements Listener {
         } else
             e.setQuitMessage("");
 
+    }
+
+    @EventHandler
+    public  void onKick(PlayerKickEvent e) {
+        if (e.getReason().equals("Det verkar som om att du flög. Om det är så att du fuskar råder vi dig att omedelbart sluta med det. Tack!")); {
+
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (player.hasPermission("mandatory.modchat")) {
+                    player.sendMessage("§4#modzone §7| §c" + e.getPlayer().getDisplayName() + " blev varnad för flygfusk.");
+                }
+            }
+
+        }
     }
 
 }

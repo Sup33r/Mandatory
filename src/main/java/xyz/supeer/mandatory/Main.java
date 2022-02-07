@@ -39,7 +39,6 @@ public class Main extends JavaPlugin implements Listener{
         new KickCommand(this);
         new ModchatCommand(this);
         this.getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
-
     }
 
     @Override

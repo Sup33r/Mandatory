@@ -5,6 +5,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerKickEvent;
 import xyz.supeer.mandatory.Main;
 
 public class ModchatCommand implements CommandExecutor {
@@ -52,4 +55,5 @@ public class ModchatCommand implements CommandExecutor {
 
         return false;
     }
+
 }
