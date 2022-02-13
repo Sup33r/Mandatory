@@ -55,7 +55,7 @@ public class JoinLeaveListener implements Listener {
         if (e.getReason().equals("Det verkar som om att du flög. Om det är så att du fuskar råder vi dig att omedelbart sluta med det. Tack!")) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.hasPermission("mandatory.modchat")) {
-                    player.sendMessage("§4#modzone §7| §c" + e.getPlayer().getDisplayName() + " blev varnad för flygfusk.");
+                    player.sendMessage("§4#modzone §7| §cMisstänkt flygfusk hos " + e.getPlayer().getDisplayName() + ".");
                 }
             }
 

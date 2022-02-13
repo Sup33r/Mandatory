@@ -85,7 +85,7 @@ public class SQLGetter {
         return 0;
     }
 
-    public void createLoveTable() {
+    public static void createLoveTable() {
         PreparedStatement ps;
         try {
             ps = MySQL.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS playerloves " + "(NAME VARCHAR(100),UUID VARCHAR(100),SENDERNAME VARCHAR(100),SENDERUUID VARCHAR(100),LOVES INT(100),MESSAGE TEXT(100),PRIMARY KEY (NAME))");
@@ -95,17 +95,21 @@ public class SQLGetter {
         }
     }
 
-    public void createLovePlayer(Player player) {
+    public static void createLovePlayer(Player player, Player sender, String message) {
         try {
             UUID uuid = player.getUniqueId();
+            UUID senderuuid = sender.getUniqueId();
             PreparedStatement ps = MySQL.getConnection().prepareStatement("SELECT * FROM playerloves WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             results.next();
             if (!loveExists(uuid)) {
-                PreparedStatement ps2 = MySQL.getConnection().prepareStatement("INSERT IGNORE INFO playerloves" + " (NAME,UUID) VALUES (?,?)");
+                PreparedStatement ps2 = MySQL.getConnection().prepareStatement("INSERT IGNORE INFO playerloves" + " (NAME,UUID,SENDERNAME,SENDERUUID,MESSAGE) VALUES (?,?,?,?,?)");
                 ps2.setString(1, player.getName());
                 ps2.setString(2, uuid.toString());
+                ps2.setString(3, sender.getName());
+                ps2.setString(4, senderuuid.toString());
+                ps2.setString(5, message);
                 ps2.executeUpdate();
 
                 return;
@@ -131,11 +135,13 @@ public class SQLGetter {
         return false;
     }
 
-    public static void addLoves(UUID uuid, int loves) {
+    public static void addLoves(UUID uuid, int loves, UUID senderuuid, String message) {
         try {
-            PreparedStatement ps = MySQL.getConnection().prepareStatement("UPDATE playerloves SET LOVES=? WHERE UUID=?");
+            PreparedStatement ps = MySQL.getConnection().prepareStatement("UPDATE playerloves SET LOVES=?, MESSAGE=?, SENDERUUID=? WHERE UUID=?");
             ps.setInt(1, (getLoves(uuid) + loves));
-            ps.setString(1, uuid.toString());
+            ps.setString(2, message);
+            ps.setString(3, senderuuid.toString());
+            ps.setString(4, uuid.toString());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

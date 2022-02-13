@@ -2,6 +2,7 @@ xyz\supeer\mandatory\listeners\JoinLeaveListener.class
 xyz\supeer\mandatory\commands\PlayerCommand.class
 xyz\supeer\mandatory\listeners\PlayerDeath.class
 xyz\supeer\mandatory\commands\GamemodeCommand.class
+xyz\supeer\mandatory\listeners\MessageListener.class
 xyz\supeer\mandatory\commands\MessageCommand.class
 xyz\supeer\mandatory\commands\BalanceCommand.class
 xyz\supeer\mandatory\Main.class
@@ -12,6 +13,7 @@ xyz\supeer\mandatory\commands\LoveCommand.class
 xyz\supeer\mandatory\commands\FeedCommand.class
 xyz\supeer\mandatory\commands\admin\HelpCommand.class
 xyz\supeer\mandatory\commands\BanCommand.class
+xyz\supeer\mandatory\commands\AFKCommand.class
 xyz\supeer\mandatory\commands\BosscastCommand.class
 xyz\supeer\mandatory\utils\RepairUtils.class
 xyz\supeer\mandatory\commands\ReplyCommand.class
@@ -20,6 +22,7 @@ xyz\supeer\mandatory\commands\RepairCommand.class
 xyz\supeer\mandatory\commands\MeCommand.class
 xyz\supeer\mandatory\commands\HelpopCommand.class
 xyz\supeer\mandatory\commands\VisionCommand.class
+xyz\supeer\mandatory\listeners\FireworkListener.class
 xyz\supeer\mandatory\commands\FlyCommand.class
 xyz\supeer\mandatory\commands\ModchatCommand.class
 xyz\supeer\mandatory\commands\admin\SubCommand.class

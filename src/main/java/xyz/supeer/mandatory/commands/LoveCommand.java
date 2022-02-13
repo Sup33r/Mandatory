@@ -10,6 +10,7 @@ import xyz.supeer.mandatory.Main;
 import xyz.supeer.mandatory.sql.SQLGetter;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class LoveCommand implements CommandExecutor {
 
@@ -53,7 +54,8 @@ public class LoveCommand implements CommandExecutor {
             }
 
             p.sendMessage(ChatColor.GREEN + "Kärleken har framgångsrikt skickats till " + t.getDisplayName() +  "!");
-            SQLGetter.addLoves(t.getUniqueId(), 1);
+            SQLGetter.createLovePlayer(t, p, "");
+            SQLGetter.addLoves(t.getUniqueId(), 1, p.getUniqueId(), "");
             t.sendMessage(ChatColor.DARK_RED + "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤");
             t.sendMessage(ChatColor.GREEN + "Du har fått en kärlekshälsning från " + ChatColor.BOLD + p.getDisplayName() + "!");
             t.sendMessage(ChatColor.DARK_RED + "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤");
@@ -72,8 +74,9 @@ public class LoveCommand implements CommandExecutor {
             }
 
             p.sendMessage(ChatColor.GREEN + "Kärleken har framgångsrikt skickats till " + t.getDisplayName() +  "!");
-            SQLGetter.addLoves(t.getUniqueId(), 1);
             String msg = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+            SQLGetter.createLovePlayer(t, p, msg);
+            SQLGetter.addLoves(t.getUniqueId(), 1, p.getUniqueId(), msg);
 
             t.sendMessage(ChatColor.DARK_RED + "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤");
             t.sendMessage(ChatColor.GREEN + "Du har fått en kärlekshälsning från " + ChatColor.BOLD + p.getDisplayName() + ChatColor.RESET + ChatColor.GREEN + "!");
