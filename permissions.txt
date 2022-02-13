@@ -21,3 +21,4 @@
 - mandatory.command.vision
 - mandatory.hide.join
 - mandatory.hide.quit
+- mandatory.allow.boost
