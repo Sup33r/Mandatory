@@ -22,3 +22,11 @@
 - mandatory.hide.join
 - mandatory.hide.quit
 - mandatory.allow.boost
+- mandatory.command.go
+- mandatory.command.go.delete.own
+- mandatory.command.go.delete.others
+- mandatory.command.go.give.own
+- mandatory.command.go.give.others
+- mandatory.teleport.nowait
+- mandatory.command.buy.go
+- mandatory.command.buy
