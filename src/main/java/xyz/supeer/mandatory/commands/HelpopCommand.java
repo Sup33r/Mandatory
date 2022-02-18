@@ -40,7 +40,7 @@ public class HelpopCommand implements CommandExecutor {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.hasPermission("mandatory.modchat")) {
                 player.sendMessage("§4#modzone §7| §c" + p.getDisplayName() + " behöver hjälp: " + msg);
-                p.sendMessage("§aDitt meddelande har nu skickats ut till moderatorerna. Om ingen svarar så överväg istället att skicka ett supportärende. https://kottcraft.se/support/new");
+                p.sendMessage("§aDitt meddelande har skickats till våra moderatorer, och de kontaktar dig så fort det finns tid och möjlighet. Du kan alltid komma i kontakt med oss genom att skapa ett ärende på hemsidan: https://kottcraft.se/support/new");
                 return false;
             } else {
                 p.sendMessage("§cTyvärr så är ingen personalmedlem online för tillfället. Överväg istället att göra ett supportärende. https://kottcraft.se/support/new");

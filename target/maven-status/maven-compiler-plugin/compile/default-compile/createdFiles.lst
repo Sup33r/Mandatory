@@ -1,5 +1,6 @@
 xyz\supeer\mandatory\listeners\JoinLeaveListener.class
-xyz\supeer\mandatory\commands\PlayerCommand.class
+xyz\supeer\mandatory\commands\player\SubCommand.class
+xyz\supeer\mandatory\commands\GoCommand.class
 xyz\supeer\mandatory\listeners\PlayerDeath.class
 xyz\supeer\mandatory\commands\GamemodeCommand.class
 xyz\supeer\mandatory\listeners\MessageListener.class
@@ -16,6 +17,7 @@ xyz\supeer\mandatory\commands\BanCommand.class
 xyz\supeer\mandatory\commands\AFKCommand.class
 xyz\supeer\mandatory\commands\BosscastCommand.class
 xyz\supeer\mandatory\utils\RepairUtils.class
+xyz\supeer\mandatory\tabcompletion\GoCommandTabCompleter.class
 xyz\supeer\mandatory\commands\ReplyCommand.class
 xyz\supeer\mandatory\commands\admin\CommandManager.class
 xyz\supeer\mandatory\commands\RepairCommand.class
@@ -25,6 +27,11 @@ xyz\supeer\mandatory\commands\VisionCommand.class
 xyz\supeer\mandatory\listeners\FireworkListener.class
 xyz\supeer\mandatory\commands\FlyCommand.class
 xyz\supeer\mandatory\commands\ModchatCommand.class
+xyz\supeer\mandatory\commands\player\CommandManager.class
 xyz\supeer\mandatory\commands\admin\SubCommand.class
+xyz\supeer\mandatory\commands\player\HelpCommand.class
 xyz\supeer\mandatory\sql\SQLGetter.class
+xyz\supeer\mandatory\utils\TeleportUtil$1.class
+xyz\supeer\mandatory\commands\BuyCommand.class
 xyz\supeer\mandatory\sql\MySQL.class
+xyz\supeer\mandatory\utils\TeleportUtil.class

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="DiscordProjectSettings">
     <option name="show" value="PROJECT_FILES" />
-    <option name="description" value="" />
+    <option name="nameOverrideText" value="Yo" />
+    <option name="description" value="Mandatory, an Essentials clone" />
   </component>
 </project>

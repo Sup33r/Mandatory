@@ -9,6 +9,9 @@ import org.bukkit.event.Listener;
 import xyz.supeer.mandatory.commands.admin.CommandManager;
 import xyz.supeer.mandatory.listeners.*;
 import xyz.supeer.mandatory.sql.MySQL;
+import xyz.supeer.mandatory.sql.SQLGetter;
+import xyz.supeer.mandatory.tabcompletion.GoCommandTabCompleter;
+import xyz.supeer.mandatory.utils.TeleportUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,12 +27,13 @@ public class Main extends JavaPlugin implements Listener{
     @Override
     public void onEnable() {
 
+
         setInstance(this);
         commandManager = new CommandManager();
         commandManager.setup();
 
         MySQL.connect();
-
+        SQLGetter.createGoTable();
         plugin = this;
         new FlyCommand(this);
         new BroadcastCommand(this);
@@ -41,7 +45,6 @@ public class Main extends JavaPlugin implements Listener{
         new SpeedCommand(this);
         new RepairCommand(this);
         new BalanceCommand(this);
-        new PlayerCommand(this);
         new LoveCommand(this);
         new KickCommand(this);
         new ModchatCommand(this);
@@ -49,9 +52,13 @@ public class Main extends JavaPlugin implements Listener{
         new MessageCommand(this);
         new ReplyCommand(this);
         new AFKCommand(this);
+        new BuyCommand(this);
+        new GoCommand(this);
         this.getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
         this.getServer().getPluginManager().registerEvents(new FireworkListener(), this);
         this.getServer().getPluginManager().registerEvents(new MessageListener(), this);
+        this.getServer().getPluginManager().registerEvents(new TeleportUtil(instance), this);
+        getCommand("go").setTabCompleter(new GoCommandTabCompleter());
     }
 
     @Override
@@ -59,10 +66,15 @@ public class Main extends JavaPlugin implements Listener{
 
         MySQL.disconnect();
 
+        getConfig().options().copyDefaults(false);
+        saveConfig();
+
     }
 
     public static Main getInstance() {return instance; }
     public static void setInstance(Main instance) { Main.instance = instance;}
+
+
 
         }
 

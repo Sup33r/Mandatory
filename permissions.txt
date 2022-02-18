@@ -22,6 +22,7 @@
 - mandatory.hide.join
 - mandatory.hide.quit
 - mandatory.allow.boost
+<<<<<<< Updated upstream
 - mandatory.command.go
 - mandatory.command.go.delete.own
 - mandatory.command.go.delete.others
@@ -30,3 +31,6 @@
 - mandatory.teleport.nowait
 - mandatory.command.buy.go
 - mandatory.command.buy
+=======
+
+>>>>>>> Stashed changes

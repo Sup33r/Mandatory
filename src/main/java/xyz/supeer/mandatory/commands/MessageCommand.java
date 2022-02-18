@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import xyz.supeer.mandatory.Main;
 
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MessageCommand implements CommandExecutor {
+    static ConsoleCommandSender console = Bukkit.getConsoleSender();
     public static Map<Player, Player> lastMessageSender = new HashMap<>();
 
     private final Main plugin;
@@ -42,6 +44,7 @@ public class MessageCommand implements CommandExecutor {
                     t.sendMessage("§4[§c" + p.getDisplayName() + " -> dig§4] §r" + message);
                     sender.sendMessage("§4[§cdu -> " + t.getDisplayName() + "§4] §r" + message);
                     lastMessageSender.put(t, p);
+                    console.sendMessage("[DM] [" + p.getDisplayName() + " -> " + t.getDisplayName() + "] " + message);
                 } else {
                    sender.sendMessage("§cDen angivna spelaren är inte inloggad.");
                 }
