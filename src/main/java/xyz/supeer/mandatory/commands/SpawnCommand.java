@@ -1,11 +1,21 @@
 package xyz.supeer.mandatory.commands;
 
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import xyz.supeer.mandatory.Main;
+import xyz.supeer.mandatory.utils.TeleportUtil;
 
 public class SpawnCommand implements CommandExecutor {
+    private final Main plugin;
+
+    public SpawnCommand(Main plugin) {
+        this.plugin = plugin;
+        plugin.getCommand("spawn").setExecutor(this);
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -18,6 +28,15 @@ public class SpawnCommand implements CommandExecutor {
         if (!p.hasPermission("mandatory.command.spawn")) {
             p.sendMessage("§cÅtkomst nekad.");
             return false;
+        }
+
+        String name = "startpunkten";
+        Location location = plugin.getCustomConfig().getLocation("spawn");
+
+        if (location == null ) {
+            p.sendMessage("§cIngen startpunkt är satt.");
+        } else {
+            TeleportUtil.Teleport(p.getUniqueId(), location, name);
         }
 
 

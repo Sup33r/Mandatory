@@ -2,6 +2,8 @@ package xyz.supeer.mandatory.commands.admin;
 
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
+
 public abstract class SubCommand {
 
 
@@ -9,7 +11,7 @@ public abstract class SubCommand {
 
     }
 
-    public abstract void onCommand(Player p, String[] args);
+    public abstract void onCommand(Player p, String[] args) throws IOException;
 
     public abstract String name();
     public abstract String info();

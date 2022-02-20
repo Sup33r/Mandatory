@@ -29,11 +29,13 @@ public class CommandManager implements CommandExecutor {
     // Subcommands
     public String main = "admin";
     public String help = "help";
+    public String set = "set";
 
     public void setup() {
         plugin.getCommand(main).setExecutor(this);
 
         this.commands.add(new HelpCommand());
+        this.commands.add(new SetCommands());
     }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
@@ -54,6 +56,9 @@ public class CommandManager implements CommandExecutor {
             if (args.length == 0) {
                 p.sendMessage("§2--- §aHjälp: /admin §2---");
                 p.sendMessage("§2/admin help");
+                p.sendMessage("§2/admin set §a§nfirstspawn");
+                p.sendMessage("§2/admin set §a§nspawn");
+                return false;
             }
 
             SubCommand target = this.get(args[0]);

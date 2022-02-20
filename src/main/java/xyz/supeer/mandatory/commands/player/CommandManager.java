@@ -54,6 +54,7 @@ public class CommandManager implements CommandExecutor {
                 p.sendMessage(ChatColor.DARK_GREEN + "Senaste positionen: " + ChatColor.GREEN + p.getLocation());
                 p.sendMessage(ChatColor.DARK_GREEN + "Plånbok: " + ChatColor.GREEN + "SQL PLACEHOLDER GET SENDER BALANCE" + " minemynt");
                 p.sendMessage(ChatColor.DARK_GREEN + "Stadsmedlemskap: " + ChatColor.GREEN + "PLACEHOLDER, PLACEHOLDER2 (assistent) & PLACEHOLDER3 (borgmästare)");
+                return false;
             }
 
             SubCommand target = this.get(args[0]);

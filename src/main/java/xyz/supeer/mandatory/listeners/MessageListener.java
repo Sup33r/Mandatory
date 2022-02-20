@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.ArrayList;
 
@@ -93,7 +94,7 @@ public class MessageListener implements Listener {
 
         }
 
-        Player p = (Player) e.getPlayer();
+        Player p = e.getPlayer();
         if (e.getPlayer().hasPermission("ledning")) {
             String prefixVariable = "§0[§dA§0]§r ";
             String suffixVariable = "";
@@ -114,6 +115,30 @@ public class MessageListener implements Listener {
             p.setPlayerListName(p.getDisplayName());
         }
 
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+        if (e.getPlayer().hasPermission("ledning")) {
+            String prefixVariable = "§0[§dA§0]§r ";
+            String suffixVariable = "";
+            p.setPlayerListName(prefixVariable + p.getDisplayName() + suffixVariable);
+        } else if (e.getPlayer().hasPermission("admin")) {
+            String prefixVariable = "§3[§bA§3]§r ";
+            String suffixVariable = "";
+            p.setPlayerListName(prefixVariable + p.getDisplayName() + suffixVariable);
+        } else if (e.getPlayer().hasPermission("moderator")) {
+            String prefixVariable = "§3[§bM§3]§r ";
+            String suffixVariable = "";
+            p.setPlayerListName(prefixVariable + p.getDisplayName() + suffixVariable);
+        } else if (e.getPlayer().hasPermission("helper")) {
+            String prefixVariable = "§3[§bC§3]§r ";
+            String suffixVariable = "";
+            p.setPlayerListName(prefixVariable + p.getDisplayName() + suffixVariable);
+        } else if (!p.hasPermission("helper") || !p.hasPermission("moderator") || !p.hasPermission("admin") || !p.hasPermission("ledning")) {
+            p.setPlayerListName(p.getDisplayName());
+        }
     }
 
 }

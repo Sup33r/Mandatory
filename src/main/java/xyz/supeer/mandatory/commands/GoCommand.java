@@ -51,7 +51,7 @@ public class GoCommand implements CommandExecutor {
                 return false;
             }
 
-            TeleportUtil.Teleport(p.getUniqueId(),Bukkit.getWorld(SQLGetter.getWorld(name)), SQLGetter.getXLocation(name), SQLGetter.getYLocation(name), SQLGetter.getZLocation(name), SQLGetter.getYawLocation(name), SQLGetter.getPitchLocation(name), name);
+            TeleportUtil.TeleportStrings(p.getUniqueId(),Bukkit.getWorld(SQLGetter.getWorld(name)), SQLGetter.getXLocation(name), SQLGetter.getYLocation(name), SQLGetter.getZLocation(name), SQLGetter.getYawLocation(name), SQLGetter.getPitchLocation(name), name);
         }
 
         if (args.length == 2) {
