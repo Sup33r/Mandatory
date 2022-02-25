@@ -11,6 +11,9 @@ public class HelpCommand extends SubCommand{
     public void onCommand(Player p, String[] args) {
         p.sendMessage("§2--- §aHjälp: /admin §2---");
         p.sendMessage("§2/admin help");
+        p.sendMessage("§2/admin set §a§nfirstspawn");
+        p.sendMessage("§2/admin set §a§nspawn");
+        p.sendMessage("§2/admin set §a§nafk");
     }
 
     @Override

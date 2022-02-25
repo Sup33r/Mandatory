@@ -33,24 +33,32 @@ public class BuyCommand implements CommandExecutor {
         }
 
         if (args.length == 0) {
+            if (!p.hasPermission("mandatory.command.buy.go")) {
+                p.sendMessage("§cÅtkomst nekad.");
+                return false;
+            }
             p.sendMessage("§7Syntax: /buy go §nnamn");
             return false;
         }
         if (args.length == 1) {
             if ("go".equals(args[0])) {
+                if (!p.hasPermission("mandatory.command.buy.go")) {
+                    p.sendMessage("§cÅtkomst nekad.");
+                    return false;
+                }
                 p.sendMessage("§7Syntax: /buy go §nnamn");
                 return false;
             }
         }
         if (args.length == 2) {
             if ("go".equals(args[0])) {
+                if (!p.hasPermission("mandatory.command.buy.go")) {
+                    p.sendMessage("§cÅtkomst nekad.");
+                    return false;
+                }
                 String name = args[1].toLowerCase();
                 if (SQLGetter.goExists(name)) {
                     p.sendMessage("§cNamnet används av en annan teleporteringspunkt.");
-                    return false;
-                }
-                if (!p.hasPermission("mandatory.command.buy.go")) {
-                    p.sendMessage("§cÅtkomst nekad.");
                     return false;
                 }
                 Location loc = p.getLocation();
@@ -66,6 +74,14 @@ public class BuyCommand implements CommandExecutor {
                     }
 
             }
+        }
+        if ("head".equals(args[0])) {
+            if (!p.hasPermission("mandatory.command.buy.head")) {
+                p.sendMessage("§cÅtkomst nekad.");
+                return false;
+            }
+            p.sendMessage("§7Syntax: /buy head");
+            return false;
         }
 
         return false;

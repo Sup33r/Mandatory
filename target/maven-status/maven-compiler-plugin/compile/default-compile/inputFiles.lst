@@ -3,6 +3,7 @@ D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\comm
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\commands\BuyCommand.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\commands\admin\SetCommands.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\commands\BanCommand.java
+D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\commands\LockCommand.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\commands\ReplyCommand.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\sql\MySQL.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\commands\FlyCommand.java
@@ -17,6 +18,7 @@ D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\comm
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\utils\TeleportUtil.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\listeners\PlayerDeath.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\commands\AFKCommand.java
+D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\listeners\LockedListener.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\sql\SQLGetter.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\commands\LoveCommand.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\commands\BroadcastCommand.java
@@ -34,5 +36,6 @@ D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\tabc
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\listeners\FireworkListener.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\commands\RepairCommand.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\listeners\JoinLeaveListener.java
+D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\listeners\SpawnListeners.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\commands\BalanceCommand.java
 D:\Minecraft Plugin Development\MCPlugin\src\main\java\xyz\supeer\mandatory\commands\VisionCommand.java

@@ -30,3 +30,6 @@
 - mandatory.teleport.nowait
 - mandatory.command.buy.go
 - mandatory.command.buy
+- mandatory.command.spawn
+- mandatory.command.admin.set.firstspawn
+- mandatory.command.admin.set.spawn

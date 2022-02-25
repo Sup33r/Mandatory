@@ -1,6 +1,5 @@
 package xyz.supeer.mandatory;
 
-import org.bukkit.Location;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,11 +17,14 @@ import xyz.supeer.mandatory.utils.TeleportUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class Main extends JavaPlugin implements Listener{
-    public List<Player> afkPlayers = new ArrayList<Player>();
+    public HashMap<Player, List<String>> afkPlayers = new HashMap<Player, List<String>>();
+    public HashMap<Player, List<String>> kickedPlayers = new HashMap<Player, List<String>>();
+    private HashMap<Player, Player> tpa = new HashMap<Player, Player>();
     public static Main plugin;
     private static Main instance;
     public CommandManager commandManager;
@@ -62,11 +64,15 @@ public class Main extends JavaPlugin implements Listener{
         new BuyCommand(this);
         new GoCommand(this);
         new SpawnCommand(this);
-        this.getServer().getPluginManager().registerEvents(new JoinLeaveListener(), this);
+        new TeleportAcceptCommand(this);
+        new TeleportAskCommand(this);
+        new TeleportDenyCommand(this);
+        this.getServer().getPluginManager().registerEvents(new JoinLeaveListener(plugin), this);
         this.getServer().getPluginManager().registerEvents(new FireworkListener(), this);
         this.getServer().getPluginManager().registerEvents(new MessageListener(), this);
         this.getServer().getPluginManager().registerEvents(new TeleportUtil(instance), this);
         this.getServer().getPluginManager().registerEvents(new SpawnListeners(this), this);
+        this.getServer().getPluginManager().registerEvents(new KickCommand(this), this);
         getCommand("go").setTabCompleter(new GoCommandTabCompleter());
     }
 
@@ -112,6 +118,10 @@ public class Main extends JavaPlugin implements Listener{
     public static Main getInstance() {return instance; }
     public static void setInstance(Main instance) { Main.instance = instance;}
 
+
+    public HashMap<Player, Player> getTpa() {
+        return tpa;
+    }
 
 
         }

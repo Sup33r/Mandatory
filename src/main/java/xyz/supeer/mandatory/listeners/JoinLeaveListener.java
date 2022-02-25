@@ -8,11 +8,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import xyz.supeer.mandatory.Main;
 import xyz.supeer.mandatory.commands.KickCommand;
 import xyz.supeer.mandatory.commands.MessageCommand;
 
 
 public class JoinLeaveListener implements Listener {
+
+    private final Main plugin;
+
+    public JoinLeaveListener(Main plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void OnJoin (PlayerJoinEvent e) {
@@ -31,35 +38,24 @@ public class JoinLeaveListener implements Listener {
     }
 
     @EventHandler
-    public void onLeave(PlayerQuitEvent e){
+    public void onLeave(PlayerQuitEvent e) {
         MessageCommand.lastMessageSender.remove(e.getPlayer());
 
+        if (plugin.afkPlayers.containsKey(e.getPlayer())) {
+            plugin.afkPlayers.remove(e.getPlayer());
+        }
+
         Player player = e.getPlayer();
-
-        if (KickCommand.kicked) {
-
-            KickCommand.kicked = false;
-            return;
-        }
-
-        if (!player.hasPermission("mandatory.hide.quit")) {
-            e.setQuitMessage(ChatColor.DARK_RED + "[" + ChatColor.RED + "-" + ChatColor.DARK_RED + "] " + ChatColor.GOLD + player.getDisplayName()+ "");
-        } else
-            e.setQuitMessage("");
-
-    }
-
-    @EventHandler
-    public  void onKick(PlayerKickEvent e) {
-        e.setLeaveMessage("§4[§c-§4] §6" + e.getPlayer().getDisplayName() + " fick en varning.");
-        if (e.getReason().equals("Det verkar som om att du flög. Om det är så att du fuskar råder vi dig att omedelbart sluta med det. Tack!")) {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.hasPermission("mandatory.modchat")) {
-                    player.sendMessage("§4#modzone §7| §cMisstänkt flygfusk hos " + e.getPlayer().getDisplayName() + ".");
-                }
+        if (!plugin.kickedPlayers.containsKey(player)) {
+            if (!player.hasPermission("mandatory.hide.quit")) {
+                e.setQuitMessage(ChatColor.DARK_RED + "[" + ChatColor.RED + "-" + ChatColor.DARK_RED + "] " + ChatColor.GOLD + player.getDisplayName() + "");
+            } else {
+                e.setQuitMessage("");
             }
-
+        } else {
+            e.setQuitMessage("§4[§c-§4] §6" + e.getPlayer().getDisplayName() + " fick en varning.");
+            plugin.kickedPlayers.remove(player);
         }
-    }
 
+    }
 }

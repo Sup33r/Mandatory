@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import xyz.supeer.mandatory.Main;
 import xyz.supeer.mandatory.utils.TeleportUtil;
 
+import java.util.List;
+
 public class SpawnCommand implements CommandExecutor {
     private final Main plugin;
 
@@ -36,6 +38,14 @@ public class SpawnCommand implements CommandExecutor {
         if (location == null ) {
             p.sendMessage("§cIngen startpunkt är satt.");
         } else {
+            List<String> afkMessages = plugin.afkPlayers.get(p);
+
+            if (afkMessages != null) {
+                for (String afkMessage : afkMessages) {
+                    p.sendMessage(afkMessage);
+                }
+            }
+            plugin.afkPlayers.remove(p);
             TeleportUtil.Teleport(p.getUniqueId(), location, name);
         }
 

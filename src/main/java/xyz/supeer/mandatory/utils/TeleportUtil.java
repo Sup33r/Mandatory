@@ -28,6 +28,9 @@ public class TeleportUtil implements Listener {
             if (players.contains(event.getPlayer())) {
                 players.remove(event.getPlayer());
                 event.getPlayer().sendMessage("§cDen pågående teleporteringen avbröts.");
+                if (plugin.afkPlayers.containsKey(event.getPlayer())) {
+                    plugin.afkPlayers.remove(event.getPlayer());
+                }
             }
         }
     }
@@ -40,6 +43,9 @@ public class TeleportUtil implements Listener {
         if (players.contains(p.getPlayer())) {
             players.remove(p.getPlayer());
             p.getPlayer().sendMessage("§cDen pågående teleporteringen avbröts.");
+            if (plugin.afkPlayers.containsKey(p)) {
+                plugin.afkPlayers.remove(p);
+            }
         }
         }
     }
@@ -49,6 +55,9 @@ public class TeleportUtil implements Listener {
 
         if (p.isInsideVehicle()) {
             p.sendMessage("§cDen pågående teleporteringen avbröts.");
+            if (plugin.afkPlayers.containsKey(p)) {
+                plugin.afkPlayers.remove(p);
+            }
             return false;
         }
 
@@ -78,6 +87,10 @@ public class TeleportUtil implements Listener {
                 else {
                     p.sendMessage("§cDen pågående teleporteringen avbröts.");
                     players.remove(p);
+
+                    if (plugin.afkPlayers.containsKey(p)) {
+                        plugin.afkPlayers.remove(p);
+                    }
                 }
             }
             }
@@ -121,6 +134,9 @@ public class TeleportUtil implements Listener {
                     else {
                         p.sendMessage("§cDen pågående teleporteringen avbröts.");
                         players.remove(p);
+                        if (plugin.afkPlayers.containsKey(p)) {
+                            plugin.afkPlayers.remove(p);
+                        }
                     }
                 }
             }

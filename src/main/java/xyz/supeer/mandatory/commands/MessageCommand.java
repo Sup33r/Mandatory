@@ -8,6 +8,8 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import xyz.supeer.mandatory.Main;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,9 +42,20 @@ public class MessageCommand implements CommandExecutor {
                 String targetName = args[0];
                 Player t = Bukkit.getPlayer(targetName);
                 String message = getMessage(args, 1);
+                boolean isAfk = plugin.afkPlayers.containsKey(t);
+                String messageToReceiver = "§4[§c" + p.getDisplayName() + " -> dig§4] §r" + message;
+
+                Date now = new Date();
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                 if (t != null) {
-                    t.sendMessage("§4[§c" + p.getDisplayName() + " -> dig§4] §r" + message);
+
+                    t.sendMessage(messageToReceiver);
                     sender.sendMessage("§4[§cdu -> " + t.getDisplayName() + "§4] §r" + message);
+
+                    if (isAfk) {
+                        plugin.afkPlayers.get(t).add("§4[§c" + format.format(now) + "§4] " + messageToReceiver);
+                    }
+
                     lastMessageSender.put(t, p);
                     console.sendMessage("[DM] [" + p.getDisplayName() + " -> " + t.getDisplayName() + "] " + message);
                 } else {

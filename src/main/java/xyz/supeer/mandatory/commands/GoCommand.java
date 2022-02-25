@@ -11,6 +11,7 @@ import xyz.supeer.mandatory.sql.MySQL;
 import xyz.supeer.mandatory.sql.SQLGetter;
 import xyz.supeer.mandatory.utils.TeleportUtil;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
@@ -51,6 +52,14 @@ public class GoCommand implements CommandExecutor {
                 return false;
             }
 
+            List<String> afkMessages = plugin.afkPlayers.get(p);
+
+            if (afkMessages != null) {
+                for (String afkMessage : afkMessages) {
+                    p.sendMessage(afkMessage);
+                }
+            }
+            plugin.afkPlayers.remove(p);
             TeleportUtil.TeleportStrings(p.getUniqueId(),Bukkit.getWorld(SQLGetter.getWorld(name)), SQLGetter.getXLocation(name), SQLGetter.getYLocation(name), SQLGetter.getZLocation(name), SQLGetter.getYawLocation(name), SQLGetter.getPitchLocation(name), name);
         }
 
@@ -91,7 +100,8 @@ public class GoCommand implements CommandExecutor {
                 }
 
                 if (!p.hasPermission("mandatory.command.go.give.own")) {
-
+                    p.sendMessage("§cÅtkomst nekad.");
+                    return false;
                 } else
                 if (p.hasPermission("mandatory.command.go.give.others")) {
                     String targetName = args[3];

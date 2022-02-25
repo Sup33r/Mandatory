@@ -44,6 +44,7 @@ commands:
     aliases: [mc]
 
   admin:
+    aliases: [ad]
 
   helpop:
 
@@ -61,4 +62,13 @@ commands:
 
   spawn:
     aliases: [s]
+
+  teleportdeny:
+    aliases: [tpno,tpdeny]
+
+  teleportaccept:
+    aliases: [tpyes,tpaccept]
+
+  teleportask:
+    aliases: [tpa,tpask]
 

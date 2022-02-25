@@ -46,6 +46,7 @@ public class ModchatCommand implements CommandExecutor {
                 p.sendMessage("§cDu måste ange ett giltigt spelarnamn.");
                 return false;
             }
+
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.hasPermission("mandatory.modchat")) {
                     player.sendMessage("§4#modzone §7| §c" + p.getDisplayName() + " hjälper " + t.getDisplayName() + ".");

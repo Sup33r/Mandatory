@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import xyz.supeer.mandatory.Main;
 import xyz.supeer.mandatory.sql.SQLGetter;
+import xyz.supeer.mandatory.utils.TeleportUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -16,6 +17,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class AFKCommand implements CommandExecutor {
 
@@ -37,15 +40,18 @@ public class AFKCommand implements CommandExecutor {
             p.sendMessage("§7Syntax: /afk");
             return false;
         }
-        if (plugin.afkPlayers.contains(p)) {
+        if (plugin.afkPlayers.containsKey(p)) {
             p.sendMessage("§cDu har redan tagit Avstånd Från Kottcrafts stadsvärld (AFK).");
             return false;
         }
 
-        plugin.afkPlayers.add(p);
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if (onlinePlayer.equals(p)) { p.sendMessage("§aTeleporterar dig till §2AFK-rummet§a..."); }
+        if (plugin.getCustomConfig().getLocation("afk") == null) {
+            p.sendMessage("§cDet finns inget definerat afk-rum på den här servern.");
+            return false;
         }
+
+        plugin.afkPlayers.put(p, new ArrayList<String>());
+        TeleportUtil.Teleport(p.getUniqueId(), plugin.getCustomConfig().getLocation("afk"), "AFK-rummet");
 
         return false;
     }
