@@ -37,3 +37,9 @@
 - mandatory.command.admin.set.spawn
 - mandatory.command.admin.set.afk
 - mandatory.command.teleportrequest
+
+- admin
+- moderator
+- helper
+- vip
+- ledning
