@@ -1,6 +1,7 @@
 - mandatory.command.admin
 - mandatory.command.balance
 - mandatory.command.balance.others
+- mandatory.command.balance.modify
 - mandatory.command.broadcast
 - mandatory.command.feed
 - mandatory.command.feed.others
@@ -28,8 +29,17 @@
 - mandatory.command.go.give.own
 - mandatory.command.go.give.others
 - mandatory.teleport.nowait
+- mandatory.command.buy.head
 - mandatory.command.buy.go
 - mandatory.command.buy
 - mandatory.command.spawn
 - mandatory.command.admin.set.firstspawn
 - mandatory.command.admin.set.spawn
+- mandatory.command.admin.set.afk
+- mandatory.command.teleportrequest
+
+- admin
+- moderator
+- helper
+- vip
+- ledning
