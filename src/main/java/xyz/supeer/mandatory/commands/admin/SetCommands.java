@@ -8,7 +8,7 @@ import xyz.supeer.mandatory.Main;
 import java.io.IOException;
 
 public class SetCommands extends SubCommand {
-    private Main plugin = Main.getInstance();
+    private final Main plugin = Main.getInstance();
 
     @Override
     public void onCommand(Player p, String[] args) throws IOException {

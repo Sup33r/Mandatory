@@ -21,7 +21,7 @@ public class CommandManager implements CommandExecutor {
 
 
     private ArrayList<SubCommand> commands = new ArrayList<SubCommand>();
-    private Main plugin = Main.getInstance();
+    private final Main plugin = Main.getInstance();
 
     public CommandManager() {
     }
@@ -30,12 +30,14 @@ public class CommandManager implements CommandExecutor {
     public String main = "admin";
     public String help = "help";
     public String set = "set";
+    public String database = "database";
 
     public void setup() {
         plugin.getCommand(main).setExecutor(this);
 
         this.commands.add(new HelpCommand());
         this.commands.add(new SetCommands());
+        this.commands.add(new DatabaseCommand());
     }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {

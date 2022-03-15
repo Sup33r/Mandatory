@@ -17,7 +17,9 @@ xyz\supeer\mandatory\commands\ReplyCommand.class
 xyz\supeer\mandatory\commands\MeCommand.class
 xyz\supeer\mandatory\commands\TeleportDenyCommand.class
 xyz\supeer\mandatory\commands\VisionCommand.class
+xyz\supeer\mandatory\utils\PlayerHeadUtil.class
 xyz\supeer\mandatory\commands\admin\SubCommand.class
+xyz\supeer\mandatory\listeners\CopyrightListener.class
 xyz\supeer\mandatory\sql\SQLGetter.class
 xyz\supeer\mandatory\commands\BuyCommand.class
 xyz\supeer\mandatory\sql\MySQL.class
@@ -36,6 +38,7 @@ xyz\supeer\mandatory\commands\admin\CommandManager.class
 xyz\supeer\mandatory\commands\RepairCommand.class
 xyz\supeer\mandatory\commands\HelpopCommand.class
 xyz\supeer\mandatory\commands\SpawnCommand.class
+xyz\supeer\mandatory\commands\admin\DatabaseCommand.class
 xyz\supeer\mandatory\listeners\FireworkListener.class
 xyz\supeer\mandatory\commands\FlyCommand.class
 xyz\supeer\mandatory\commands\ModchatCommand.class

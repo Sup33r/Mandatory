@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.supeer.mandatory.Main;
 import xyz.supeer.mandatory.commands.KickCommand;
 import xyz.supeer.mandatory.commands.MessageCommand;
+import xyz.supeer.mandatory.commands.TeleportAskCommand;
 
 
 public class JoinLeaveListener implements Listener {
@@ -23,6 +24,7 @@ public class JoinLeaveListener implements Listener {
 
     @EventHandler
     public void OnJoin (PlayerJoinEvent e) {
+
         Player player = e.getPlayer();
         player.sendTitle("Tjuhu, " + player.getDisplayName() + "!", "Välkommen till Kottcraft.", 0, 70,20);
 
@@ -39,6 +41,7 @@ public class JoinLeaveListener implements Listener {
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
+        Main.getInstance().getTpa().remove(e.getPlayer());
         MessageCommand.lastMessageSender.remove(e.getPlayer());
 
         if (plugin.afkPlayers.containsKey(e.getPlayer())) {

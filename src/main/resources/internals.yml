@@ -1,1 +1,8 @@
 spawn:
+
+sql:
+  host:
+  port:
+  database:
+  username:
+  password:

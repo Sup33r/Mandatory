@@ -2,7 +2,7 @@ name: 'Mandatory'
 version: '1.0.0'
 main: 'xyz.supeer.mandatory.Main'
 api-version: '1.17'
-depends: [Votifier]
+depends: [NBTAPI]
 author: 'superkrokodilen'
 website: 'https://supeer.xyz'
 

@@ -17,29 +17,40 @@
 
 
 <repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
 <repository>
     <id>spigot-repo</id>
     <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 </repository>
     <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
     </repository>
 </repositories>
+
     <dependencies>
 <dependency>
     <groupId>org.spigotmc</groupId>
-    <artifactId>spigot-api</artifactId>
+    <artifactId>spigot</artifactId>
     <version>1.17.1-R0.1-SNAPSHOT</version>
     <scope>provided</scope>
 </dependency>
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.28</version>
         </dependency>
-
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-platform-bukkit</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.tr7zw</groupId>
+            <artifactId>item-nbt-api-plugin</artifactId>
+            <version>2.6.0</version>
+        </dependency>
     </dependencies>
 
 </project>

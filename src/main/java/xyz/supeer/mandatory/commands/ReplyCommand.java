@@ -17,7 +17,6 @@ public class ReplyCommand implements CommandExecutor {
         this.plugin = plugin;
         plugin.getCommand("reply").setExecutor((CommandExecutor) this);
     }
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         final Player p = (Player) sender;
@@ -29,8 +28,6 @@ public class ReplyCommand implements CommandExecutor {
             p.sendMessage("§7Syntax /reply §nmeddelande");
             return false;
         }
-
-
         if (args.length >= 1) {
             Player t = MessageCommand.lastMessageSender.get(sender);
             String message = getMessage(args, 0);
