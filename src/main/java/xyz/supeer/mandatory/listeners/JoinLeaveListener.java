@@ -12,6 +12,7 @@ import xyz.supeer.mandatory.Main;
 import xyz.supeer.mandatory.commands.KickCommand;
 import xyz.supeer.mandatory.commands.MessageCommand;
 import xyz.supeer.mandatory.commands.TeleportAskCommand;
+import xyz.supeer.mandatory.sql.SQLGetter;
 
 
 public class JoinLeaveListener implements Listener {
@@ -26,6 +27,11 @@ public class JoinLeaveListener implements Listener {
     public void OnJoin (PlayerJoinEvent e) {
 
         Player player = e.getPlayer();
+        if (SQLGetter.playerExists(player.getUniqueId())) {
+            SQLGetter.updatePlayerJoin(player);
+        } else {
+            SQLGetter.createPlayer(player);
+        }
         player.sendTitle("Tjuhu, " + player.getDisplayName() + "!", "Välkommen till Kottcraft.", 0, 70,20);
 
         if (!player.hasPermission("mandatory.hide.join")) {
@@ -49,6 +55,9 @@ public class JoinLeaveListener implements Listener {
         }
 
         Player player = e.getPlayer();
+        if (SQLGetter.playerExists(player.getUniqueId())) {
+            SQLGetter.updatePlayerLeave(player);
+        }
         if (!plugin.kickedPlayers.containsKey(player)) {
             if (!player.hasPermission("mandatory.hide.quit")) {
                 e.setQuitMessage(ChatColor.DARK_RED + "[" + ChatColor.RED + "-" + ChatColor.DARK_RED + "] " + ChatColor.GOLD + player.getDisplayName() + "");

@@ -1,7 +1,6 @@
 package xyz.supeer.mandatory.commands.admin;
 
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import xyz.supeer.mandatory.Main;
 
@@ -59,7 +58,7 @@ public class SetCommands extends SubCommand {
 
     @Override
     public String name() {
-        return plugin.commandManager.set;
+        return plugin.commandManagerAdmin.set;
     }
 
     @Override

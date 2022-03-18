@@ -1,29 +1,24 @@
 package xyz.supeer.mandatory.commands.admin;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import xyz.supeer.mandatory.Main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class CommandManager implements CommandExecutor {
+public class CommandManagerAdmin implements CommandExecutor {
 
 
 
     private ArrayList<SubCommand> commands = new ArrayList<SubCommand>();
     private final Main plugin = Main.getInstance();
 
-    public CommandManager() {
+    public CommandManagerAdmin() {
     }
 
     // Subcommands

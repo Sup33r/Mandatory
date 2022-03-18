@@ -1,27 +1,23 @@
 package xyz.supeer.mandatory;
 
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.supeer.mandatory.commands.*;
 import org.bukkit.event.Listener;
-import xyz.supeer.mandatory.commands.admin.CommandManager;
+import xyz.supeer.mandatory.commands.admin.CommandManagerAdmin;
 
+import xyz.supeer.mandatory.commands.player.CommandManagerPlayer;
 import xyz.supeer.mandatory.listeners.*;
 import xyz.supeer.mandatory.sql.MySQL;
 import xyz.supeer.mandatory.sql.SQLGetter;
 import xyz.supeer.mandatory.tabcompletion.GoCommandTabCompleter;
 import xyz.supeer.mandatory.utils.TeleportUtil;
 
-import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,7 +28,8 @@ public class Main extends JavaPlugin implements Listener{
     private HashMap<Player, Player> tpa = new HashMap<Player, Player>();
     public static Main plugin;
     private static Main instance;
-    public CommandManager commandManager;
+    public CommandManagerAdmin commandManagerAdmin;
+    public CommandManagerPlayer commandManagerPlayer;
     private File customConfigFile;
     private FileConfiguration customConfig;
     private Main main;
@@ -43,12 +40,15 @@ public class Main extends JavaPlugin implements Listener{
 
         createCustomConfig();
         setInstance(this);
-        commandManager = new CommandManager();
-        commandManager.setup();
+        commandManagerAdmin = new CommandManagerAdmin();
+        commandManagerAdmin.setup();
+        commandManagerPlayer = new CommandManagerPlayer();
+        commandManagerAdmin.setup();
         plugin = this;
         MySQL.connect();
         SQLGetter.createGoTable();
         SQLGetter.createLoveTable();
+        SQLGetter.createPlayerTable();
         new FlyCommand(this);
         new BroadcastCommand(this);
         new FeedCommand(this);

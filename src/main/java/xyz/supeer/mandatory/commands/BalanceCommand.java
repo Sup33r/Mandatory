@@ -11,10 +11,11 @@ import xyz.supeer.mandatory.Main;
 import xyz.supeer.mandatory.sql.MySQL;
 import xyz.supeer.mandatory.sql.SQLGetter;
 
-import java.text.NumberFormat;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.UUID;
-
-import static org.bukkit.Bukkit.*;
 
 public class BalanceCommand implements CommandExecutor {
 
@@ -60,7 +61,7 @@ public class BalanceCommand implements CommandExecutor {
                  }
                  OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                  UUID playerUUID = target.getUniqueId();
-                 if (!SQLGetter.exists(playerUUID)) {
+                 if (!SQLGetter.balanceExists(playerUUID)) {
                      p.sendMessage("§cDen angivna spelaren hittades inte.");
                      return false;
                  }
@@ -88,9 +89,10 @@ public class BalanceCommand implements CommandExecutor {
                     p.sendMessage(ChatColor.RED + "Saldot för den specifierade spelaren kan inte hämtas / modifieras just nu.");
                     return true;
                 }
+
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                 UUID playerUUID = target.getUniqueId();
-                if (!SQLGetter.exists(playerUUID)) {
+                if (!SQLGetter.balanceExists(playerUUID)) {
                     p.sendMessage("§cDen angivna spelaren hittades inte.");
                     return false;
                 }

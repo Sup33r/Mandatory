@@ -14,7 +14,7 @@ public class DatabaseCommand extends SubCommand{
 
     @Override
     public String name() {
-        return plugin.commandManager.database;
+        return plugin.commandManagerAdmin.database;
     }
 
     @Override

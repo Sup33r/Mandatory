@@ -2,15 +2,83 @@ package xyz.supeer.mandatory.sql;
 
 import org.bukkit.entity.Player;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.DecimalFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class SQLGetter {
 
+    public static void createPlayerTable() {
+        PreparedStatement ps;
+        try {
+            ps = MySQL.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS playerinfo " + "(NAME VARCHAR(100),UUID VARCHAR(100),FIRSTJOIN DATETIME,LATESTJOIN DATETIME,LATESTLEAVE DATETIME,MEMBERSHIP VARCHAR(100),POSITION VARCHAR(100),PRIMARY KEY (UUID))");
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-    public void createTable() {
+    public static void updatePlayerJoin(Player player) {
+        PreparedStatement ps;
+        try {
+            ps = MySQL.getConnection().prepareStatement("INSERT IGNORE INTO playerinfo (LATESTJOIN) VALUES (now())");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updatePlayerLeave(Player player) {
+        PreparedStatement ps;
+        try {
+            ps = MySQL.getConnection().prepareStatement("INSERT IGNORE INTO playerinfo (LATESTLEAVE,POSITION) VALUES (now(),?)");
+            ps.setString(1,player.getLocation().toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void createPlayer(Player player) {
+        try {
+            UUID uuid = player.getUniqueId();
+            PreparedStatement ps = MySQL.getConnection().prepareStatement("SELECT * FROM playerinfo WHERE UUID=?");
+            ps.setString(1, uuid.toString());
+            ResultSet results = ps.executeQuery();
+            results.next();
+            if (!playerExists(uuid)) {
+                PreparedStatement ps2 = MySQL.getConnection().prepareStatement("INSERT IGNORE INTO playerinfo" + " (NAME,UUID,FIRSTJOIN,LATESTJOIN,LATESTLEAVE,MEMBERSHIP,POSITION) VALUES (?,?, now(), now(),?,?,?)");
+                ps2.setString(1, player.getName());
+                ps2.setString(2, uuid.toString());
+                ps2.setString(3,null);
+                ps2.setString(4,null);
+                ps2.setString(5, "[" + player.getLocation().getWorld().getName() + "]" + new DecimalFormat("#").format(player.getLocation().getX()) + ", " + new DecimalFormat("#").format(player.getLocation().getY()) + ", " + new DecimalFormat("#").format(player.getLocation().getZ()));
+                ps2.executeUpdate();
+                return;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean playerExists(UUID uuid) {
+        try {
+            PreparedStatement ps = MySQL.getConnection().prepareStatement("SELECT * FROM playerinfo WHERE UUID=?");
+            ps.setString(1, uuid.toString());
+            ResultSet results = ps.executeQuery();
+            if (results.next()) {
+                return true;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void createBalanceTable() {
         PreparedStatement ps;
         try {
             ps = MySQL.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS playereco " + "(NAME VARCHAR(100),UUID VARCHAR(100),BALANCE INT(100),PRIMARY KEY (NAME))");
@@ -20,14 +88,14 @@ public class SQLGetter {
         }
     }
 
-    public void createPlayer(Player player) {
+    public void createBalancePlayer(Player player) {
         try {
             UUID uuid = player.getUniqueId();
             PreparedStatement ps = MySQL.getConnection().prepareStatement("SELECT * FROM playereco WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet results = ps.executeQuery();
             results.next();
-            if (!exists(uuid)) {
+            if (!balanceExists(uuid)) {
                 PreparedStatement ps2 = MySQL.getConnection().prepareStatement("INSERT IGNORE INTO playereco" + " (NAME,UUID) VALUES (?,?)");
                 ps2.setString(1, player.getName());
                 ps2.setString(2, uuid.toString());
@@ -40,7 +108,7 @@ public class SQLGetter {
         }
     }
 
-    public static boolean exists(UUID uuid) {
+    public static boolean balanceExists(UUID uuid) {
         try {
             PreparedStatement ps = MySQL.getConnection().prepareStatement("SELECT * FROM playereco WHERE UUID=?");
             ps.setString(1, uuid.toString());

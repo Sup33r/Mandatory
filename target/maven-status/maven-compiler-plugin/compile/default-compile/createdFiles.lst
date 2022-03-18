@@ -4,10 +4,12 @@ xyz\supeer\mandatory\commands\GamemodeCommand.class
 xyz\supeer\mandatory\listeners\MessageListener.class
 xyz\supeer\mandatory\commands\MessageCommand.class
 xyz\supeer\mandatory\Main.class
+xyz\supeer\mandatory\commands\admin\CommandManagerAdmin.class
 xyz\supeer\mandatory\commands\LoveCommand$1.class
 xyz\supeer\mandatory\listeners\SpawnListeners.class
 xyz\supeer\mandatory\commands\KickCommand.class
 xyz\supeer\mandatory\commands\TeleportAskCommand.class
+xyz\supeer\mandatory\commands\player\CommandManagerPlayer.class
 xyz\supeer\mandatory\commands\admin\HelpCommand.class
 xyz\supeer\mandatory\commands\BanCommand.class
 xyz\supeer\mandatory\commands\AFKCommand.class
@@ -34,7 +36,6 @@ xyz\supeer\mandatory\commands\admin\SetCommands.class
 xyz\supeer\mandatory\commands\FeedCommand.class
 xyz\supeer\mandatory\commands\BosscastCommand.class
 xyz\supeer\mandatory\utils\RepairUtils.class
-xyz\supeer\mandatory\commands\admin\CommandManager.class
 xyz\supeer\mandatory\commands\RepairCommand.class
 xyz\supeer\mandatory\commands\HelpopCommand.class
 xyz\supeer\mandatory\commands\SpawnCommand.class
@@ -42,7 +43,6 @@ xyz\supeer\mandatory\commands\admin\DatabaseCommand.class
 xyz\supeer\mandatory\listeners\FireworkListener.class
 xyz\supeer\mandatory\commands\FlyCommand.class
 xyz\supeer\mandatory\commands\ModchatCommand.class
-xyz\supeer\mandatory\commands\player\CommandManager.class
 xyz\supeer\mandatory\commands\player\HelpCommand.class
 xyz\supeer\mandatory\utils\TeleportUtil$1.class
 xyz\supeer\mandatory\utils\TeleportUtil.class

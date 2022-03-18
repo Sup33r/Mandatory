@@ -26,22 +26,22 @@ public class MySQL {
 
     static ConsoleCommandSender console = Bukkit.getConsoleSender();
 
-    public MySQL(Main plugin) throws SQLException {
+    public MySQL() throws SQLException {
     }
 
     // connect
     public static void connect() {
         if (!isConnected()) {
             try {
+                if (plugin.getCustomConfig().getString("sql.host") == null || plugin.getCustomConfig().getString("sql.port") == null || plugin.getCustomConfig().getString("sql.database") == null || plugin.getCustomConfig().getString("sql.username") == null || plugin.getCustomConfig().getString("sql.password") == null) {
+                    console.sendMessage("§7[Mandatory] §cNågon (eller några) variablar för databas-anslutningen är inte satta i internals.yml. Se över detta.");
+                    return;
+                }
                 String host = plugin.getCustomConfig().getString("sql.host");
                 String port = plugin.getCustomConfig().getString("sql.port");
                 String database = plugin.getCustomConfig().getString("sql.database");
                 String username = plugin.getCustomConfig().getString("sql.username");
                 String password = plugin.getCustomConfig().getString("sql.password");
-                if (host == null || port == null || database == null || username == null || password == null) {
-                    console.sendMessage("§7[Mandatory] §cNågon (eller några) variablar för databas-anslutningen är inte satta i internals.yml. Se över detta.");
-                    return;
-                }
                 con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password);
                 console.sendMessage("§7[Mandatory] §aMySQL Anslutningen har upprättats!");
             } catch (SQLException e) {

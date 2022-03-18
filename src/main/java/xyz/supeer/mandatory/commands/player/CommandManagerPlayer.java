@@ -6,19 +6,20 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.supeer.mandatory.Main;
+import xyz.supeer.mandatory.sql.SQLGetter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class CommandManager implements CommandExecutor {
+public class CommandManagerPlayer implements CommandExecutor {
 
 
 
     private ArrayList<SubCommand> commands = new ArrayList<SubCommand>();
     private Main plugin = Main.getInstance();
 
-    public CommandManager() {
+    public CommandManagerPlayer() {
     }
 
     // Subcommands
@@ -50,9 +51,12 @@ public class CommandManager implements CommandExecutor {
                 p.sendMessage(ChatColor.DARK_GREEN + "--- " + ChatColor.GREEN + "Spelare: " + p.getDisplayName() + ChatColor.DARK_GREEN + " ---");
                 p.sendMessage(ChatColor.DARK_GREEN + "Spelat sedan: " + ChatColor.GREEN + "PLACEHOLDER");
                 if (p.isOnline()) { p.sendMessage(ChatColor.DARK_GREEN + "Status: " + ChatColor.GREEN + "Online, sedan " + "PLACEHOLDER"); }
-                else { p.sendMessage(ChatColor.DARK_GREEN + "Status: " + ChatColor.GREEN + "Offline, sedan " + "PLACEHOLDER"); }
+                else { p.sendMessage(ChatColor.DARK_GREEN + "Status: " + ChatColor.GREEN + "Online, sedan " + "PLACEHOLDER"); }
                 p.sendMessage(ChatColor.DARK_GREEN + "Senaste positionen: " + ChatColor.GREEN + p.getLocation());
-                p.sendMessage(ChatColor.DARK_GREEN + "Plånbok: " + ChatColor.GREEN + "SQL PLACEHOLDER GET SENDER BALANCE" + " minemynt");
+                double money = SQLGetter.getBalance(p.getUniqueId());
+                String dmoney = String.format("%,.0f",money);
+                String fmoney = String.valueOf(dmoney).replace(","," ");
+                p.sendMessage(ChatColor.DARK_GREEN + "Plånbok: " + ChatColor.GREEN + fmoney + " minemynt");
                 p.sendMessage(ChatColor.DARK_GREEN + "Stadsmedlemskap: " + ChatColor.GREEN + "PLACEHOLDER, PLACEHOLDER2 (assistent) & PLACEHOLDER3 (borgmästare)");
                 return false;
             }
