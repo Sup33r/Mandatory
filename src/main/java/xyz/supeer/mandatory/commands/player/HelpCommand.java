@@ -14,7 +14,7 @@ public class HelpCommand extends SubCommand {
     }
 
     @Override
-    public String name() { return plugin.commandManagerAdmin.help; }
+    public String name() { return plugin.commandManagerPlayer.help; }
 
     @Override
     public String info() {

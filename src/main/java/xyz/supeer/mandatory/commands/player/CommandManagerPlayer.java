@@ -11,13 +11,14 @@ import xyz.supeer.mandatory.sql.SQLGetter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class CommandManagerPlayer implements CommandExecutor {
 
 
 
-    private ArrayList<SubCommand> commands = new ArrayList<SubCommand>();
-    private Main plugin = Main.getInstance();
+    private final ArrayList<SubCommand> commands = new ArrayList<>();
+    private final Main plugin = Main.getInstance();
 
     public CommandManagerPlayer() {
     }
@@ -27,7 +28,7 @@ public class CommandManagerPlayer implements CommandExecutor {
     public String help = "help";
 
     public void setup() {
-        plugin.getCommand(main).setExecutor(this);
+        Objects.requireNonNull(plugin.getCommand(main)).setExecutor(this);
 
         this.commands.add(new HelpCommand());
     }
@@ -49,7 +50,7 @@ public class CommandManagerPlayer implements CommandExecutor {
         if (command.getName().equalsIgnoreCase(main)) {
             if (args.length == 0) {
                 p.sendMessage(ChatColor.DARK_GREEN + "--- " + ChatColor.GREEN + "Spelare: " + p.getDisplayName() + ChatColor.DARK_GREEN + " ---");
-                p.sendMessage(ChatColor.DARK_GREEN + "Spelat sedan: " + ChatColor.GREEN + "PLACEHOLDER");
+                p.sendMessage(ChatColor.DARK_GREEN + "Spelat sedan: " + ChatColor.GREEN + SQLGetter.getFirstJoin(p.getUniqueId()));
                 if (p.isOnline()) { p.sendMessage(ChatColor.DARK_GREEN + "Status: " + ChatColor.GREEN + "Online, sedan " + "PLACEHOLDER"); }
                 else { p.sendMessage(ChatColor.DARK_GREEN + "Status: " + ChatColor.GREEN + "Online, sedan " + "PLACEHOLDER"); }
                 p.sendMessage(ChatColor.DARK_GREEN + "Senaste positionen: " + ChatColor.GREEN + p.getLocation());

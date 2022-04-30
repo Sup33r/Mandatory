@@ -25,7 +25,6 @@ public class SQLGetter {
         PreparedStatement ps;
         try {
             ps = MySQL.getConnection().prepareStatement("INSERT IGNORE INTO playerinfo (LATESTJOIN) VALUES (now())");
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -76,6 +75,22 @@ public class SQLGetter {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static Date getFirstJoin(UUID uuid) {
+        try {
+            PreparedStatement ps = MySQL.getConnection().prepareStatement("SELECT FIRSTJOIN FROM playerinfo WHERE UUID=?");
+            ps.setString(1, uuid.toString());
+            ResultSet rs = ps.executeQuery();
+            Date firstjoin = null;
+            if (rs.next()) {
+                firstjoin = rs.getDate("FIRSTJOIN");
+                return firstjoin;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void createBalanceTable() {

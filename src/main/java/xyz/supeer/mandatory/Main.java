@@ -1,5 +1,6 @@
 package xyz.supeer.mandatory;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -24,7 +25,9 @@ import java.util.List;
 
 public class Main extends JavaPlugin implements Listener{
     public HashMap<Player, List<String>> afkPlayers = new HashMap<Player, List<String>>();
+
     public HashMap<Player, List<String>> kickedPlayers = new HashMap<Player, List<String>>();
+    public HashMap<Player, Location> backLocations = new HashMap<Player, Location>();
     private HashMap<Player, Player> tpa = new HashMap<Player, Player>();
     public static Main plugin;
     private static Main instance;
@@ -72,6 +75,7 @@ public class Main extends JavaPlugin implements Listener{
         new TeleportAcceptCommand(this);
         new TeleportAskCommand(this);
         new TeleportDenyCommand(this);
+        new BackCommand(this);
         this.getServer().getPluginManager().registerEvents(new JoinLeaveListener(plugin), this);
         this.getServer().getPluginManager().registerEvents(new FireworkListener(), this);
         this.getServer().getPluginManager().registerEvents(new MessageListener(), this);
@@ -131,8 +135,7 @@ public class Main extends JavaPlugin implements Listener{
         return tpa;
     }
 
-
-        }
+}
 
 
 

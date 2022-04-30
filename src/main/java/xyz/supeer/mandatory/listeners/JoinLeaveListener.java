@@ -27,10 +27,10 @@ public class JoinLeaveListener implements Listener {
     public void OnJoin (PlayerJoinEvent e) {
 
         Player player = e.getPlayer();
-        if (SQLGetter.playerExists(player.getUniqueId())) {
-            SQLGetter.updatePlayerJoin(player);
-        } else {
+        if (!SQLGetter.playerExists(player.getUniqueId())) {
             SQLGetter.createPlayer(player);
+        } else {
+            SQLGetter.updatePlayerJoin(player);
         }
         player.sendTitle("Tjuhu, " + player.getDisplayName() + "!", "Välkommen till Kottcraft.", 0, 70,20);
 

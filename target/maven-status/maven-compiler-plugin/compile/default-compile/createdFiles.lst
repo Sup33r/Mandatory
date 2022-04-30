@@ -5,6 +5,7 @@ xyz\supeer\mandatory\listeners\MessageListener.class
 xyz\supeer\mandatory\commands\MessageCommand.class
 xyz\supeer\mandatory\Main.class
 xyz\supeer\mandatory\commands\admin\CommandManagerAdmin.class
+xyz\supeer\mandatory\commands\BackCommand.class
 xyz\supeer\mandatory\commands\LoveCommand$1.class
 xyz\supeer\mandatory\listeners\SpawnListeners.class
 xyz\supeer\mandatory\commands\KickCommand.class

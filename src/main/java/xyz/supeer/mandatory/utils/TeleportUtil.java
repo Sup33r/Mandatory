@@ -81,8 +81,10 @@ public class TeleportUtil implements Listener {
             if (players.contains(p)) {
                 if (!p.isInsideVehicle()) {
                     p.teleport(new Location(World, X, Y, Z, Yaw, Pitch));
+                    plugin.backLocations.remove(p);
                     p.sendMessage("§aTeleporterar dig till §2" + Name + "§a...");
                     players.remove(p);
+                    plugin.backLocations.put(p, p.getLocation());
                 }
                 else {
                     p.sendMessage("§cDen pågående teleporteringen avbröts.");
@@ -127,8 +129,10 @@ public class TeleportUtil implements Listener {
             {
                 if (players.contains(p)) {
                     if (!p.isInsideVehicle()) {
+                        plugin.backLocations.remove(p);
                         p.teleport(location);
                         p.sendMessage("§aTeleporterar dig till §2" + name + "§a...");
+                        plugin.backLocations.put(p, p.getLocation());
                         players.remove(p);
                     }
                     else {

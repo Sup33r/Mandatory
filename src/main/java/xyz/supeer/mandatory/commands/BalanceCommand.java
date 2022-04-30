@@ -61,6 +61,10 @@ public class BalanceCommand implements CommandExecutor {
                  }
                  OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                  UUID playerUUID = target.getUniqueId();
+                 if (!target.hasPlayedBefore()) {
+                     p.sendMessage("§cDen angivna spelaren hittades inte.");
+                     return false;
+                 }
                  if (!SQLGetter.balanceExists(playerUUID)) {
                      p.sendMessage("§cDen angivna spelaren hittades inte.");
                      return false;

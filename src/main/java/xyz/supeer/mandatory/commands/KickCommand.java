@@ -37,13 +37,17 @@ public class KickCommand implements CommandExecutor, Listener {
 
         Player p = (Player) sender;
 
-        if (args.length == 0) {
+        if (args.length == 0 || args.length == 1) {
             p.sendMessage("§7Syntax: /kick §nspelare§r§7 §nanledning");
             return true;
         }
 
         Player t = Bukkit.getPlayerExact(args[0]);
-
+        assert t != null;
+        if (!t.isOnline()) {
+            p.sendMessage("§cDen angivna spelaren hittades inte.");
+            return true;
+        }
         String msg = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         if (Objects.equals(args[1], "spam")) {
             plugin.kickedPlayers.put(t, new ArrayList<String>());

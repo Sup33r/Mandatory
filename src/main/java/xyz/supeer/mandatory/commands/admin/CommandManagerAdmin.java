@@ -15,7 +15,7 @@ public class CommandManagerAdmin implements CommandExecutor {
 
 
 
-    private ArrayList<SubCommand> commands = new ArrayList<SubCommand>();
+    private final ArrayList<SubCommand> commands = new ArrayList<SubCommand>();
     private final Main plugin = Main.getInstance();
 
     public CommandManagerAdmin() {
