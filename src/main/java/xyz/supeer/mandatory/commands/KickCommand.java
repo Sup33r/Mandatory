@@ -43,8 +43,7 @@ public class KickCommand implements CommandExecutor, Listener {
         }
 
         Player t = Bukkit.getPlayerExact(args[0]);
-        assert t != null;
-        if (!t.isOnline()) {
+        if (t == null) {
             p.sendMessage("§cDen angivna spelaren hittades inte.");
             return true;
         }
