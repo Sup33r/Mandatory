@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
 import xyz.supeer.mandatory.Main;
+import xyz.supeer.mandatory.sql.SQLGetter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,11 +52,12 @@ public class KickCommand implements CommandExecutor, Listener {
         if (Objects.equals(args[1], "spam")) {
             plugin.kickedPlayers.put(t, new ArrayList<String>());
             t.kickPlayer("§cDu har fått en varning:" + "\n" + "§r" + "Vänligen spamma ej i chatten. Tack!");
+            SQLGetter.addKick(t.getDisplayName(),t.getUniqueId(),"Vänligen spamma ej i chatten. Tack!",p.getDisplayName(),p.getUniqueId());
             return true;
         }
         plugin.kickedPlayers.put(t, new ArrayList<String>());
         t.kickPlayer("§cDu har fått en varning:" + "\n" + "§r" + msg);
-        //Här ska en MYSQL integration finnas med tid datum och meddelande + typ.
+        SQLGetter.addKick(t.getDisplayName(),t.getUniqueId(),msg,p.getDisplayName(),p.getUniqueId());
 
         return false;
     }

@@ -4,9 +4,6 @@ import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.text.DecimalFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class SQLGetter {
@@ -441,4 +438,33 @@ public class SQLGetter {
 
         return name;
     }
+
+    public static void createKickTable() {
+        PreparedStatement ps;
+        try {
+            ps = MySQL.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS kicks " + "(NAME VARCHAR(100),UUID VARCHAR(100),REASON VARCHAR(100),KICKER VARCHAR(100),KICKERUUID VARCHAR(100),KICKTIME DATETIME,PRIMARY KEY (KICKTIME))");
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addKick(String name, UUID uuid, String reason, String kicker, UUID kickeruuid) {
+        try {
+            java.util.Date date = new java.util.Date();
+            Object param = new java.sql.Timestamp(date.getTime());
+            PreparedStatement ps = MySQL.getConnection().prepareStatement("INSERT IGNORE INTO kicks" + " (NAME,UUID,REASON,KICKER,KICKERUUID,KICKTIME) VALUES (?,?,?,?,?,?)");
+            ps.setString(1, name);
+            ps.setString(2, uuid.toString());
+            ps.setString(3, reason);
+            ps.setString(4, kicker);
+            ps.setString(5, kickeruuid.toString());
+            ps.setObject(6, param);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

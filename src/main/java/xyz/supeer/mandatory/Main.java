@@ -52,6 +52,7 @@ public class Main extends JavaPlugin implements Listener{
         SQLGetter.createGoTable();
         SQLGetter.createLoveTable();
         SQLGetter.createPlayerTable();
+        SQLGetter.createKickTable();
         new FlyCommand(this);
         new BroadcastCommand(this);
         new FeedCommand(this);
