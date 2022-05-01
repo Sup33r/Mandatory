@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
+import org.jetbrains.annotations.NotNull;
 import xyz.supeer.mandatory.Main;
 import xyz.supeer.mandatory.sql.SQLGetter;
 
@@ -25,11 +26,11 @@ public class KickCommand implements CommandExecutor, Listener {
     public KickCommand(Main plugin) {
 
         this.plugin = plugin;
-        plugin.getCommand("kick").setExecutor((CommandExecutor) this);
+        Objects.requireNonNull(plugin.getCommand("kick")).setExecutor(this);
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 
         if(!sender.hasPermission("mandatory.command.kick")){
             sender.sendMessage(ChatColor.RED + "Åtkomst nekad.");
@@ -50,12 +51,12 @@ public class KickCommand implements CommandExecutor, Listener {
         }
         String msg = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         if (Objects.equals(args[1], "spam")) {
-            plugin.kickedPlayers.put(t, new ArrayList<String>());
+            plugin.kickedPlayers.put(t, new ArrayList<>());
             t.kickPlayer("§cDu har fått en varning:" + "\n" + "§r" + "Vänligen spamma ej i chatten. Tack!");
             SQLGetter.addKick(t.getDisplayName(),t.getUniqueId(),"Vänligen spamma ej i chatten. Tack!",p.getDisplayName(),p.getUniqueId());
             return true;
         }
-        plugin.kickedPlayers.put(t, new ArrayList<String>());
+        plugin.kickedPlayers.put(t, new ArrayList<>());
         t.kickPlayer("§cDu har fått en varning:" + "\n" + "§r" + msg);
         SQLGetter.addKick(t.getDisplayName(),t.getUniqueId(),msg,p.getDisplayName(),p.getUniqueId());
 
