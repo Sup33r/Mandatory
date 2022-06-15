@@ -5,6 +5,10 @@ Ett Minecraft plugin som är högst experimentalt. Har några enklare funktioner
 
 Detta insticksprogram KRÄVER att man har en anslutning till en MySQL databas för att pluginet ens ska kunna starta. De inställningarna lägger man in under internals.yml. Om det skulle vara så att någon inställning blir fel kommer inte programmet att starta, och ett felmeddelande kommer upp.
 
+### Depends
+
+För att kunna köra Mandatory behöver pluginet NBTAPI också vara installerat.
+
 ### Kommandolista
 
 - /admin
@@ -29,6 +33,13 @@ Detta insticksprogram KRÄVER att man har en anslutning till en MySQL databas f�
 - /teleportaccept
 - /teleportdeny
 - /vision
+
+### Andra funktioner
+
+- Varnar i modchat när Minecrafts automatiska flygfusk system upptäcker flygfusk
+- Prefix och chattmodifikationer med klick och hoverbara namn
+- Avaktiverar raketer för alla utan rättighetsflaggan mandatory.allow.boost
+- Stänger av kopieringen av kopieringsskyddade kartor och böcker (OBS Experimentellt)
 
 ### Rättighetsflaggor
 
