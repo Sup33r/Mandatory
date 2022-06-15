@@ -1,7 +1,7 @@
 # Mandatory
 Ett Minecraft plugin som är högst experimentalt. Har några enklare funktioner från ett av Minecraftservern Kottcraft's plugins.
 
-##Kommandolista
+## Kommandolista
 
 - /balance
 - /broadcast
