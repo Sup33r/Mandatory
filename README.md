@@ -3,7 +3,7 @@ Ett Minecraft plugin som är högst experimentalt. Har några enklare funktioner
 
 ## Varning!
 
-Detta insticksprogram KRÄVER att man har en anslutning till en MySQL databas för att pluginet ens ska kunna starta. De inställningarna lägger man in under 
+Detta insticksprogram KRÄVER att man har en anslutning till en MySQL databas för att pluginet ens ska kunna starta. De inställningarna lägger man in under internals.yml. Om det skulle vara så att någon inställning blir fel kommer inte programmet att starta, och ett felmeddelande kommer upp.
 
 ### Kommandolista
 
