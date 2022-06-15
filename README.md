@@ -40,6 +40,8 @@ För att kunna köra Mandatory behöver pluginet NBTAPI också vara installerat.
 - Prefix och chattmodifikationer med klick och hoverbara namn
 - Avaktiverar raketer för alla utan rättighetsflaggan mandatory.allow.boost
 - Stänger av kopieringen av kopieringsskyddade kartor och böcker (OBS Experimentellt)
+- Gömmer inloggnings och utloggningsmeddelandet för spelarna med rättighetsflaggorna mandatory.hide.join och mandatory.hide.quit
+- Det mesta är implementerat med en databas loggning, men detta är just nu högst experimentellt.
 
 ### Rättighetsflaggor
 
