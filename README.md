@@ -7,6 +7,7 @@ Detta insticksprogram KR√ÑVER att man har en anslutning till en MySQL databas f√
 
 ### Kommandolista
 
+- /admin
 - /balance
 - /broadcast
 - /buy
