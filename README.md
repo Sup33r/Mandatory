@@ -1,6 +1,10 @@
 # Mandatory
 Ett Minecraft plugin som är högst experimentalt. Har några enklare funktioner från ett av Minecraftservern Kottcraft's plugins.
 
+## Varning!
+
+Detta insticksprogram KRÄVER att man har en anslutning till en MySQL databas för att pluginet ens ska kunna starta. De inställningarna lägger man in under 
+
 ### Kommandolista
 
 - /balance
