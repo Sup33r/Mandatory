@@ -59,142 +59,51 @@ public class Database {
 
             DB.executeUpdate(
                     """
-                              CREATE TABLE IF NOT EXISTS `mp_members` (
-                                `playerName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `cityId` int(11) NOT NULL,
-                                `cityName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `cityRole` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `joinDate` bigint(30) DEFAULT NULL,
-                                PRIMARY KEY (cityId,playerUUID)
-                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
-            DB.executeUpdate(
-                    """
-                              CREATE TABLE IF NOT EXISTS `mp_cells` (
-                                `plotId` int(11) NOT NULL,
-                                `cellId` int(11) NOT NULL AUTO_INCREMENT,
-                                `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `signLocation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `signSide` tinyint(1) DEFAULT 0,
-                                `prisonerUUID` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                PRIMARY KEY (cellId,plotId)
-                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
-            DB.executeUpdate(
-                    """
-                              CREATE TABLE IF NOT EXISTS `mp_homecities` (
+                              CREATE TABLE IF NOT EXISTS `md_namechanges` (
                                 `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `playerName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `cityId` int(11) DEFAULT NULL,
-                                PRIMARY KEY (`playerUUID`)
-                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
-
-            DB.executeUpdate(
-                    """
-                              CREATE TABLE IF NOT EXISTS `mp_claims` (
-                                `claimId` int(11) NOT NULL AUTO_INCREMENT,
-                                `claimerName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `claimerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `world` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `xPosition` mediumint(9) NOT NULL,
-                                `zPosition` mediumint(9) NOT NULL,
-                                `claimDate` bigint(30) DEFAULT NULL,
-                                `cityId` int(11) NOT NULL,
-                                `outpost` tinyint(1) DEFAULT '0',
-                                PRIMARY KEY (`claimId`)
-                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
-
-            DB.executeUpdate(
-                    """
-                              CREATE TABLE IF NOT EXISTS `mp_citylogs` (
-                                `logId` int(11) NOT NULL AUTO_INCREMENT,
-                                `cityId` int(11) NOT NULL,
                                 `dateTime` bigint(30) DEFAULT NULL,
+                                PRIMARY KEY (playerUUID,dateTime)
+                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
+            DB.executeUpdate(
+                    """
+                              CREATE TABLE IF NOT EXISTS `md_balancelogs` (
+                                `logId` int(11) NOT NULL AUTO_INCREMENT,
+                                `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `dateTime` bigint(30) DEFAULT NULL,
+                                `beforeBalance` int(25) NOT NULL,
+                                `afterBalance` int(25) NOT NULL,
                                 `jsonLog` text NOT NULL,
                                 PRIMARY KEY (logId)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
-
             DB.executeUpdate(
                     """
-                              CREATE TABLE IF NOT EXISTS `mp_plots` (
-                                `plotId` int(11) NOT NULL AUTO_INCREMENT,
-                                `cityId` int(11) NOT NULL,
-                                `cityName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `plotName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `plotOwner` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `plotOwnerUUID` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `plotPoints` text COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `plotBoundary` GEOMETRY NOT NULL,
-                                `plotYMin` int(11) NOT NULL,
-                                `plotYMax` int(11) NOT NULL,
-                                `plotType` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `plotIsForSale` tinyint(1) DEFAULT 0,
-                                `plotKMarked` tinyint(1) DEFAULT 0,
-                                `plotPrice` int(25) DEFAULT 0,
-                                `plotRent` int(25) DEFAULT 0,
-                                `plotPermsMembers` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `plotPermsOutsiders` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `plotCenter` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `plotFlags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `plotCreationDate` bigint(30) DEFAULT NULL,
-                                PRIMARY KEY (`plotId`),
-                                SPATIAL INDEX `idx_plotBoundary` (`plotBoundary`)
-                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
-
-            DB.executeUpdate(
-                    """
-                              CREATE TABLE IF NOT EXISTS `mp_districts` (
-                                `districtName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `cityId` int(11) NOT NULL,
-                                `world` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `districtPoints` text COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `districtBoundary` GEOMETRY NOT NULL,
-                                `contactPlayers` text COLLATE utf8mb4_unicode_ci,
-                                PRIMARY KEY (`districtName`, `cityId`),
-                                SPATIAL INDEX `idx_districtBoundary` (`districtBoundary`)
-                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
-
-            DB.executeUpdate(
-                    """
-                              CREATE TABLE IF NOT EXISTS `mp_plotperms` (
-                                `plotId` int(11) NOT NULL,
-                                `cityId` int(11) NOT NULL,
-                                `plotPerms` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                              CREATE TABLE IF NOT EXISTS `md_loginlogs` (
                                 `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `playerName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                PRIMARY KEY (plotId,playerUUID)
+                                `playerIp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `dateTime` bigint(30) DEFAULT NULL,
+                                `playTime` bigint(30) DEFAULT NULL,
+                                PRIMARY KEY (`playerUUID`, `dateTime`, `playTime`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
             DB.executeUpdate(
                     """
-                              CREATE TABLE IF NOT EXISTS `mp_cityperms` (
-                                `cityId` int(11) NOT NULL,
-                                `cityPerms` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                              CREATE TABLE IF NOT EXISTS `md_kicks` (
                                 `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `playerName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                PRIMARY KEY (cityId,playerUUID)
-                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
-
-            DB.executeUpdate(
-                    """
-                              CREATE TABLE IF NOT EXISTS `mp_citygoes` (
-                                `cityId` int(11) NOT NULL,
-                                `goName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `goNickname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `goLocation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `isOpen` tinyint(1) DEFAULT 1,
-                                `accessLevel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `createDate` bigint(30) DEFAULT NULL,
-                                 PRIMARY KEY (cityId,goName)
+                                `placeUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `dateTime` bigint(30) DEFAULT NULL,
+                                PRIMARY KEY (`playerUUID`, `dateTime`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
             DB.executeUpdate(
                     """
-                              CREATE TABLE IF NOT EXISTS `mp_citybans` (
-                                `cityId` int(11) NOT NULL,
+                              CREATE TABLE IF NOT EXISTS `md_bans` (
                                 `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `placeDate` bigint(30) DEFAULT NULL,
+                                `placeUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `playerIp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `placeTime` bigint(30) DEFAULT NULL,
                                 `length` bigint(30) DEFAULT NULL,
                                 `reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `placeUUID` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                 PRIMARY KEY (cityId,playerUUID)
+                                PRIMARY KEY (`playerUUID`, `dateTime`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
         } catch (SQLException exception) {
             exception.printStackTrace();
