@@ -1,0 +1,7 @@
+name: Mandatory
+version: '1.0-SNAPSHOT'
+main: live.supeer.mandatory.Mandatory
+api-version: '1.21'
+authors: [ Supeeer ]
+description: An Essentials-like plugin
+website: supeer.live

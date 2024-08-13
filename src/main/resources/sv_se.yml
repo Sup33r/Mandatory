@@ -1,0 +1,73 @@
+messages:
+  teleport:
+    failed: "<red>Den pågående teleporteringen avbröts.</red>"
+    hasTeleport: "<red>Du har redan en pågående teleportering.</red>"
+    started: "<red>Stå still!</red> <aqua>Du kommer att teleporteras om %cooldown% sekunder, men endast om du inte rör dig och inte tar skada.</aqua>"
+    success: "<green>Teleporterar dig till</green> <dark_green>%name%</dark_green><green>...</green>"
+  error:
+    permissionDenied: "<red>Åtkomst nekad.</red>"
+    noSpawnSet: "<red>Ingen startpunkt är satt</red>"
+    noAFKSet: "<red>Det finns inget definerat afk-rum på den här servern.</red>"
+    noBackLocation: "<red>Du har ingen tillbakaposition.</red>"
+    playerNotFound: "<red>Spelaren hittades inte.</red>"
+    noReply: "<red>Det finns ingen att svara på.</red>"
+
+  message:
+    recieved: "<dark_red>[<red>%sender% -> dig<dark_red>] <white>%message%</white>"
+    recievedAfk: "<dark_red>[<red>%time%<dark_red>] [<red>%sender% -> dig<dark_red>] <white>%message%</white>"
+    sent: "<dark_red>[du -> %receiver%<dark_red>] <white>%message%</white>"
+    sentAfk: "<dark_red>[du -> [AFK] %receiver%<dark_red>] <white>%message%</white>"
+
+  modchat:
+    message: "<dark_red>#modzone <gray>| <gold>%player%<gray>> <red>%message%</red>"
+    helping: "<dark_red>#modzone <gray>| <red>%helper% hjälper %player%."
+
+  successful:
+    spawn: "<green>Spelaren %player% har skickats till spawnpunkten.</green>"
+    afk: "<green>Spelaren %player% har skickats till AFK-rummet.</green>"
+
+  names:
+    spawn: "startpunkten"
+    afk: "AFK-rummet"
+    back: "din tidigare position"
+  afk:
+    alreadyAfk: "<red>Du har redan tagt avstånd från EnServers stadsvärld (AFK).</red>"
+    alreadyAfkOther: "<red>%player% har redan tagit avstånd från EnServers stadsvärld (AFK).</red>"
+
+  broadcast: "<aqua>\n%message%\n</aqua>"
+
+  feed:
+    fed: "<green>Din hunger har blivit mättad.</green>"
+    fedOther: "<green>%player%s hunger har blivit mättad.</green>"
+    fullFood: "<red>Du är inte hungrig.</red>"
+    fullFoodOther: "<red>%player% är inte hungrig.</red>"
+
+  fly:
+    enabled: "<aqua>Flygläge aktiverat.</aqua>"
+    disabled: "<aqua>Flygläge avaktiverat.</aqua>"
+    enabledOther: "<aqua>Flygläge aktiverat för %player%.</aqua>"
+    disabledOther: "<aqua>Flygläge avaktiverat för %player%.</aqua>"
+
+  gamemode:
+    changed: "<aqua>Ditt spelläge har ändrats till: %gamemode%.</aqua>"
+    changedOther: "<aqua>%player%s spelläge har ändrats till: %gamemode%.</aqua>"
+    invalid: "<red>Ogiltigt spelläge.</red>"
+
+  speed:
+    invalid: "<red>Ogiltig hastighet.</red>"
+    setFly: "<aqua>Din flyghastighet har ändrats till %speed%.</aqua>"
+    setFlyOther: "<aqua>%player%s flyghastighet har ändrats till %speed%.</aqua>"
+    setWalk: "<aqua>Din gånghastighet har ändrats till %speed%.</aqua>"
+    setWalkOther: "<aqua>%player%s gånghastighet har ändrats till %speed%.</aqua>"
+
+  vision:
+    removed: "<aqua>Din nattsyn har tagits bort.</aqua>"
+    removedOther: "<aqua>%player%s nattsyn har tagits bort.</aqua>"
+    added: "<aqua>Du har fått 10 minuter av synlighet.</aqua>"
+    addedOther: "<aqua>%player% har fått 10 minuter av synlighet.</aqua>"
+
+  repair:
+    success: "<green>Föremålet i din hand har reparerats.</green>"
+    notRepairable: "<red>Föremålet i din hand kan inte repareras.</red>"
+
+
