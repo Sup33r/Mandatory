@@ -45,29 +45,15 @@ public class Database {
 
             DB.executeUpdate(
                     """
-                              CREATE TABLE IF NOT EXISTS `mp_cities` (
-                                `cityId` int(11) NOT NULL AUTO_INCREMENT,
-                                `cityName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `originalMayorUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `originalMayorName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `cityBalance` int(25) NOT NULL,
-                                `cityTax` double DEFAULT 2,
-                                `bonusClaims` int(11) DEFAULT 0,
-                                `citySpawn` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `createDate` bigint(30) DEFAULT NULL,
-                                `latestNameChange` bigint(30) DEFAULT 0,
-                                `minChunkDistance` int(11) DEFAULT 400,
-                                `minSpawnDistance` int(11) DEFAULT 2000,
-                                `enterMessage` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `exitMessage` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `motdMessage` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `taxLevel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `twinCities` text COLLATE utf8mb4_unicode_ci,
-                                `maxPlotsPerMember` int(11) DEFAULT -1,
-                                `isTaxExempt` tinyint(1) DEFAULT 0,
-                                `isOpen` tinyint(1) DEFAULT 0,
-                                `isPublic` tinyint(1) DEFAULT 0,
-                                `isReserve` tinyint(1) DEFAULT 0,
+                              CREATE TABLE IF NOT EXISTS `md_players` (
+                                `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `playerName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `firstJoin` bigint(30) DEFAULT NULL,
+                                `latestJoin` bigint(30) DEFAULT NULL,
+                                `latestLeave` bigint(30) DEFAULT NULL,
+                                `membership` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `playerBalance` int(25) NOT NULL,
+                                `position` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 PRIMARY KEY (`cityId`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;""");
 

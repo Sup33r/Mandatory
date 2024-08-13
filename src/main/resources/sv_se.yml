@@ -1,6 +1,31 @@
 messages:
   me: "⋆ %player% %message%"
 
+  helpop:
+    noRecipient: "<red>Tyvärr så är ongen personalmedlem online för tillfället. Överväg istället att göra ett supportärende. <underlined>https://enserver.se/support/new</underlined>."
+    message: "<dark_red>#modzone <gray>| <red>%player% behöver hjälp: <white>%message%</white>"
+    sent: "<green>Ditt meddelande har skickats till våra moderatorer, och de kontaktar dig så fort det finns tid och möjlighet. Du kan alltid komma i kontakt med oss genom att skapa ett ärende på hemsidan: <underlined>https://enserver.se/support/new</underlined>"
+
+  teleportRequests:
+    self: "<red>Du kan inte teleportera till dig själv.</red>"
+    cancelledSelf: "<green>Avbröt teleporteringsförfrågan till %target%."
+    cancelledOther: "<aqua>%player% avbröt teleporteringsförfrågan till dig."
+    sentSelf: "<green>Förgrågan om teleportering har skickats till %target%."
+    sentOther: "<aqua>%player% vill teleportera till dig.\nSvara med <dark_aqua>/tpyes<aqua> eller <dark_aqua>/tpno<aqua>."
+    noRequest: "<red>Du har inga teleporteringsförfrågningar att acceptera/neka.</red>"
+    accept:
+      noRequestPlayer: "<red>%player% har inte skickat någon teleporteringsförfrågan.</red>"
+      multipleRequests: "<red>Du har flera teleporteringsförfrågningar. Använd <dark_red>/tpaccept <italic>spelare</italic><red> för att acceptera en specifik förfrågan, eller <dark_red>/tpaccept!<red> för att acceptera alla.</red>"
+      selfOne: "<green>Du har accepterat %target%s teleporteringsförfrågan.</green>"
+      selfAll: "<green>Du har accepterat alla teleporteringsförfrågningar.</green>"
+      other: "<aqua>%player% accepterade din teleporteringsförfrågan.</aqua>"
+    deny:
+      noRequestPlayer: "<red>%player% har inte skickat någon teleporteringsförfrågan.</red>"
+      selfOne: "<red>Du har nekat %target%s teleporteringsförfrågan.</red>"
+      selfAll: "<red>Du har nekat alla teleporteringsförfrågningar.</red>"
+      other: "<aqua>%player% nekade din teleporteringsförfrågan.</aqua>"
+      multipleRequests: "<red>Du har flera teleporteringsförfrågningar. Använd <dark_red>/tpdeny <italic>spelare</italic><red> för att neka en specifik förfrågan, eller <dark_red>/tpdeny!</dark_red> för att neka alla.</red>"
+
   teleport:
     failed: "<red>Den pågående teleporteringen avbröts.</red>"
     hasTeleport: "<red>Du har redan en pågående teleportering.</red>"

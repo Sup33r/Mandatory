@@ -29,6 +29,21 @@ public class MandatoryChat {
         }
     }
 
+    public static void helpopMessage(Player player, String message) {
+        boolean recieved = false;
+        for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()) {
+            if (onlinePlayer.hasPermission("mandatory.modchat")) {
+                recieved = true;
+                plugin.sendMessage(onlinePlayer, "messages.helpop.message", "%player%", player.getName(), "%message%", message);
+            }
+        }
+        if (!recieved) {
+            plugin.sendMessage(player, "messages.helpop.noRecipients");
+            return;
+        }
+        plugin.sendMessage(player, "messages.helpop.sent");
+    }
+
     public static void sendPrivateMessage(Player player, Player target, String message) {
         boolean isAfk = plugin.afkPlayers.containsKey(target);
         if (isAfk) {

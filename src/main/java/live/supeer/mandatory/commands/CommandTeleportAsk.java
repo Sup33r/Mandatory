@@ -22,11 +22,18 @@ public class CommandTeleportAsk extends BaseCommand {
             return;
         }
         if (target.getPlayer() == player) {
-            plugin.sendMessage(player, "messages.teleport.teleportSelf");
+            plugin.sendMessage(player, "messages.teleportRequests.self");
+            return;
+        }
+        if (plugin.teleportRequests.containsKey(player)) {
+            Player previousTarget = plugin.teleportRequests.get(player);
+            plugin.sendMessage(player,"messages.teleportRequests.cancelledSelf","%target%", previousTarget.getName());
+            plugin.sendMessage(previousTarget,"messages.teleportRequests.cancelledOther","%player%", player.getName());
+            plugin.teleportRequests.remove(player);
             return;
         }
         plugin.teleportRequests.put(target.getPlayer(), player);
-        plugin.sendMessage(player, "messages.teleport.teleportRequestSent", target.getPlayer().getName());
-        plugin.sendMessage(target.getPlayer(), "messages.teleport.teleportRequestReceived", player.getName());
+        plugin.sendMessage(player, "messages.teleportRequests.sentSelf", "%target%", target.getPlayer().getName());
+        plugin.sendMessage(target.getPlayer(), "messages.teleportRequests.sentOther", "%player%", player.getName());
     }
 }

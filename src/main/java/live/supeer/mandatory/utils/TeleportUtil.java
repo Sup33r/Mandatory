@@ -16,7 +16,7 @@ public class TeleportUtil {
         TeleportUtil.plugin = plugin;
     }
 
-    public static void Teleport(Player player, Location location, String name, boolean bypassCooldown) {
+    public static void teleport(Player player, Location location, String name, boolean bypassCooldown) {
         if (player.isInsideVehicle()) {
             plugin.sendMessage(player, "messages.error.teleport.failed");
             return;
