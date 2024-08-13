@@ -49,11 +49,29 @@ public class MandatoryChat {
         plugin.replyPlayers.put(target, player);
     }
 
+    public static void sendMeMessage(Player player, String message) {
+        for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()) {
+            plugin.sendMessage(onlinePlayer, "messages.me", "%player%", player.getName(), "%message%", message);
+        }
+    }
+
     public static void sendToAllBut(String message, List<UUID> players) {
         for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()) {
             if (!players.contains(onlinePlayer.getUniqueId())) {
                 onlinePlayer.sendMessage(message);
             }
+        }
+    }
+
+    public static void sendToAll(String message) {
+        for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()) {
+            onlinePlayer.sendMessage(message);
+        }
+    }
+
+    public static void sendToAll(Component message) {
+        for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()) {
+            onlinePlayer.sendMessage(message);
         }
     }
 }

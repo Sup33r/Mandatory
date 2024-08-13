@@ -1,4 +1,6 @@
 messages:
+  me: "⋆ %player% %message%"
+
   teleport:
     failed: "<red>Den pågående teleporteringen avbröts.</red>"
     hasTeleport: "<red>Du har redan en pågående teleportering.</red>"
