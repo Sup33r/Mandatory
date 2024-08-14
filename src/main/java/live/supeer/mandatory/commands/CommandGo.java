@@ -105,7 +105,7 @@ public class CommandGo extends BaseCommand {
                     if (go.getDisplayname() != null && !go.getDisplayname().isEmpty()) {
                         plugin.sendMessage(player, "messages.go.info.displayname", "%displayname%", go.getDisplayname());
                     }
-                    plugin.sendMessage(player, "messages.go.info.owner", "%owner%", "OWNER (Ska vara spelaren tagen ifrån spelardatabasen)");
+                    plugin.sendMessage(player, "messages.go.info.owner", "%owner%", MPlayerManager.getPlayerFromUUID(go.getOwnerUUID()).getName());
                     plugin.sendMessage(player, "messages.go.info.open.open", "%open%", go.isOpen() ? plugin.getMessage("messages.go.info.open.true") : plugin.getMessage("messages.go.info.open.false"));
                     plugin.sendMessage(player, "messages.go.info.created", "%created%", DateUtil.formatDate(go.getCreateDate()));
                     plugin.sendMessage(player, "messages.go.info.latestUse", "%latestUse%", DateUtil.formatDate(GoManager.getLatestUse(go)));

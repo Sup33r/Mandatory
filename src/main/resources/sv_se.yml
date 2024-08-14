@@ -97,7 +97,9 @@ messages:
     alreadyAfk: "<red>Du har redan tagt avstånd från EnServers stadsvärld (AFK).</red>"
     alreadyAfkOther: "<red>%player% har redan tagit avstånd från EnServers stadsvärld (AFK).</red>"
 
-  broadcast: "<aqua>\n%message%\n</aqua>"
+  broadcast:
+    admin: "<aqua>\n%message%\n</aqua>"
+    public:
 
   feed:
     fed: "<green>Din hunger har blivit mättad.</green>"
@@ -181,6 +183,36 @@ messages:
       notEnoughPages: "<red>Det finns inte så många sidor att visa.</red>"
       empty: "<red>Det finns inga teleporteringspunkter att visa.</red>"
       list: "<dark_green>--- <green>Teleporteringspunkter (sida <bold>%start%</bold> av <bold>%end%</bold>)</green> <dark_green>---"
+
+  balance:
+    modify:
+      syntax: "<gray>Syntax: /balance <underlined>namn</underlined> <bold>-mängd</bold>/<bold>+mängd</bold>/<bold>all</bold> <underlined>anledning</underlined>"
+    reimburse: "<aqua>Du har betalat %amount% encoins till %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+    confiscate:
+      none: "<red>Den angivna spelaren har inga encoins att konfiskera.</red>"
+      notEnough: "<red>Den angivna spelaren har inte så mycket encoins. Överväg att använda /balance <underlined>namn</underlined> all istället.</red>"
+      success: "<aqua>Du konfiskerade %amount% encoins från %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+      all: "<aqua>Du konfiskerade alla encoins från %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+    own: "<green>Saldo: %balance% encoins</green>"
+    others: "<green>Saldo för %player%: %balance% encoins</green>"
+
+  kick:
+    message: "<red>Du har fått en varning:</red>\n%reason%"
+    successful: "<aqua>Du har varnat %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+    reasons:
+      spam: "Vänligen spamma ej i chatten. Tack!"
+      language: "Ditt språkbruk uppskattas inte på EnServer. Vänligen tänk på det. Tack!"
+
+  love:
+    self: "<red>Du kan inte skicka kärlekshälsningar till dig själv...</red>"
+    cooldown: "<red>Det måste gå minst %time% mellan varje kärlekshälsning.</red>"
+    sent: "<green>Kärleken har framgångsrikt skickats till %player%!</green>"
+    received:
+      reason: "<dark_red>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</dark_red>\n<green>Du har fått en kärlekshälsning från <bold>%player%</bold>!</green>\n<dark_green>Anledning: %reason%</dark_green>\n<dark_red>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</dark_red>"
+      noReason: "<dark_red>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</dark_red>\n<green>Du har fått en kärlekshälsning från <bold>%player%</bold>!</green>\n<dark_red>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</dark_red>"
+
+  buy:
+    syntax: "<gray>Syntax: /buy broadcast <underlined>meddelande</underlined>\nSyntax: /buy go <underlined>namn</underlined>\nSyntax: /buy head\nSyntax: /buy copyright"
 
 
 

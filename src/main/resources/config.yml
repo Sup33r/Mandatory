@@ -10,6 +10,7 @@ settings:
     goname: 42
     godisplayname: 42
     gochargeamount: 200
+    lovecooldown: 120
 
   teleportCooldown: 3
 

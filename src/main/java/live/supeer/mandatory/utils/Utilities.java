@@ -3,11 +3,19 @@ package live.supeer.mandatory.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class Utilities {
+
+    public static String formattedMoney(Integer money) {
+        NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+        formatter.setGroupingUsed(true);
+        return formatter.format(money).replace(",", " ");
+    }
 
     public static List<UUID> stringToUUIDList(String playerString) {
         List<UUID> players = new ArrayList<>();

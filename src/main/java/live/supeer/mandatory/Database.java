@@ -71,8 +71,8 @@ public class Database {
                                 `logId` int(11) NOT NULL AUTO_INCREMENT,
                                 `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `dateTime` bigint(30) DEFAULT NULL,
-                                `beforeBalance` int(25) NOT NULL,
-                                `afterBalance` int(25) NOT NULL,
+                                `balanceBefore` int(25) NOT NULL,
+                                `balanceAfter` int(25) NOT NULL,
                                 `jsonLog` text NOT NULL,
                                 PRIMARY KEY (logId)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
@@ -84,6 +84,15 @@ public class Database {
                                 `dateTime` bigint(30) DEFAULT NULL,
                                 `playTime` bigint(30) DEFAULT NULL,
                                 PRIMARY KEY (`playerUUID`, `dateTime`, `playTime`)
+                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
+            DB.executeUpdate(
+                    """
+                              CREATE TABLE IF NOT EXISTS `md_loves` (
+                                `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `senderUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `dateTime` bigint(30) NOT NULL,
+                                PRIMARY KEY (`playerUUID`, `senderUUID`, `dateTime`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
             DB.executeUpdate(
                     """
@@ -103,7 +112,7 @@ public class Database {
                                 `placeTime` bigint(30) DEFAULT NULL,
                                 `length` bigint(30) DEFAULT NULL,
                                 `reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                PRIMARY KEY (`playerUUID`, `dateTime`)
+                                PRIMARY KEY (`playerUUID`, `placeTime`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
             DB.executeUpdate(
                     """

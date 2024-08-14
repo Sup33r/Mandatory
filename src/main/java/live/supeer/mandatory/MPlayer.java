@@ -38,4 +38,34 @@ public class MPlayer {
             e.printStackTrace();
         }
     }
+
+    public void setBalance(int newBalance, String json) {
+        try {
+            BalanceManager.createBalanceLogEntry(uuid, balance, newBalance, json);
+            this.balance = newBalance;
+            DB.executeUpdate("UPDATE `md_players` SET `balance` = " + newBalance + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addBalance(int amount, String json) {
+        try {
+            BalanceManager.createBalanceLogEntry(uuid, balance, balance + amount, json);
+            this.balance += amount;
+            DB.executeUpdate("UPDATE `md_players` SET `balance` = " + balance + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeBalance(int amount, String json) {
+        try {
+            BalanceManager.createBalanceLogEntry(uuid, balance, balance - amount, json);
+            this.balance -= amount;
+            DB.executeUpdate("UPDATE `md_players` SET `balance` = " + balance + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

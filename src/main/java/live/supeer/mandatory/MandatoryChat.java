@@ -44,6 +44,10 @@ public class MandatoryChat {
         plugin.sendMessage(player, "messages.helpop.sent");
     }
 
+    public static void sendPublicBroadcast(Player player, String message) {
+
+    }
+
     public static void sendPrivateMessage(Player player, Player target, String message) {
         boolean isAfk = plugin.afkPlayers.containsKey(target);
         if (isAfk) {

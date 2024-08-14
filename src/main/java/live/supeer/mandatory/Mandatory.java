@@ -3,6 +3,7 @@ package live.supeer.mandatory;
 import co.aikar.commands.PaperCommandManager;
 import co.aikar.idb.DB;
 import com.google.common.collect.ImmutableList;
+import de.tr7zw.changeme.nbtapi.NBT;
 import live.supeer.mandatory.commands.*;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,7 @@ public final class Mandatory extends JavaPlugin {
 
     public HashMap<Player, Location> backLocations = new HashMap<>();
     public HashMap<Player, List<Component>> afkPlayers = new HashMap<>();
+    public List<Player> loveCooldown = new ArrayList<>();
     public HashMap<Player, Player> replyPlayers = new HashMap<>();
     public HashMap<Player, Player> teleportRequests = new HashMap<>();
     public HashMap<Player, Go> promptedPayment = new HashMap<>();
@@ -66,6 +69,11 @@ public final class Mandatory extends JavaPlugin {
         manager.registerCommand(new CommandVision());
 
         registerCompletions(manager);
+
+        if (!NBT.preloadApi()) {
+            getLogger().warning("NBT-API wasn't initialized properly, disabling the plugin");
+            this.getServer().getPluginManager().disablePlugin(this);
+        }
 
 //        Database.initialize();
     }

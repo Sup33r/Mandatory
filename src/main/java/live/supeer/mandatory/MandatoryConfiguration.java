@@ -24,6 +24,7 @@ public class MandatoryConfiguration {
     private final int goNameLimit;
     private final int goDisplayNameLimit;
     private final int goChargeAmount;
+    private final int loveCooldown;
 
     MandatoryConfiguration(Mandatory plugin) {
         plugin.saveDefaultConfig();
@@ -45,6 +46,8 @@ public class MandatoryConfiguration {
         goNameLimit = plugin.getConfig().getInt("settings.limits.goname");
         goDisplayNameLimit = plugin.getConfig().getInt("settings.limits.godisplayname");
         goChargeAmount = plugin.getConfig().getInt("settings.limits.gochargeamount");
+
+        loveCooldown = plugin.getConfig().getInt("settings.limits.lovecooldown");
 
     }
 }
