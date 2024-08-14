@@ -1,4 +1,40 @@
 messages:
+  months:
+    january: "januari"
+    february: "februari"
+    march: "mars"
+    april: "april"
+    may: "maj"
+    june: "juni"
+    july: "juli"
+    august: "augusti"
+    september: "september"
+    october: "oktober"
+    november: "november"
+    december: "december"
+  days:
+    yesterday: "i går"
+    today: "i dag"
+  time:
+    now: "just nu"
+    second: "sekund"
+    seconds: "sekunder"
+    minute: "minut"
+    minutes: "minuter"
+    hour: "timme"
+    hours: "timmar"
+    day: "dag"
+    days: "dagar"
+    week: "vecka"
+    weeks: "veckor"
+    month: "månad"
+    months: "månader"
+    year: "år"
+    years: "år"
+
+  free: "gratis"
+
+
   me: "⋆ %player% %message%"
 
   helpop:
@@ -96,5 +132,55 @@ messages:
   repair:
     success: "<green>Föremålet i din hand har reparerats.</green>"
     notRepairable: "<red>Föremålet i din hand kan inte repareras.</red>"
+
+  go:
+    set:
+      chargeamount:
+        removed: "<green>Kostnaden för teleportering till <dark_green>%name%</dark_green> har tagits bort.</green>"
+        set: "<green>Kostnaden för teleportering till <dark_green>%name%</dark_green> har uppdaterats.</green>"
+        tooMuch: "<red>Kostnaden för teleportering till <dark_red>%name%</dark_red> kan inte vara mer än %max% encoins.</red>"
+      name:
+        tooLong: "<red>Namnet får maximalt vara %max% tecken långt.</red>"
+        success: "<green>Namnet har uppdaterats.</green>"
+      displayname:
+        tooLong: "<red>Visningsnamnet får maximalt vara %max% tecken långt.</red>"
+        success: "<green>Visningsnamnet för <dark_green>%name%</dark_green> har uppdaterats.</green>"
+        removed: "<green>Visningsnamnet för <dark_green>%name%</dark_green> har tagits bort.</green>"
+      location: "<green>Teleporteringspunkten <dark_green>%name%</dark_green> pekar nu på din position.</green>"
+    locationNotSet: "<red>Teleporteringspunkten pekar ingenstans.</red>"
+    give:
+      given: "<green>%player% är nu ägaren av teleporteringspunkten <dark_green>%name%</dark_green>.</green>"
+      self: "<red>Du kan inte ge teleporteringspunkten till dig själv.</red>"
+    whitelistcharge:
+      enabled: "<green>Spelare på vitlistan betalar nu för att använda <dark_green>%name%</green>.</green>"
+      disabled: "<red>Spelare på vitlistan betalar inte längre för att använda <dark_green>%name%</green>.</red>"
+    opened: "<green>Teleporteringspunkten <dark_green>%name%<green> är nu öppen.</green>"
+    closed: "<red>Teleporteringspunkten <dark_green>%name%<green> är nu stängd.</red>"
+    whitelist:
+      list: "<dark_green>--- <green>Vitlista: %name% (%count%) <dark_green>---\n<green>%players%"
+      added: "<green>%player% har lagts till på vitlistan för <dark_green>%name%</dark_green>.</green>"
+      removed: "<green>%player% har tagits bort från vitlistan för <dark_green>%name%</dark_green>.</green>"
+      alreadyAdded: "<red>%player% är redan med på vitlistan för <dark_red>%name%</dark_red>.</red>"
+      alreadyRemoved: "<red>%player% är inte med på vitlistan för <dark_red>%name%</dark_red>.</red>"
+    syntax: "<gray>Syntax: /go <underlined>namn</underlined>\n/go <underlined>namn</underlined> give <underlined>spelare</underlined>\n/go <underlined>namn</underlined> set displayname <underlined>visningsnamn</underlined>\n/go <underlined>namn</underlined> set displayname -\n/go <underlined>namn</underlined> set price <underlined>pris</underlined>\n/go <underlined>namn</underlined> set price -\n/go <underlined>namn</underlined> toggle open\n/go <underlined>namn</underlined> toggle whitelistcharge\n/go <underlined>namn</underlined> whitelist\n/go <underlined>namn</underlined> whitelist +<underlined>spelare</underlined>\n/go <underlined>namn</underlined> whitelist -<underlined>spelare</underlined>"
+    deleted: "<green>Teleporteringspunkten %name% har tagits bort.</green>"
+    info:
+      header: "<dark_green>--- <green>Teleporteringspunkt: %name% <dark_green>---"
+      displayname: "<dark_green>Visningsnamn: <green>%displayname%</green>"
+      open:
+        open: "<dark_green>Öppen: <green>%open%</green>"
+        true: "Ja"
+        false: "Nej"
+      created: "<dark_green>Skapad: <green>%created%</green>"
+      price: "<dark_green>Kostnad för teleportering: <green>%price%"
+    charged: "<green>Du har betalat %charge% encoins för att teleportera till teleporteringspunkten.</green>"
+    charges: "<green>Teleporteringspunkten kostar <dark_green>%charge% encoins<green> att använda. Skriv kommandot igen om du godkänner kostnaden."
+    notFound: "<red>Det finns ingen teleporteringspunkt med detta namn.</red>"
+    notOpen: "<red>Denna teleporteringspunkt är inte öppen för allmänheten.</red>"
+    list:
+      notEnoughPages: "<red>Det finns inte så många sidor att visa.</red>"
+      empty: "<red>Det finns inga teleporteringspunkter att visa.</red>"
+      list: "<dark_green>--- <green>Teleporteringspunkter (sida <bold>%start%</bold> av <bold>%end%</bold>)</green> <dark_green>---"
+
 
 

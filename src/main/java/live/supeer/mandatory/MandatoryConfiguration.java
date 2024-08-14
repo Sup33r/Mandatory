@@ -21,6 +21,10 @@ public class MandatoryConfiguration {
 
     private final List<String> allowedRepairItems;
 
+    private final int goNameLimit;
+    private final int goDisplayNameLimit;
+    private final int goChargeAmount;
+
     MandatoryConfiguration(Mandatory plugin) {
         plugin.saveDefaultConfig();
         plugin.reloadConfig();
@@ -37,6 +41,10 @@ public class MandatoryConfiguration {
         afkLocation = plugin.getConfig().getLocation("settings.locations.spawnLocation");
 
         allowedRepairItems = plugin.getConfig().getStringList("allowed_repair");
+
+        goNameLimit = plugin.getConfig().getInt("settings.limits.goname");
+        goDisplayNameLimit = plugin.getConfig().getInt("settings.limits.godisplayname");
+        goChargeAmount = plugin.getConfig().getInt("settings.limits.gochargeamount");
 
     }
 }

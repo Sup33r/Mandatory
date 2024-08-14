@@ -29,4 +29,33 @@ public class Utilities {
         }
         return playerString.toString();
     }
+
+    public static String formatStringList(List<String> items) {
+        if (items == null || items.isEmpty()) {
+            return "";
+        }
+
+        int size = items.size();
+
+        if (size == 1) {
+            return items.get(0);
+        }
+
+        if (size == 2) {
+            return String.format("%s & %s", items.get(0), items.get(1));
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < size - 1; i++) {
+            result.append(items.get(i));
+            if (i < size - 2) {
+                result.append(", ");
+            } else {
+                result.append(" & ");
+            }
+        }
+        result.append(items.get(size - 1));
+
+        return result.toString();
+    }
 }

@@ -6,6 +6,11 @@ sql:
   password:
 
 settings:
+  limits:
+    goname: 42
+    godisplayname: 42
+    gochargeamount: 200
+
   teleportCooldown: 3
 
   locations:

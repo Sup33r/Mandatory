@@ -46,13 +46,13 @@ public class Database {
             DB.executeUpdate(
                     """
                               CREATE TABLE IF NOT EXISTS `md_players` (
-                                `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `playerName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `firstJoin` bigint(30) DEFAULT NULL,
                                 `latestJoin` bigint(30) DEFAULT NULL,
                                 `latestLeave` bigint(30) DEFAULT NULL,
                                 `membership` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `playerBalance` int(25) NOT NULL,
+                                `balance` int(25) NOT NULL,
                                 `position` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 PRIMARY KEY (`cityId`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;""");
@@ -113,8 +113,8 @@ public class Database {
                                 `ownerUUID` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                 `createDate` bigint(30) DEFAULT NULL,
                                 `whitelistPlayers` text COLLATE utf8mb4_unicode_ci,
-                                `position` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `charge` int(25) DEFAULT '0',
+                                `location` varchar(255) COLLATE utf8mb4_unicode_ci,
+                                `chargeAmount` int(25) DEFAULT '0',
                                 `open` tinyint(1) DEFAULT '0',
                                 `whitelistcharge` tinyint(1) DEFAULT '0',
                                 PRIMARY KEY (`goName`)

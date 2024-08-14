@@ -30,6 +30,7 @@ public final class Mandatory extends JavaPlugin {
     public HashMap<Player, List<Component>> afkPlayers = new HashMap<>();
     public HashMap<Player, Player> replyPlayers = new HashMap<>();
     public HashMap<Player, Player> teleportRequests = new HashMap<>();
+    public HashMap<Player, Go> promptedPayment = new HashMap<>();
 
 
     @Override
