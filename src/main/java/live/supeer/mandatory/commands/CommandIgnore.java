@@ -9,11 +9,9 @@ import live.supeer.mandatory.MPlayer;
 import live.supeer.mandatory.MPlayerManager;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.Utilities;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.Objects;
 
 @CommandAlias("ignore")
 public class CommandIgnore extends BaseCommand {
