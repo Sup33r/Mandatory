@@ -4,12 +4,91 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 public class Utilities {
+
+    public static String parseFlagChange(char[] flagsOriginal, String change) {
+        if (flagsOriginal == null) {
+            flagsOriginal = new char[0];
+        }
+        String flagsRaw = new String(flagsOriginal);
+
+        boolean isAdding = true;
+
+        for (int i = 0; i < change.length(); i++) {
+            char currentChar = change.charAt(i);
+
+            // the first character must be either a + or a -
+            if (i == 0 && currentChar != '+' && currentChar != '-') {
+                return null;
+            }
+
+            if (flagsRaw.isEmpty() && currentChar == '-'
+                    || flagsRaw.isEmpty() && currentChar == '+') {
+                return null;
+            }
+
+            if (currentChar == '+') {
+                isAdding = true;
+                continue;
+            } else if (currentChar == '-') {
+                isAdding = false;
+                continue;
+            }
+
+            if (isValidFlag(currentChar)) {
+                return null;
+            }
+
+            flagsRaw =
+                    isAdding ? flagsRaw + currentChar : flagsRaw.replace(String.valueOf(currentChar), "");
+        }
+
+        StringBuilder flagsNew = new StringBuilder();
+
+        for (char flag : flagsRaw.toCharArray()) {
+            boolean exists = false;
+
+            for (int j = 0; j < flagsNew.length(); j++) {
+                if (flagsNew.charAt(j) == flag) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                flagsNew.append(flag);
+            }
+        }
+
+        char[] flagsNewArray = flagsNew.toString().toCharArray();
+
+        Arrays.sort(flagsOriginal);
+        Arrays.sort(flagsNewArray);
+
+        flagsNew = new StringBuilder(new String(flagsNewArray));
+
+        // don't change if there's nothing to change
+        if (flagsNew.toString().equals(new String(flagsOriginal))) {
+            return null;
+        }
+
+        return flagsNew.toString();
+    }
+
+    private static boolean isValidFlag(char currentChar) {
+        // c = chatcolor, d = deathmessage, e = externalprefix, g = greeting, i = insecureconnections, j = joinleaves, m = chestmessages, p = payments, t = teleport
+        return currentChar != 'c'
+                && currentChar != 'd'
+                && currentChar != 'e'
+                && currentChar != 'g'
+                && currentChar != 'i'
+                && currentChar != 'j'
+                && currentChar != 'm'
+                && currentChar != 'p'
+                && currentChar != 't';
+    }
 
     public static String formattedMoney(Integer money) {
         NumberFormat formatter = NumberFormat.getInstance(Locale.US);

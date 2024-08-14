@@ -244,18 +244,6 @@ public class CommandGo extends BaseCommand {
                     go.setDisplayName(args[3]);
                     plugin.sendMessage(player, "messages.go.set.displayname.success", "%name%", go.getName());
                 }
-                case "name" -> {
-                    if (!player.hasPermission("mandatory.command.go.set.name") || !go.getOwnerUUID().equals(player.getUniqueId()) && !player.hasPermission("mandatory.command.go.set.name.others")) {
-                        plugin.sendMessage(player, "messages.error.permissionDenied");
-                        return;
-                    }
-                    if (args[3].length() > Mandatory.configuration.getGoNameLimit()) {
-                        plugin.sendMessage(player, "messages.go.set.name.tooLong", "%max%", String.valueOf(Mandatory.configuration.getGoNameLimit()));
-                        return;
-                    }
-                    go.setName(args[3]);
-                    plugin.sendMessage(player, "messages.go.set.name.success");
-                }
                 case "price" -> {
                     if (!player.hasPermission("mandatory.command.go.set.price") || !go.getOwnerUUID().equals(player.getUniqueId()) && !player.hasPermission("mandatory.command.go.set.price.others")) {
                         plugin.sendMessage(player, "messages.error.permissionDenied");

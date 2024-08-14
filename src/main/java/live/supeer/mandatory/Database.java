@@ -51,8 +51,9 @@ public class Database {
                                 `firstJoin` bigint(30) DEFAULT NULL,
                                 `latestJoin` bigint(30) DEFAULT NULL,
                                 `latestLeave` bigint(30) DEFAULT NULL,
-                                `membership` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `flags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                 `balance` int(25) NOT NULL,
+                                `ignores` text COLLATE utf8mb4_unicode_ci,
                                 `position` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 PRIMARY KEY (`cityId`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;""");

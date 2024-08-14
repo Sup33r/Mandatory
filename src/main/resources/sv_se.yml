@@ -99,7 +99,7 @@ messages:
 
   broadcast:
     admin: "<aqua>\n%message%\n</aqua>"
-    public:
+    public: "<gold>%player%: <green>%message%</green></gold>"
 
   feed:
     fed: "<green>Din hunger har blivit mättad.</green>"
@@ -141,9 +141,6 @@ messages:
         removed: "<green>Kostnaden för teleportering till <dark_green>%name%</dark_green> har tagits bort.</green>"
         set: "<green>Kostnaden för teleportering till <dark_green>%name%</dark_green> har uppdaterats.</green>"
         tooMuch: "<red>Kostnaden för teleportering till <dark_red>%name%</dark_red> kan inte vara mer än %max% encoins.</red>"
-      name:
-        tooLong: "<red>Namnet får maximalt vara %max% tecken långt.</red>"
-        success: "<green>Namnet har uppdaterats.</green>"
       displayname:
         tooLong: "<red>Visningsnamnet får maximalt vara %max% tecken långt.</red>"
         success: "<green>Visningsnamnet för <dark_green>%name%</dark_green> har uppdaterats.</green>"
@@ -212,7 +209,39 @@ messages:
       noReason: "<dark_red>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</dark_red>\n<green>Du har fått en kärlekshälsning från <bold>%player%</bold>!</green>\n<dark_red>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</dark_red>"
 
   buy:
+    copyright:
+      success: "<green>Du har köpt ett kopieringsskydd för %price% encoins.</green>"
+      notCopyrightable: "<redFöremålet du håller i handen kan inte kopieringsskyddas.</red>"
+      noItemInHand: "<red>Vänligen håll det du vill kopieringsskydda i handen.</red>"
+      notEnoughMoney: "<redDu har inte råd med %price% encoins, som ett kopieringsskydd kostar.</red>"
+    head:
+      notEnoughMoney: "<red>Du har inte råd med %price% encoins, som ett exemplar av ditt huvud kostar.</red>"
+      success: "<green>Du har köpt ett exemplar av ditt huvud för %price% encoins.</green>"
+      noSpace: "<red>Ditt inventory saknar plats.</red>"
+    go:
+      alreadyExists: "<red>En teleporteringspunkt med detta namn finns redan.</red>"
+      syntax: "<gray>Syntax: /buy go <underlined>namn</underlined>"
+      notEnoughMoney: "<red>Du har inte råd med %price% encoins, som en teleporteringspunkt kostar.</red>"
+      success: "<green>Du har köpt teleporteringspunkten %name% för %price% encoins.</green>"
+    broadcast:
+      success: "<green>Du har köpt ett meddelande till allmänheten som kostade %price% encoins.</green>"
+      notEnoughMoney: "<red>Du har inte råd med %price% encoins, som ett meddelande till allmänheten kostar.</red>"
     syntax: "<gray>Syntax: /buy broadcast <underlined>meddelande</underlined>\nSyntax: /buy go <underlined>namn</underlined>\nSyntax: /buy head\nSyntax: /buy copyright"
+
+  update:
+    copyright:
+      success: "<green>Du har framgångsrikt uppdaterat kopieringsskyddet på föremålet i din hand.</green>"
+      noItemInHand: "<red>Vänligen håll det föremål som du vill uppdatera kopieringsskyddet på i handen.</red>"
+      noCopyright: "<red>Föremålet som du vill uppdatera kopieringsskyddet på är inte kopieringsskyddat.</red>"
+  ignore:
+    noIgnoring: "<green>Du ignorerar ingen.</green>"
+    noIgnores: "<green>Ingen ignorerar dig.</green>"
+    ignoredBy: "<dark_green>--- <green>Spelare som ignorerar dig (%count%)</green> ---</dark_green>\n<green>%list%</green>"
+    ignoring: "<dark_green>--- <green>Spelare som du ignorerar (%count%)</green> ---</dark_green>\n<green>%list%</green>"
+    ignored: "<green> Du har ignorerar nu %player%.</green>"
+    stoppedIgnoring: "<green>Du har slutat att ignorera %player%.</green>"
+    impossible: "<red>Du kan inte ignorera %player%.</red>"
+    alreadyIgnored: "<red>%player% är redan ignorerad.</red>"
 
 
 

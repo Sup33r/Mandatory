@@ -57,6 +57,19 @@ public class MPlayerManager {
         return names;
     }
 
+
+    public static List<String> getIgnoredByPlayers(UUID playerUUID) {
+        List<String> ignoredByPlayers = new ArrayList<>();
+        try {
+            for (DbRow ignoredBy : DB.getResults("SELECT * FROM `md_players` WHERE `ignores` LIKE ? AND `ignores` IS NOT NULL", "%" + playerUUID.toString() + "%")) {
+                ignoredByPlayers.add(ignoredBy.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ignoredByPlayers;
+    }
+
     public static void handleLoveSent(Player from, Player to, String reason) {
         plugin.sendMessage(from, "messages.love.sent", "%player%", to.getName());
         if (reason == null) {

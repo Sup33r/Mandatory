@@ -6,6 +6,11 @@ sql:
   password:
 
 settings:
+  price:
+    broadcast: 1500
+    go: 15000
+    head: 1000
+    copyright: 10000
   limits:
     goname: 42
     godisplayname: 42

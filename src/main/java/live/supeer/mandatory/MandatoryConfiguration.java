@@ -15,6 +15,7 @@ public class MandatoryConfiguration {
     private final String sqlPassword;
 
     private final int teleportCooldown;
+    private final int loveCooldown;
 
     private final Location spawnLocation;
     private final Location afkLocation;
@@ -23,8 +24,12 @@ public class MandatoryConfiguration {
 
     private final int goNameLimit;
     private final int goDisplayNameLimit;
+
     private final int goChargeAmount;
-    private final int loveCooldown;
+    private final int broadcastPrice;
+    private final int goPrice;
+    private final int headPrice;
+    private final int copyrightPrice;
 
     MandatoryConfiguration(Mandatory plugin) {
         plugin.saveDefaultConfig();
@@ -37,6 +42,7 @@ public class MandatoryConfiguration {
         sqlPassword = plugin.getConfig().getString("sql.password");
 
         teleportCooldown = plugin.getConfig().getInt("settings.teleportCooldown");
+        loveCooldown = plugin.getConfig().getInt("settings.limits.lovecooldown");
 
         spawnLocation = plugin.getConfig().getLocation("settings.locations.spawnLocation");
         afkLocation = plugin.getConfig().getLocation("settings.locations.spawnLocation");
@@ -45,9 +51,12 @@ public class MandatoryConfiguration {
 
         goNameLimit = plugin.getConfig().getInt("settings.limits.goname");
         goDisplayNameLimit = plugin.getConfig().getInt("settings.limits.godisplayname");
-        goChargeAmount = plugin.getConfig().getInt("settings.limits.gochargeamount");
 
-        loveCooldown = plugin.getConfig().getInt("settings.limits.lovecooldown");
+        goChargeAmount = plugin.getConfig().getInt("settings.limits.gochargeamount");
+        broadcastPrice = plugin.getConfig().getInt("settings.price.broadcast");
+        goPrice = plugin.getConfig().getInt("settings.price.go");
+        headPrice = plugin.getConfig().getInt("settings.price.head");
+        copyrightPrice = plugin.getConfig().getInt("settings.price.copyright");
 
     }
 }

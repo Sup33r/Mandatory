@@ -27,10 +27,10 @@ public class GoManager {
         }
     }
 
-    public static Go createGo(String name, String displayName, UUID ownerUUID, Location location) {
+    public static Go createGo(String name, Player player) {
         try {
-            DB.executeInsert("INSERT INTO `md_goes` (`goName`, `displayName`, `ownerUUID`, `createDate`, `position`, `charge`, `open`, `whitelistcharge`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                    name, displayName, ownerUUID.toString(), System.currentTimeMillis(), LocationUtil.locationToString(location), 0, false, false);
+            DB.executeInsert("INSERT INTO `md_goes` (`goName`, `ownerUUID`, `createDate`, `position`, `charge`, `open`, `whitelistcharge`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    name, player.getUniqueId().toString(), System.currentTimeMillis(), LocationUtil.locationToString(player.getLocation()), 0, false, false);
             return new Go(DB.getFirstRow("SELECT * FROM `md_goes` WHERE `goName` = ?", name));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,7 +54,7 @@ public class GoManager {
 
     public static boolean goExists(String name) {
         try {
-            return DB.getFirstRow("SELECT * FROM `md_goes` WHERE `goName` = ?", name) != null;
+            return DB.getFirstRow("SELECT * FROM `md_goes` WHERE LOWER(`goName`) = ?", name.toLowerCase()) != null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -63,7 +63,7 @@ public class GoManager {
 
     public static Go getGo(String name) {
         try {
-            DbRow row = DB.getFirstRow("SELECT * FROM `md_goes` WHERE `goName` = ?", name);
+            DbRow row = DB.getFirstRow("SELECT * FROM `md_goes` WHERE LOWER(`goName`) = ?", name.toLowerCase());
             return row != null ? new Go(row) : null;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,7 +102,7 @@ public class GoManager {
 
     public static void updateGoOwner(String name, UUID newOwnerUUID) {
         try {
-            DB.executeUpdate("UPDATE `md_goes` SET `ownerUUID` = ? WHERE `goName` = ?", newOwnerUUID.toString(), name);
+            DB.executeUpdate("UPDATE `md_goes` SET `ownerUUID` = ? WHERE LOWER(`goName`) = ?", newOwnerUUID.toString(), name.toLowerCase());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -110,7 +110,7 @@ public class GoManager {
 
     public static void updateGoLocation(String name, Location newLocation) {
         try {
-            DB.executeUpdate("UPDATE `md_goes` SET `position` = ? WHERE `goName` = ?", LocationUtil.locationToString(newLocation), name);
+            DB.executeUpdate("UPDATE `md_goes` SET `position` = ? WHERE LOWER(`goName`) = ?", LocationUtil.locationToString(newLocation), name.toLowerCase());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -118,47 +118,16 @@ public class GoManager {
 
     public static void toggleGoOpen(String name) {
         try {
-            DB.executeUpdate("UPDATE `md_goes` SET `open` = NOT `open` WHERE `goName` = ?", name);
+            DB.executeUpdate("UPDATE `md_goes` SET `open` = NOT `open` WHERE LOWER(`goName`) = ?", name.toLowerCase());
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-
-    public static void addToWhitelist(String name, UUID playerUUID) {
-        try {
-            Go go = getGo(name);
-            if (go != null) {
-                List<UUID> whitelist = new ArrayList<>(go.getWhitelistPlayers());
-                whitelist.add(playerUUID);
-                String whitelistString = Utilities.uuidListToString(whitelist);
-                go.addToWhitelist(playerUUID);
-                DB.executeUpdate("UPDATE `md_goes` SET `whitelistPlayers` = ? WHERE `goName` = ?", whitelistString, name);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void removeFromWhitelist(String name, UUID playerUUID) {
-        try {
-            Go go = getGo(name);
-            if (go != null) {
-                List<UUID> whitelist = new ArrayList<>(go.getWhitelistPlayers());
-                whitelist.remove(playerUUID);
-                String whitelistString = Utilities.uuidListToString(whitelist);
-                go.removeFromWhitelist(playerUUID);
-                DB.executeUpdate("UPDATE `md_goes` SET `whitelistPlayers` = ? WHERE `goName` = ?", whitelistString, name);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void logGoUsage(String name, UUID playerUUID, int charge) {
+    public static void logGoUsage(UUID playerUUID, Go go) {
         try {
             DB.executeInsert("INSERT INTO `md_gologs` (`goName`, `playerUUID`, `dateTime`, `charge`) VALUES (?, ?, ?, ?)",
-                    name, playerUUID.toString(), System.currentTimeMillis(), charge);
+                    go.getName(), playerUUID.toString(), System.currentTimeMillis(), go.getChargeAmount());
         } catch (SQLException e) {
             e.printStackTrace();
         }

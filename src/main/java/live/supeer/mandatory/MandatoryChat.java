@@ -45,7 +45,9 @@ public class MandatoryChat {
     }
 
     public static void sendPublicBroadcast(Player player, String message) {
-
+        for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()) {
+            plugin.sendMessage(onlinePlayer, "messages.broadcast.public", "%player%", player.getName(), "%message%", message);
+        }
     }
 
     public static void sendPrivateMessage(Player player, Player target, String message) {
