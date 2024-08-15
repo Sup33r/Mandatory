@@ -9,12 +9,11 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("me")
 public class CommandMe extends BaseCommand {
-    public static Mandatory plugin;
 
     @Default
     public void onMe(Player player, String message) {
         if (!player.hasPermission("mandatory.command.me")) {
-            plugin.sendMessage(player, "messages.error.permissionDenied");
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
         MandatoryChat.sendMeMessage(player, message);

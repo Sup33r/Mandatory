@@ -9,12 +9,11 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("helpop")
 public class CommandHelpop extends BaseCommand {
-    public static Mandatory plugin;
 
     @Default
     public void onHelpop(Player player, String message) {
         if (!player.hasPermission("mandatory.command.helpop")) {
-            plugin.sendMessage(player, "messages.error.permissionDenied");
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
         MandatoryChat.helpopMessage(player, message);

@@ -11,35 +11,34 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("feed")
 public class CommandFeed extends BaseCommand {
-    public static Mandatory plugin;
 
     @Default
     @CommandCompletion("@players")
     public void onFeed(Player player, @Optional OnlinePlayer target) {
         if (target == null) {
             if (!player.hasPermission("mandatory.command.feed")) {
-                plugin.sendMessage(player, "messages.error.permissionDenied");
+                Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
             if (player.getFoodLevel() == 20) {
-                plugin.sendMessage(player, "messages.feed.fullFood");
+                Mandatory.sendMessage(player, "messages.feed.fullFood");
                 return;
             }
             player.setFoodLevel(20);
             player.setExhaustion(0F);
-            plugin.sendMessage(player, "messages.feed.fed");
+            Mandatory.sendMessage(player, "messages.feed.fed");
         } else {
             if (!player.hasPermission("mandatory.command.feed.others")) {
-                plugin.sendMessage(player, "messages.error.permissionDenied");
+                Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
             if (target.getPlayer().getFoodLevel() == 20) {
-                plugin.sendMessage(player, "messages.feed.fullFoodOther", "%player%", target.getPlayer().getName());
+                Mandatory.sendMessage(player, "messages.feed.fullFoodOther", "%player%", target.getPlayer().getName());
                 return;
             }
             target.getPlayer().setFoodLevel(20);
             target.getPlayer().setExhaustion(0F);
-            plugin.sendMessage(player, "messages.feed.fedOther", "%player%", target.getPlayer().getName());
+            Mandatory.sendMessage(player, "messages.feed.fedOther", "%player%", target.getPlayer().getName());
         }
     }
 }

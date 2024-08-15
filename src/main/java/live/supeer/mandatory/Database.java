@@ -46,14 +46,17 @@ public class Database {
             DB.executeUpdate(
                     """
                               CREATE TABLE IF NOT EXISTS `md_players` (
-                                `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `playerName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `firstJoin` bigint(30) DEFAULT NULL,
                                 `latestJoin` bigint(30) DEFAULT NULL,
                                 `latestLeave` bigint(30) DEFAULT NULL,
-                                `membership` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `playerBalance` int(25) NOT NULL,
-                                `position` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `flags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `balance` int(25) NOT NULL,
+                                `ignores` text COLLATE utf8mb4_unicode_ci,
+                                `chatprefix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `backLocation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 PRIMARY KEY (`cityId`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;""");
 
@@ -71,8 +74,8 @@ public class Database {
                                 `logId` int(11) NOT NULL AUTO_INCREMENT,
                                 `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `dateTime` bigint(30) DEFAULT NULL,
-                                `beforeBalance` int(25) NOT NULL,
-                                `afterBalance` int(25) NOT NULL,
+                                `balanceBefore` int(25) NOT NULL,
+                                `balanceAfter` int(25) NOT NULL,
                                 `jsonLog` text NOT NULL,
                                 PRIMARY KEY (logId)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
@@ -87,9 +90,18 @@ public class Database {
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
             DB.executeUpdate(
                     """
+                              CREATE TABLE IF NOT EXISTS `md_loves` (
+                                `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `senderUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `dateTime` bigint(30) NOT NULL,
+                                PRIMARY KEY (`playerUUID`, `senderUUID`, `dateTime`)
+                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
+            DB.executeUpdate(
+                    """
                               CREATE TABLE IF NOT EXISTS `md_kicks` (
                                 `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `placeUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `placerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                 `dateTime` bigint(30) DEFAULT NULL,
                                 PRIMARY KEY (`playerUUID`, `dateTime`)
@@ -98,15 +110,46 @@ public class Database {
                     """
                               CREATE TABLE IF NOT EXISTS `md_bans` (
                                 `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `placeUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `placerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `playerIp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `placeTime` bigint(30) DEFAULT NULL,
                                 `length` bigint(30) DEFAULT NULL,
                                 `reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                PRIMARY KEY (`playerUUID`, `dateTime`)
+                                PRIMARY KEY (`playerUUID`, `placeTime`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+            DB.executeUpdate(
+                    """
+                              CREATE TABLE IF NOT EXISTS `md_homes` (
+                                `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `homeName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `location` varchar(255) COLLATE utf8mb4_unicode_ci,
+                                PRIMARY KEY (`playerUUID`, `homeName`)
+                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
+            DB.executeUpdate(
+                    """
+                              CREATE TABLE IF NOT EXISTS `md_goes` (
+                                `goName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `displayName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `ownerUUID` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `createDate` bigint(30) DEFAULT NULL,
+                                `whitelistPlayers` text COLLATE utf8mb4_unicode_ci,
+                                `location` varchar(255) COLLATE utf8mb4_unicode_ci,
+                                `chargeAmount` int(25) DEFAULT '0',
+                                `open` tinyint(1) DEFAULT '0',
+                                `whitelistcharge` tinyint(1) DEFAULT '0',
+                                PRIMARY KEY (`goName`)
+                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
+            DB.executeUpdate(
+                    """
+                              CREATE TABLE IF NOT EXISTS `md_gologs` (
+                                `goName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `dateTime` bigint(30) DEFAULT NULL,
+                                `charge` int(25) DEFAULT '0',
+                                PRIMARY KEY (`playerUUID`, `dateTime`, `goName`)
+                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

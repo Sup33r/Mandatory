@@ -12,27 +12,25 @@ import java.util.List;
 
 @CommandAlias("repair")
 public class CommandRepair extends BaseCommand {
-    public static Mandatory plugin;
-
     @Default
     public void onRepair(Player player) {
         if (!player.hasPermission("mandatory.command.repair")) {
-            plugin.sendMessage(player, "messages.error.permissionDenied");
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
         if (player.getInventory().getItemInMainHand().getType().getMaxDurability() == 0) {
-            plugin.sendMessage(player, "messages.repair.notRepairable");
+            Mandatory.sendMessage(player, "messages.repair.notRepairable");
             return;
         }
         List<String> repairableItems = Mandatory.configuration.getAllowedRepairItems();
         if (!repairableItems.contains(player.getInventory().getItemInMainHand().getType().name())) {
-            plugin.sendMessage(player, "messages.repair.notRepairable");
+            Mandatory.sendMessage(player, "messages.repair.notRepairable");
             return;
         }
         ItemMeta meta = player.getInventory().getItemInMainHand().getItemMeta();
         Damageable damageable = (Damageable) meta;
         damageable.resetDamage();
         player.getInventory().getItemInMainHand().setItemMeta(meta);
-        plugin.sendMessage(player, "messages.repair.success");
+        Mandatory.sendMessage(player, "messages.repair.success");
     }
 }

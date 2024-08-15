@@ -6,11 +6,27 @@ sql:
   password:
 
 settings:
-  teleportCooldown: 3
+  disablednames:
+  startingbalance: 1000
+  price:
+    broadcast: 1500
+    go: 15000
+    head: 1000
+    copyright: 10000
+  limits:
+    goname: 42
+    godisplayname: 42
+    gochargeamount: 200
+    lovecooldown: 120
+    maxhomes: 1
+    maxhomesextra: 25
+
+  teleportcooldown: 3
 
   locations:
-    spawnLocation:
-    afkLocation:
+    spawnlocation:
+    afklocation:
+    firstspawnlocation:
 
 allowed_repair:
   - BOW

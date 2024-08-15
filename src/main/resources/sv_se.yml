@@ -1,4 +1,40 @@
 messages:
+  months:
+    january: "januari"
+    february: "februari"
+    march: "mars"
+    april: "april"
+    may: "maj"
+    june: "juni"
+    july: "juli"
+    august: "augusti"
+    september: "september"
+    october: "oktober"
+    november: "november"
+    december: "december"
+  days:
+    yesterday: "i går"
+    today: "i dag"
+  time:
+    now: "just nu"
+    second: "sekund"
+    seconds: "sekunder"
+    minute: "minut"
+    minutes: "minuter"
+    hour: "timme"
+    hours: "timmar"
+    day: "dag"
+    days: "dagar"
+    week: "vecka"
+    weeks: "veckor"
+    month: "månad"
+    months: "månader"
+    year: "år"
+    years: "år"
+
+  free: "gratis"
+
+
   me: "⋆ %player% %message%"
 
   helpop:
@@ -7,6 +43,7 @@ messages:
     sent: "<green>Ditt meddelande har skickats till våra moderatorer, och de kontaktar dig så fort det finns tid och möjlighet. Du kan alltid komma i kontakt med oss genom att skapa ett ärende på hemsidan: <underlined>https://enserver.se/support/new</underlined>"
 
   teleportRequests:
+    teleportsNotAllowed: "<red>%target% tillåter inte spelare att teleportera till sig.</red>"
     self: "<red>Du kan inte teleportera till dig själv.</red>"
     cancelledSelf: "<green>Avbröt teleporteringsförfrågan till %target%."
     cancelledOther: "<aqua>%player% avbröt teleporteringsförfrågan till dig."
@@ -46,8 +83,12 @@ messages:
     sentAfk: "<dark_red>[du -> [AFK] %receiver%<dark_red>] <white>%message%</white>"
 
   modchat:
+    announcement: "<dark_red>\n#modzone <gray>| <red>%message%</red>\n</dark_red>"
     message: "<dark_red>#modzone <gray>| <gold>%player%<gray>> <red>%message%</red>"
     helping: "<dark_red>#modzone <gray>| <red>%helper% hjälper %player%."
+    messages:
+      disabledOther: "Spelaren %player% försökte logga in, även om hen är avstängd."
+      disabledUsername: "Spelaren %player% försökte logga in med ett avstängt användarnamn."
 
   successful:
     spawn: "<green>Spelaren %player% har skickats till spawnpunkten.</green>"
@@ -61,7 +102,9 @@ messages:
     alreadyAfk: "<red>Du har redan tagt avstånd från EnServers stadsvärld (AFK).</red>"
     alreadyAfkOther: "<red>%player% har redan tagit avstånd från EnServers stadsvärld (AFK).</red>"
 
-  broadcast: "<aqua>\n%message%\n</aqua>"
+  broadcast:
+    admin: "<aqua>\n%message%\n</aqua>"
+    public: "<gold>%player%: <green>%message%</green></gold>"
 
   feed:
     fed: "<green>Din hunger har blivit mättad.</green>"
@@ -97,4 +140,212 @@ messages:
     success: "<green>Föremålet i din hand har reparerats.</green>"
     notRepairable: "<red>Föremålet i din hand kan inte repareras.</red>"
 
+  go:
+    set:
+      chargeamount:
+        removed: "<green>Kostnaden för teleportering till <dark_green>%name%</dark_green> har tagits bort.</green>"
+        set: "<green>Kostnaden för teleportering till <dark_green>%name%</dark_green> har uppdaterats.</green>"
+        tooMuch: "<red>Kostnaden för teleportering till <dark_red>%name%</dark_red> kan inte vara mer än %max% encoins.</red>"
+      displayname:
+        tooLong: "<red>Visningsnamnet får maximalt vara %max% tecken långt.</red>"
+        success: "<green>Visningsnamnet för <dark_green>%name%</dark_green> har uppdaterats.</green>"
+        removed: "<green>Visningsnamnet för <dark_green>%name%</dark_green> har tagits bort.</green>"
+      location: "<green>Teleporteringspunkten <dark_green>%name%</dark_green> pekar nu på din position.</green>"
+    locationNotSet: "<red>Teleporteringspunkten pekar ingenstans.</red>"
+    give:
+      given: "<green>%player% är nu ägaren av teleporteringspunkten <dark_green>%name%</dark_green>.</green>"
+      self: "<red>Du kan inte ge teleporteringspunkten till dig själv.</red>"
+    whitelistcharge:
+      enabled: "<green>Spelare på vitlistan betalar nu för att använda <dark_green>%name%</green>.</green>"
+      disabled: "<red>Spelare på vitlistan betalar inte längre för att använda <dark_green>%name%</green>.</red>"
+    opened: "<green>Teleporteringspunkten <dark_green>%name%<green> är nu öppen.</green>"
+    closed: "<red>Teleporteringspunkten <dark_green>%name%<green> är nu stängd.</red>"
+    whitelist:
+      list: "<dark_green>--- <green>Vitlista: %name% (%count%) <dark_green>---\n<green>%players%"
+      added: "<green>%player% har lagts till på vitlistan för <dark_green>%name%</dark_green>.</green>"
+      removed: "<green>%player% har tagits bort från vitlistan för <dark_green>%name%</dark_green>.</green>"
+      alreadyAdded: "<red>%player% är redan med på vitlistan för <dark_red>%name%</dark_red>.</red>"
+      alreadyRemoved: "<red>%player% är inte med på vitlistan för <dark_red>%name%</dark_red>.</red>"
+    syntax: "<gray>Syntax: /go <underlined>namn</underlined>\n/go <underlined>namn</underlined> give <underlined>spelare</underlined>\n/go <underlined>namn</underlined> set displayname <underlined>visningsnamn</underlined>\n/go <underlined>namn</underlined> set displayname -\n/go <underlined>namn</underlined> set price <underlined>pris</underlined>\n/go <underlined>namn</underlined> set price -\n/go <underlined>namn</underlined> toggle open\n/go <underlined>namn</underlined> toggle whitelistcharge\n/go <underlined>namn</underlined> whitelist\n/go <underlined>namn</underlined> whitelist +<underlined>spelare</underlined>\n/go <underlined>namn</underlined> whitelist -<underlined>spelare</underlined>"
+    deleted: "<green>Teleporteringspunkten %name% har tagits bort.</green>"
+    info:
+      header: "<dark_green>--- <green>Teleporteringspunkt: %name% <dark_green>---"
+      displayname: "<dark_green>Visningsnamn: <green>%displayname%</green>"
+      open:
+        open: "<dark_green>Öppen: <green>%open%</green>"
+        true: "Ja"
+        false: "Nej"
+      created: "<dark_green>Skapad: <green>%created%</green>"
+      price: "<dark_green>Kostnad för teleportering: <green>%price%"
+    charged: "<green>Du har betalat %charge% encoins för att teleportera till teleporteringspunkten.</green>"
+    charges: "<green>Teleporteringspunkten kostar <dark_green>%charge% encoins<green> att använda. Skriv kommandot igen om du godkänner kostnaden."
+    notFound: "<red>Det finns ingen teleporteringspunkt med detta namn.</red>"
+    notOpen: "<red>Denna teleporteringspunkt är inte öppen för allmänheten.</red>"
+    list:
+      notEnoughPages: "<red>Det finns inte så många sidor att visa.</red>"
+      empty: "<red>Det finns inga teleporteringspunkter att visa.</red>"
+      list: "<dark_green>--- <green>Teleporteringspunkter (sida <bold>%start%</bold> av <bold>%end%</bold>)</green> <dark_green>---"
 
+  balance:
+    modify:
+      syntax: "<gray>Syntax: /balance <underlined>namn</underlined> <bold>-mängd</bold>/<bold>+mängd</bold>/<bold>all</bold> <underlined>anledning</underlined>"
+    reimburse: "<aqua>Du har betalat %amount% encoins till %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+    confiscate:
+      none: "<red>Den angivna spelaren har inga encoins att konfiskera.</red>"
+      notEnough: "<red>Den angivna spelaren har inte så mycket encoins. Överväg att använda /balance <underlined>namn</underlined> all istället.</red>"
+      success: "<aqua>Du konfiskerade %amount% encoins från %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+      all: "<aqua>Du konfiskerade alla encoins från %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+    own: "<green>Saldo: %balance% encoins</green>"
+    others: "<green>Saldo för %player%: %balance% encoins</green>"
+
+  kick:
+    message: "<red>Du har fått en varning:</red>\n%reason%"
+    successful: "<aqua>Du har varnat %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+    reasons:
+      spam: "Vänligen spamma ej i chatten. Tack!"
+      language: "Ditt språkbruk uppskattas inte på EnServer. Vänligen tänk på det. Tack!"
+
+  love:
+    self: "<red>Du kan inte skicka kärlekshälsningar till dig själv...</red>"
+    cooldown: "<red>Det måste gå minst %time% mellan varje kärlekshälsning.</red>"
+    sent: "<green>Kärleken har framgångsrikt skickats till %player%!</green>"
+    received:
+      reason: "<dark_red>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</dark_red>\n<green>Du har fått en kärlekshälsning från <bold>%player%</bold>!</green>\n<dark_green>Anledning: %reason%</dark_green>\n<dark_red>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</dark_red>"
+      noReason: "<dark_red>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</dark_red>\n<green>Du har fått en kärlekshälsning från <bold>%player%</bold>!</green>\n<dark_red>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</dark_red>"
+
+  buy:
+    copyright:
+      success: "<green>Du har köpt ett kopieringsskydd för %price% encoins.</green>"
+      notCopyrightable: "<redFöremålet du håller i handen kan inte kopieringsskyddas.</red>"
+      noItemInHand: "<red>Vänligen håll det du vill kopieringsskydda i handen.</red>"
+      notEnoughMoney: "<redDu har inte råd med %price% encoins, som ett kopieringsskydd kostar.</red>"
+    head:
+      notEnoughMoney: "<red>Du har inte råd med %price% encoins, som ett exemplar av ditt huvud kostar.</red>"
+      success: "<green>Du har köpt ett exemplar av ditt huvud för %price% encoins.</green>"
+      noSpace: "<red>Ditt inventory saknar plats.</red>"
+    go:
+      alreadyExists: "<red>En teleporteringspunkt med detta namn finns redan.</red>"
+      syntax: "<gray>Syntax: /buy go <underlined>namn</underlined>"
+      notEnoughMoney: "<red>Du har inte råd med %price% encoins, som en teleporteringspunkt kostar.</red>"
+      success: "<green>Du har köpt teleporteringspunkten %name% för %price% encoins.</green>"
+    broadcast:
+      success: "<green>Du har köpt ett meddelande till allmänheten som kostade %price% encoins.</green>"
+      notEnoughMoney: "<red>Du har inte råd med %price% encoins, som ett meddelande till allmänheten kostar.</red>"
+    syntax: "<gray>Syntax: /buy broadcast <underlined>meddelande</underlined>\nSyntax: /buy go <underlined>namn</underlined>\nSyntax: /buy head\nSyntax: /buy copyright"
+
+  update:
+    copyright:
+      success: "<green>Du har framgångsrikt uppdaterat kopieringsskyddet på föremålet i din hand.</green>"
+      noItemInHand: "<red>Vänligen håll det föremål som du vill uppdatera kopieringsskyddet på i handen.</red>"
+      noCopyright: "<red>Föremålet som du vill uppdatera kopieringsskyddet på är inte kopieringsskyddat.</red>"
+  ignore:
+    noIgnoring: "<green>Du ignorerar ingen.</green>"
+    noIgnores: "<green>Ingen ignorerar dig.</green>"
+    ignoredBy: "<dark_green>--- <green>Spelare som ignorerar dig (%count%)</green> ---</dark_green>\n<green>%list%</green>"
+    ignoring: "<dark_green>--- <green>Spelare som du ignorerar (%count%)</green> ---</dark_green>\n<green>%list%</green>"
+    ignored: "<green> Du har ignorerar nu %player%.</green>"
+    stoppedIgnoring: "<green>Du har slutat att ignorera %player%.</green>"
+    impossible: "<red>Du kan inte ignorera %player%.</red>"
+    alreadyIgnored: "<red>%player% är redan ignorerad.</red>"
+
+  pay:
+    reasonInvalid: "<red>Anledningen är inte tillräckligt bra. Tydliggör, precisera!</red>"
+    notEnoughMoney: "<red>Du har inte %amount% encoins.</red>"
+    cantPaySelf: "<red>Du kan inte betala dig själv.</red>"
+    received: "<dark_aqua>--- <aqua>Mottagen överföring</aqua> ---\nFrån: <aqua>%player%</aqua>\nBelopp: <aqua>%amount% encoins</aqua>\nAnledning: <aqua>%reason%</aqua>"
+    success: "<aqua>Du skickade %amount% encoins till %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+
+  player:
+    info:
+      header: "<dark_green>--- <green>Spelare: %name% <dark_green>---"
+      playedSince: "<dark_green>Spelat sedan: %time%"
+      status:
+        online: "<dark_green>Status: <green>Online, sedan %playedSince%"
+        offline: "<dark_green>Status: <green>Offline, sedan %playedLatest%"
+      latestPosition: "<dark_green>Senaste position: <green>%location%"
+      wallet: "<dark_green>Plånbok: <green>%amount% encoins"
+    toggle:
+      chestmessages:
+        on: "<green>Du kommer nu få meddelanden när du öppnar dina kistor.</green>"
+        off: "<green>Du kommer nu inte längre få några meddelanden när du öppnar dina kistor.</green>"
+      chatcolor:
+        on: "<green>Du har nu aktiverat färg på dina chattmeddelanden.</green>"
+        off: "<green>Du har nu avaktiverat färg på dina chattmeddelanden.</green>"
+      externalprefixes:
+        on: "<green>Du har nu aktiverat externa prefixar i chatten.</green>"
+        off: "<green>Du har nu avaktiverat externa prefixar i chatten.</green>"
+      greeting:
+        on: "<green>Du har nu aktiverat välkomstmeddelandet.</green>"
+        off: "<green>Du har nu avaktiverat välkostmeddelandet.</green>"
+      insecureconnections:
+        on: "<green>Du har nu aktiverat osäkra anslutningar.</green>"
+        off: "<green>Du har nu avaktiverat osäkra anslutningar.</green>"
+      joinleaves:
+        on: "<green>In- och utloggningar kommer nu att visas</green>"
+        off: "<green>In- och utloggningar kommer nu att döljas</green>"
+      payments:
+        on: "<green>Betalningar är nu påslagna.</green>"
+        off: "<green>Betalningar är nu avstängda.</green>"
+      teleport:
+        on: "<green>Du tillåter nu spelare att skicka teleporteringsförfrågningar.</green>"
+        off: "<green>Du tillåter inte längre spelare att skicka teleporteringsförfrågningar.</green>"
+
+  home:
+    name:
+      deleted: "<green>Du har tagit bort hempositionen %name%.</green>"
+      saved: "<green>Du har sparat hempositionen %name%.</green>"
+      updated: "<green>Du har uppdaterat hempositionen %name%.</green>"
+    syntax: "<gray>Syntax: /home\nSyntax: /home delete\nSyntax: /home set\nSyntax: /home <underlined>namn</underlined>\nSyntax: /home <underlined>namn</underlined> set\nSyntax: /home <underlined>namn</underlined> delete\nSyntax: /home <underlined>spelare</underlined>:<underlined>namn</underlined>\nSyntax: /home <underlined>spelare</underlined>:<underlined>namn</underlined> set\nSyntax: /home <underlined>spelare</underlined>:<underlined>namn</underlined< delete"
+    others:
+      deleted: "<green>Du har tagit bort hempositionen %name% för %player%.</green>"
+      updated: "<green>Du har uppdaterat hempositionen %name% för %player%.</green>"
+      saved: "<green>Du har sparat hempositionen %name% för %player%.</green>"
+      doesntExist: "<red>%player% har ingen hemposition med det namnet.</red>"
+    none: "<red>Du har ingen sparad hemposition.</red>"
+    deleted: "<green>Din hemposition har tagits bort.</green>"
+    saved: "<green>Din hemposition har sparats.</green>"
+    updated: "<green>Din hemposition har uppdaterats.</green>"
+    doesntExist: "<red>Du har ingen hemposition med det namnet.</red>"
+  homes:
+    own: "<dark_green>--- <green>Dina hempositioner (%count%/%max%)</green> ---\n<dark_green>%list%</dark_green>"
+    others: "<dark_green>--- <green>Hempositioner för %player% (%count%/%max%)</green> ---\n<dark_green>%list%</dark_green>"
+
+  disabled:
+    name: "<red>Namnet %name% är avstängt på EnServer. Vänligen byt namn för att kunna logga in.</red>"
+    other: "<red>Du är avstängd från EnServer. Kontakta supporten för mer information.</red>"
+
+  admin:
+    toggle:
+      externalprefix:
+        added: "<green>%player% har fått sina externa prefixar återaktiverade i chatten.</green>"
+        removed: "<green>%player% har fått sina externa prefixar avaktiverade i chatten.</green>"
+      chatcolor:
+        added: "<green>%player har fått färgen på sina chattmeddelanden aktiverat.</green>"
+        removed: "<green>%player har fått färgen på sina chattmeddelanden avaktiverat.</green>"
+    disablename:
+      success: "<green>Namnet %name% har nu blockerats från servern.</green>"
+    set:
+      chatprefix:
+        success: "<green>Chattprefixen för %player% har uppdaterats.</green>"
+      firstspawn: "<green>Punkten för nyanlända spelare har sparats.</green>"
+      spawn: "<green>Punkten för rutinerade spelare har sparats.</green>"
+      afk: "<green>Punkten för avståndstagande spelare har sparats.</green>"
+    disable:
+      alreadyDisabled: "<red>Spelaren i fråga är redan inaktiverad.</red>"
+      success: "<green>Du har inaktiverat spelaren %player%.</green>"
+    enable:
+      alreadyEnabled: "<red>Spelaren i fråga är redan aktiverad.</red>"
+      success: "<green>Du har aktiverat spelaren %player%.</green>"
+    syntax: "<gray>Syntax: /admin disable <underlined>namn</underlined>\nSyntax: /admin enable <underlined>namn</underlined>\nSyntax: /admin toggle chatcolor <underlined>namn</underlined>\nSyntax: /admin toggle extprefix <underlined>namn</underlined>\nSyntax: /admin set <underlined>namn</underlined> chatprefix <underlined>prefix</underlined>\nSyntax: /admin set afk\nSyntax: /admin set spawn\nSyntax: /admin set firstspawn"
+
+  chat:
+    joinFirstTime: "<dark_green>[<green>+</green>] <gold>%player% loggade in för första gången</gold></dark_green>"
+    join: "<dark_green>[<green>+</green>] <gold>%player%</gold></dark_green>"
+    quit: "<dark_red>[<red>-</red>] <gold>%player%</gold></dark_red>"
+    kicked: "<dark_red>[<red>-</red>] <gold>%player% fick en varning.</gold></dark_red>"
+    joinNameChange: "<dark_green>[<green>+</green>] <gold>%name% har bytt namn från %oldname%</gold></dark_green>"
+    leave: "<dark_green>[<green>-</green>] <gold>%player%</gold></dark_green>"
+    hidden: ""
+    greeting:
+      title: "Tjuhu, %player%!"
+      subtitle: "Välkommen till EnServer."

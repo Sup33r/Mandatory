@@ -9,16 +9,15 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("broadcast|bc")
 public class CommandBroadcast extends BaseCommand {
-    public static Mandatory plugin;
 
     @Default
-    public void onBroadcast(Player player, String message) {
+    public static void onBroadcast(Player player, String message) {
         if (!player.hasPermission("mandatory.command.broadcast")) {
-            plugin.sendMessage(player, "messages.error.permissionDenied");
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        Component component = plugin.getMessageComponent("messages.broadcast", "%message%", message);
+        Component component = Mandatory.getMessageComponent("messages.broadcast", "%message%", message);
         assert component != null;
-        plugin.getServer().sendMessage(component);
+        Mandatory.getInstance().getServer().sendMessage(component);
     }
 }
