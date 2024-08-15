@@ -17,19 +17,26 @@ public class MandatoryConfiguration {
     private final int teleportCooldown;
     private final int loveCooldown;
 
-    private final Location spawnLocation;
-    private final Location afkLocation;
+    private Location spawnLocation;
+    private Location afkLocation;
+    private Location firstSpawnLocation;
 
     private final List<String> allowedRepairItems;
 
     private final int goNameLimit;
     private final int goDisplayNameLimit;
+    private final int maxHomesExtra;
+    private final int maxHomes;
 
     private final int goChargeAmount;
     private final int broadcastPrice;
     private final int goPrice;
     private final int headPrice;
     private final int copyrightPrice;
+
+    private final int startingBalance;
+
+    private final List<String> disabledNames;
 
     MandatoryConfiguration(Mandatory plugin) {
         plugin.saveDefaultConfig();
@@ -41,16 +48,19 @@ public class MandatoryConfiguration {
         sqlUsername = plugin.getConfig().getString("sql.username");
         sqlPassword = plugin.getConfig().getString("sql.password");
 
-        teleportCooldown = plugin.getConfig().getInt("settings.teleportCooldown");
+        teleportCooldown = plugin.getConfig().getInt("settings.teleportcooldown");
         loveCooldown = plugin.getConfig().getInt("settings.limits.lovecooldown");
 
-        spawnLocation = plugin.getConfig().getLocation("settings.locations.spawnLocation");
-        afkLocation = plugin.getConfig().getLocation("settings.locations.spawnLocation");
+        spawnLocation = plugin.getConfig().getLocation("settings.locations.spawnlocation");
+        afkLocation = plugin.getConfig().getLocation("settings.locations.afklocation");
+        firstSpawnLocation = plugin.getConfig().getLocation("settings.locations.firstspawnlocation");
 
         allowedRepairItems = plugin.getConfig().getStringList("allowed_repair");
 
         goNameLimit = plugin.getConfig().getInt("settings.limits.goname");
         goDisplayNameLimit = plugin.getConfig().getInt("settings.limits.godisplayname");
+        maxHomesExtra = plugin.getConfig().getInt("settings.limits.maxhomesextra");
+        maxHomes = plugin.getConfig().getInt("settings.limits.maxhomes");
 
         goChargeAmount = plugin.getConfig().getInt("settings.limits.gochargeamount");
         broadcastPrice = plugin.getConfig().getInt("settings.price.broadcast");
@@ -58,5 +68,38 @@ public class MandatoryConfiguration {
         headPrice = plugin.getConfig().getInt("settings.price.head");
         copyrightPrice = plugin.getConfig().getInt("settings.price.copyright");
 
+        disabledNames = plugin.getConfig().getStringList("disabled_names");
+
+        startingBalance = plugin.getConfig().getInt("settings.startingbalance");
+
     }
+
+    public void setFirstSpawnLocation(Location location) {
+        this.firstSpawnLocation = location;
+        Mandatory.getInstance().getConfig().set("settings.locations.firstspawnlocation", location);
+        save();
+    }
+
+    public void setAfkLocation(Location location) {
+        this.afkLocation = location;
+        Mandatory.getInstance().getConfig().set("settings.locations.afklocation", location);
+        save();
+    }
+
+    public void setSpawnLocation(Location location) {
+        this.spawnLocation = location;
+        Mandatory.getInstance().getConfig().set("settings.locations.spawnlocation", location);
+        save();
+    }
+
+    public void addDisabledName(String name) {
+        disabledNames.add(name);
+        Mandatory.getInstance().getConfig().set("disabled_names", disabledNames);
+        save();
+    }
+
+    public void save() {
+        Mandatory.getInstance().saveConfig();
+    }
+
 }

@@ -11,42 +11,41 @@ import live.supeer.mandatory.utils.TeleportUtil;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Map;
 
 @CommandAlias("teleportaccept|tpaccept|tpyes")
 public class CommandTeleportAccept extends BaseCommand {
-    public static Mandatory plugin;
-
 
     @Default
     public void onTeleportAccept(Player player, @Optional OnlinePlayer target) {
         if (!player.hasPermission("mandatory.command.teleportaccept")) {
-            plugin.sendMessage(player, "messages.error.permissionDenied");
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        if (!plugin.teleportRequests.containsKey(player)) {
-            plugin.sendMessage(player, "messages.teleportRequests.noRequests");
+        if (!Mandatory.teleportRequests.containsKey(player)) {
+            Mandatory.sendMessage(player, "messages.teleportRequests.noRequests");
             return;
         }
         if (target == null) {
-            //if plugin.teleportRequests has the player as value in more than one value, then error:
-            if (plugin.teleportRequests.values().stream().filter(p -> p.equals(player)).count() > 1) {
-                plugin.sendMessage(player, "messages.teleportRequests.accept.multipleRequests");
+            //if Mandatory.teleportRequests has the player as value in more than one value, then error:
+            if (Mandatory.teleportRequests.values().stream().filter(p -> p.equals(player)).count() > 1) {
+                Mandatory.sendMessage(player, "messages.teleportRequests.accept.multipleRequests");
                 return;
             }
             //teleport the player to the requester
-            Player requester = plugin.teleportRequests.remove(player);
-            plugin.sendMessage(player, "messages.teleportRequests.accept.selfOne", "%target%", requester.getName());
-            plugin.sendMessage(requester, "messages.teleportRequests.accept.other", "%player%", player.getName());
+            Player requester = Mandatory.teleportRequests.remove(player);
+            Mandatory.sendMessage(player, "messages.teleportRequests.accept.selfOne", "%target%", requester.getName());
+            Mandatory.sendMessage(requester, "messages.teleportRequests.accept.other", "%player%", player.getName());
             TeleportUtil.teleport(requester, player.getLocation(), player.getName(),false);
             return;
         }
-        if (plugin.teleportRequests.containsKey(target.getPlayer()) && plugin.teleportRequests.get(target.getPlayer()).equals(player)) {
-            plugin.teleportRequests.remove(target.getPlayer());
-            plugin.sendMessage(player, "messages.teleportRequests.accept.selfOne", "%target%", target.getPlayer().getName());
-            plugin.sendMessage(target.getPlayer(), "messages.teleportRequests.accept.other", "%player%", player.getName());
+        if (Mandatory.teleportRequests.containsKey(target.getPlayer()) && Mandatory.teleportRequests.get(target.getPlayer()).equals(player)) {
+            Mandatory.teleportRequests.remove(target.getPlayer());
+            Mandatory.sendMessage(player, "messages.teleportRequests.accept.selfOne", "%target%", target.getPlayer().getName());
+            Mandatory.sendMessage(target.getPlayer(), "messages.teleportRequests.accept.other", "%player%", player.getName());
             TeleportUtil.teleport(target.getPlayer(), player.getLocation(), player.getName(),false);
         } else {
-            plugin.sendMessage(player, "messages.teleportRequests.accept.noRequestPlayer", "%player%", target.getPlayer().getName());
+            Mandatory.sendMessage(player, "messages.teleportRequests.accept.noRequestPlayer", "%player%", target.getPlayer().getName());
         }
     }
 
@@ -54,19 +53,19 @@ public class CommandTeleportAccept extends BaseCommand {
     @CommandAlias("teleportaccept!|tpaceept!|tpyes!")
     public void onTeleportAcceptAll(Player player) {
         if (!player.hasPermission("mandatory.command.teleportaccept")) {
-            plugin.sendMessage(player, "messages.error.permissionDenied");
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        if (plugin.teleportRequests.containsKey(player)) {
-            List<Player> requesters = plugin.teleportRequests.entrySet().stream().filter(entry -> entry.getValue().equals(player)).map(entry -> entry.getKey()).toList();
+        if (Mandatory.teleportRequests.containsKey(player)) {
+            List<Player> requesters = Mandatory.teleportRequests.entrySet().stream().filter(entry -> entry.getValue().equals(player)).map(Map.Entry::getKey).toList();
             requesters.forEach(requester -> {
-                plugin.teleportRequests.remove(requester);
-                plugin.sendMessage(requester, "messages.teleportRequests.accept.other", "%player%", player.getName());
+                Mandatory.teleportRequests.remove(requester);
+                Mandatory.sendMessage(requester, "messages.teleportRequests.accept.other", "%player%", player.getName());
                 TeleportUtil.teleport(requester, player.getLocation(), player.getName(),false);
             });
-            plugin.sendMessage(player, "messages.teleportRequests.accept.selfAll");
+            Mandatory.sendMessage(player, "messages.teleportRequests.accept.selfAll");
         } else {
-            plugin.sendMessage(player, "messages.teleportRequests.noRequest");
+            Mandatory.sendMessage(player, "messages.teleportRequests.noRequest");
         }
     }
 }

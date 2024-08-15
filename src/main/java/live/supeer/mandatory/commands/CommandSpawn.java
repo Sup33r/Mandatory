@@ -13,8 +13,6 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("spawn|s")
 public class CommandSpawn extends BaseCommand {
-    public static Mandatory plugin;
-
 
     @Default
     @CommandCompletion("@players")
@@ -22,26 +20,26 @@ public class CommandSpawn extends BaseCommand {
         Location spawnLocation = Mandatory.configuration.getSpawnLocation();
         if (target == null) {
             if (!player.hasPermission("mandatory.command.spawn")) {
-                plugin.sendMessage(player, "messages.error.permissionDenied");
+                Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
 
             if (spawnLocation == null) {
-                plugin.sendMessage(player, "messages.error.noSpawnSet");
+                Mandatory.sendMessage(player, "messages.error.noSpawnSet");
                 return;
             }
             TeleportUtil.teleport(player, spawnLocation, Mandatory.getMessage("messages.names.spawn"), false);
         } else {
             if (!player.hasPermission("mandatory.command.spawn.others")) {
-                plugin.sendMessage(player, "messages.error.permissionDenied");
+                Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
             if (spawnLocation == null) {
-                plugin.sendMessage(player, "messages.error.noSpawnSet");
+                Mandatory.sendMessage(player, "messages.error.noSpawnSet");
                 return;
             }
             TeleportUtil.teleport(target.getPlayer(), spawnLocation, Mandatory.getMessage("messages.names.spawn"), true);
-            plugin.sendMessage(player, "messages.successful.spawn", "%player%", target.getPlayer().getName());
+            Mandatory.sendMessage(player, "messages.successful.spawn", "%player%", target.getPlayer().getName());
         }
     }
 }

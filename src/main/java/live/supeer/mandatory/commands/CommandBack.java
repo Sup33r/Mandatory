@@ -13,21 +13,20 @@ import java.util.HashMap;
 @CommandAlias("back")
 public class CommandBack extends BaseCommand {
     private final HashMap<Player, Location> playerLocation = new HashMap<>();
-    public static Mandatory plugin;
 
     @Default
     public void onBack(Player player) {
         if (!player.hasPermission("mandatory.command.back")) {
-            plugin.sendMessage(player, "messages.error.permissionDenied");
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        if (!plugin.backLocations.containsKey(player)) {
-            plugin.sendMessage(player, "messages.error.noBackLocation");
+        if (!Mandatory.backLocations.containsKey(player)) {
+            Mandatory.sendMessage(player, "messages.error.noBackLocation");
             return;
         }
         playerLocation.put(player, player.getLocation());
-        TeleportUtil.teleport(player, plugin.backLocations.get(player), Mandatory.getMessage("messages.names.back"), false);
-        plugin.backLocations.replace(player, playerLocation.get(player));
+        TeleportUtil.teleport(player, Mandatory.backLocations.get(player), Mandatory.getMessage("messages.names.back"), false);
+        Mandatory.backLocations.replace(player, playerLocation.get(player));
         playerLocation.remove(player);
     }
 }

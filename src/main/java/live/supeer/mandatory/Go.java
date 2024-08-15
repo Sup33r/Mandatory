@@ -5,7 +5,6 @@ import co.aikar.idb.DbRow;
 import live.supeer.mandatory.utils.LocationUtil;
 import live.supeer.mandatory.utils.Utilities;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Location;
 
 import java.sql.SQLException;
@@ -18,8 +17,8 @@ public class Go {
     private String name;
     private String displayName;
     private UUID ownerUUID;
-    private long createDate;
-    private List<UUID> whitelistPlayers;
+    private final long createDate;
+    private final List<UUID> whitelistPlayers;
     private Location location;
     private int chargeAmount;
     private boolean open;
@@ -44,7 +43,7 @@ public class Go {
             try {
                 DB.executeUpdate("UPDATE `md_goes` SET `whitelistPlayers` = ? WHERE `goName` = ?", Utilities.uuidListToString(whitelistPlayers), name);
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }
@@ -54,7 +53,7 @@ public class Go {
         try {
             DB.executeUpdate("UPDATE `md_goes` SET `whitelistPlayers` = ? WHERE `goName` = ?", Utilities.uuidListToString(whitelistPlayers), name);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -74,7 +73,7 @@ public class Go {
         try {
             DB.executeUpdate("UPDATE `md_goes` SET `chargeAmount` = ? WHERE `goName` = ?", chargeAmount, name);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -83,7 +82,7 @@ public class Go {
         try {
             DB.executeUpdate("UPDATE `md_goes` SET `open` = ? WHERE `goName` = ?", open, name);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -92,7 +91,7 @@ public class Go {
         try {
             DB.executeUpdate("UPDATE `md_goes` SET `whitelistcharge` = ? WHERE `goName` = ?", whitelistcharge, name);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -101,7 +100,7 @@ public class Go {
         try {
             DB.executeUpdate("UPDATE `md_goes` SET `location` = ? WHERE `goName` = ?", LocationUtil.locationToString(location), name);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -110,7 +109,7 @@ public class Go {
         try {
             DB.executeUpdate("UPDATE `md_goes` SET `displayName` = ? WHERE `goName` = ?", displayName, name);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -119,7 +118,7 @@ public class Go {
         try {
             DB.executeUpdate("UPDATE `md_goes` SET `goName` = ? WHERE `goName` = ?", name, this.name);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -128,7 +127,7 @@ public class Go {
         try {
             DB.executeUpdate("UPDATE `md_goes` SET `ownerUUID` = ? WHERE `goName` = ?", ownerUUID.toString(), name);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

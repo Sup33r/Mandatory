@@ -3,11 +3,8 @@ package live.supeer.mandatory.utils;
 import live.supeer.mandatory.Mandatory;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class DateUtil {
-    public static Mandatory plugin;
 
     public static String getMonthName(int month) {
         String[] months = {"january", "february", "march", "april", "may", "june",
@@ -15,102 +12,7 @@ public class DateUtil {
         return months[month];
     }
 
-    private static final Pattern timePattern = Pattern.compile("(?:([0-9]+)\\s*y[a-z]*[,\\s]*)?" + "(?:([0-9]+)\\s*mo[a-z]*[,\\s]*)?" + "(?:([0-9]+)\\s*w[a-z]*[,\\s]*)?" + "(?:([0-9]+)\\s*d[a-z]*[,\\s]*)?" + "(?:([0-9]+)\\s*h[a-z]*[,\\s]*)?" + "(?:([0-9]+)\\s*m[a-z]*[,\\s]*)?" + "(?:([0-9]+)\\s*(?:s[a-z]*)?)?", Pattern.CASE_INSENSITIVE);
     private static final int maxYears = 100000;
-
-    public static String removeTimePattern(final String input) {
-        return timePattern.matcher(input).replaceFirst("").trim();
-    }
-
-    public static long parseDateDiff(String time, boolean future) {
-        return parseDateDiff(time, future, false);
-    }
-
-    public static long parseDateDiff(String time, boolean future, boolean emptyEpoch) {
-        final Matcher m = timePattern.matcher(time);
-        int years = 0;
-        int months = 0;
-        int weeks = 0;
-        int days = 0;
-        int hours = 0;
-        int minutes = 0;
-        int seconds = 0;
-        boolean found = false;
-        while (m.find()) {
-            if (m.group() == null || m.group().isEmpty()) {
-                continue;
-            }
-            for (int i = 0; i < m.groupCount(); i++) {
-                if (m.group(i) != null && !m.group(i).isEmpty()) {
-                    found = true;
-                    break;
-                }
-            }
-            if (found) {
-                if (m.group(1) != null && !m.group(1).isEmpty()) {
-                    years = Integer.parseInt(m.group(1));
-                }
-                if (m.group(2) != null && !m.group(2).isEmpty()) {
-                    months = Integer.parseInt(m.group(2));
-                }
-                if (m.group(3) != null && !m.group(3).isEmpty()) {
-                    weeks = Integer.parseInt(m.group(3));
-                }
-                if (m.group(4) != null && !m.group(4).isEmpty()) {
-                    days = Integer.parseInt(m.group(4));
-                }
-                if (m.group(5) != null && !m.group(5).isEmpty()) {
-                    hours = Integer.parseInt(m.group(5));
-                }
-                if (m.group(6) != null && !m.group(6).isEmpty()) {
-                    minutes = Integer.parseInt(m.group(6));
-                }
-                if (m.group(7) != null && !m.group(7).isEmpty()) {
-                    seconds = Integer.parseInt(m.group(7));
-                }
-                break;
-            }
-        }
-        if (!found) {
-            return -1;
-        }
-        final Calendar c = new GregorianCalendar();
-
-        if (emptyEpoch) {
-            c.setTimeInMillis(0);
-        }
-
-        if (years > 0) {
-            if (years > maxYears) {
-                years = maxYears;
-            }
-            c.add(Calendar.YEAR, years * (future ? 1 : -1));
-        }
-        if (months > 0) {
-            c.add(Calendar.MONTH, months * (future ? 1 : -1));
-        }
-        if (weeks > 0) {
-            c.add(Calendar.WEEK_OF_YEAR, weeks * (future ? 1 : -1));
-        }
-        if (days > 0) {
-            c.add(Calendar.DAY_OF_MONTH, days * (future ? 1 : -1));
-        }
-        if (hours > 0) {
-            c.add(Calendar.HOUR_OF_DAY, hours * (future ? 1 : -1));
-        }
-        if (minutes > 0) {
-            c.add(Calendar.MINUTE, minutes * (future ? 1 : -1));
-        }
-        if (seconds > 0) {
-            c.add(Calendar.SECOND, seconds * (future ? 1 : -1));
-        }
-        final Calendar max = new GregorianCalendar();
-        max.add(Calendar.YEAR, maxYears);
-        if (c.after(max)) {
-            return max.getTimeInMillis();
-        }
-        return c.getTimeInMillis();
-    }
 
     static int dateDiff(final int type, final Calendar fromDate, final Calendar toDate, final boolean future) {
         final int year = Calendar.YEAR;
@@ -173,96 +75,8 @@ public class DateUtil {
         return sb.toString().trim();
     }
 
-    public static String formatTimeFromSeconds(int totalSeconds) {
-        int seconds = totalSeconds % 60;
-        int minutes = (totalSeconds / 60) % 60;
-        int hours = (totalSeconds / (60 * 60)) % 24;
-        int days = (totalSeconds / (24 * 60 * 60)) % 7;
-        int weeks = (totalSeconds / (7 * 24 * 60 * 60)) % 52;
-        int years = totalSeconds / (365 * 24 * 60 * 60);
-
-        StringBuilder readableTime = new StringBuilder();
-        if (years > 0) {
-            readableTime.append(years).append(" ").append(Mandatory.getMessage("messages.time.years")).append(" ");
-        }
-        if (weeks > 0) {
-            readableTime.append(weeks).append(" ").append(Mandatory.getMessage("messages.time.weeks")).append(" ");
-        }
-        if (days > 0) {
-            readableTime.append(days).append(" ").append(Mandatory.getMessage("messages.time.days")).append(" ");
-        }
-        if (hours > 0) {
-            readableTime.append(hours).append(" ").append(Mandatory.getMessage("messages.time.hours")).append(" ");
-        }
-        if (minutes > 0) {
-            readableTime.append(minutes).append(" ").append(Mandatory.getMessage("messages.time.minutes")).append(" ");
-        }
-        if (seconds > 0) {
-            readableTime.append(seconds).append(" ").append(Mandatory.getMessage("messages.time.seconds"));
-        }
-
-        return readableTime.toString().trim();
-    }
-
     public static long getTimestamp() {
         return System.currentTimeMillis() / 1000L;
-    }
-
-    public static String niceDate(long timestamp) {
-        if (timestamp == 0) {
-            return "unknown";
-        }
-
-        long rightNow = getTimestamp();
-
-        Calendar date = Calendar.getInstance();
-        date.setTimeInMillis(timestamp * 1000);
-
-        Calendar dateNow = Calendar.getInstance();
-        dateNow.setTimeInMillis(rightNow * 1000);
-
-        String day;
-        String[] months = {
-                Mandatory.getMessage("messages.months.january"),
-                Mandatory.getMessage("messages.months.february"),
-                Mandatory.getMessage("messages.months.march"),
-                Mandatory.getMessage("messages.months.april"),
-                Mandatory.getMessage("messages.months.may"),
-                Mandatory.getMessage("messages.months.june"),
-                Mandatory.getMessage("messages.months.july"),
-                Mandatory.getMessage("messages.months.august"),
-                Mandatory.getMessage("messages.months.september"),
-                Mandatory.getMessage("messages.months.october"),
-                Mandatory.getMessage("messages.months.november"),
-                Mandatory.getMessage("messages.months.december")
-        };
-
-        if (date.get(Calendar.DAY_OF_MONTH) == dateNow.get(Calendar.DAY_OF_MONTH)
-                && date.get(Calendar.MONTH) == dateNow.get(Calendar.MONTH)
-                && date.get(Calendar.YEAR) == dateNow.get(Calendar.YEAR)) {
-            day = Mandatory.getMessage("messages.days.today");
-        } else {
-            Calendar dateYesterday = Calendar.getInstance();
-            dateYesterday.setTimeInMillis((rightNow - 86400) * 1000);
-
-            day =
-                    date.get(Calendar.DAY_OF_MONTH) == dateYesterday.get(Calendar.DAY_OF_MONTH)
-                            && date.get(Calendar.MONTH) == dateYesterday.get(Calendar.MONTH)
-                            && date.get(Calendar.YEAR) == dateYesterday.get(Calendar.YEAR)
-                            ? Mandatory.getMessage("messages.days.yesterday")
-                            : date.get(Calendar.DAY_OF_MONTH)
-                            + " "
-                            + months[date.get(Calendar.MONTH)]
-                            + (dateNow.get(Calendar.YEAR) != date.get(Calendar.YEAR)
-                            ? " " + date.get(Calendar.YEAR)
-                            : "");
-        }
-
-        return day
-                + ", "
-                + String.format("%02d", date.get(Calendar.HOUR_OF_DAY))
-                + ":"
-                + String.format("%02d", date.get(Calendar.MINUTE));
     }
 
     public static String formatDate(long timestamp) {

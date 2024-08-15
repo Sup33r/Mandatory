@@ -54,7 +54,9 @@ public class Database {
                                 `flags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                 `balance` int(25) NOT NULL,
                                 `ignores` text COLLATE utf8mb4_unicode_ci,
-                                `position` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `chatprefix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `backLocation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 PRIMARY KEY (`cityId`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;""");
 
@@ -117,6 +119,14 @@ public class Database {
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
             DB.executeUpdate(
                     """
+                              CREATE TABLE IF NOT EXISTS `md_homes` (
+                                `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `homeName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `location` varchar(255) COLLATE utf8mb4_unicode_ci,
+                                PRIMARY KEY (`playerUUID`, `homeName`)
+                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
+            DB.executeUpdate(
+                    """
                               CREATE TABLE IF NOT EXISTS `md_goes` (
                                 `goName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `displayName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -138,8 +148,8 @@ public class Database {
                                 `charge` int(25) DEFAULT '0',
                                 PRIMARY KEY (`playerUUID`, `dateTime`, `goName`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

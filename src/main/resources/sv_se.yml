@@ -83,8 +83,12 @@ messages:
     sentAfk: "<dark_red>[du -> [AFK] %receiver%<dark_red>] <white>%message%</white>"
 
   modchat:
+    announcement: "<dark_red>\n#modzone <gray>| <red>%message%</red>\n</dark_red>"
     message: "<dark_red>#modzone <gray>| <gold>%player%<gray>> <red>%message%</red>"
     helping: "<dark_red>#modzone <gray>| <red>%helper% hjälper %player%."
+    messages:
+      disabledOther: "Spelaren %player% försökte logga in, även om hen är avstängd."
+      disabledUsername: "Spelaren %player% försökte logga in med ett avstängt användarnamn."
 
   successful:
     spawn: "<green>Spelaren %player% har skickats till spawnpunkten.</green>"
@@ -255,8 +259,10 @@ messages:
     info:
       header: "<dark_green>--- <green>Spelare: %name% <dark_green>---"
       playedSince: "<dark_green>Spelat sedan: %time%"
-      status: "Status: Online, sedan idag, 18:32"
-      latestPosition: "<dark_green>Senaste position: <green>%position%"
+      status:
+        online: "<dark_green>Status: <green>Online, sedan %playedSince%"
+        offline: "<dark_green>Status: <green>Offline, sedan %playedLatest%"
+      latestPosition: "<dark_green>Senaste position: <green>%location%"
       wallet: "<dark_green>Plånbok: <green>%amount% encoins"
     toggle:
       chestmessages:
@@ -284,5 +290,62 @@ messages:
         on: "<green>Du tillåter nu spelare att skicka teleporteringsförfrågningar.</green>"
         off: "<green>Du tillåter inte längre spelare att skicka teleporteringsförfrågningar.</green>"
 
+  home:
+    name:
+      deleted: "<green>Du har tagit bort hempositionen %name%.</green>"
+      saved: "<green>Du har sparat hempositionen %name%.</green>"
+      updated: "<green>Du har uppdaterat hempositionen %name%.</green>"
+    syntax: "<gray>Syntax: /home\nSyntax: /home delete\nSyntax: /home set\nSyntax: /home <underlined>namn</underlined>\nSyntax: /home <underlined>namn</underlined> set\nSyntax: /home <underlined>namn</underlined> delete\nSyntax: /home <underlined>spelare</underlined>:<underlined>namn</underlined>\nSyntax: /home <underlined>spelare</underlined>:<underlined>namn</underlined> set\nSyntax: /home <underlined>spelare</underlined>:<underlined>namn</underlined< delete"
+    others:
+      deleted: "<green>Du har tagit bort hempositionen %name% för %player%.</green>"
+      updated: "<green>Du har uppdaterat hempositionen %name% för %player%.</green>"
+      saved: "<green>Du har sparat hempositionen %name% för %player%.</green>"
+      doesntExist: "<red>%player% har ingen hemposition med det namnet.</red>"
+    none: "<red>Du har ingen sparad hemposition.</red>"
+    deleted: "<green>Din hemposition har tagits bort.</green>"
+    saved: "<green>Din hemposition har sparats.</green>"
+    updated: "<green>Din hemposition har uppdaterats.</green>"
+    doesntExist: "<red>Du har ingen hemposition med det namnet.</red>"
+  homes:
+    own: "<dark_green>--- <green>Dina hempositioner (%count%/%max%)</green> ---\n<dark_green>%list%</dark_green>"
+    others: "<dark_green>--- <green>Hempositioner för %player% (%count%/%max%)</green> ---\n<dark_green>%list%</dark_green>"
 
+  disabled:
+    name: "<red>Namnet %name% är avstängt på EnServer. Vänligen byt namn för att kunna logga in.</red>"
+    other: "<red>Du är avstängd från EnServer. Kontakta supporten för mer information.</red>"
 
+  admin:
+    toggle:
+      externalprefix:
+        added: "<green>%player% har fått sina externa prefixar återaktiverade i chatten.</green>"
+        removed: "<green>%player% har fått sina externa prefixar avaktiverade i chatten.</green>"
+      chatcolor:
+        added: "<green>%player har fått färgen på sina chattmeddelanden aktiverat.</green>"
+        removed: "<green>%player har fått färgen på sina chattmeddelanden avaktiverat.</green>"
+    disablename:
+      success: "<green>Namnet %name% har nu blockerats från servern.</green>"
+    set:
+      chatprefix:
+        success: "<green>Chattprefixen för %player% har uppdaterats.</green>"
+      firstspawn: "<green>Punkten för nyanlända spelare har sparats.</green>"
+      spawn: "<green>Punkten för rutinerade spelare har sparats.</green>"
+      afk: "<green>Punkten för avståndstagande spelare har sparats.</green>"
+    disable:
+      alreadyDisabled: "<red>Spelaren i fråga är redan inaktiverad.</red>"
+      success: "<green>Du har inaktiverat spelaren %player%.</green>"
+    enable:
+      alreadyEnabled: "<red>Spelaren i fråga är redan aktiverad.</red>"
+      success: "<green>Du har aktiverat spelaren %player%.</green>"
+    syntax: "<gray>Syntax: /admin disable <underlined>namn</underlined>\nSyntax: /admin enable <underlined>namn</underlined>\nSyntax: /admin toggle chatcolor <underlined>namn</underlined>\nSyntax: /admin toggle extprefix <underlined>namn</underlined>\nSyntax: /admin set <underlined>namn</underlined> chatprefix <underlined>prefix</underlined>\nSyntax: /admin set afk\nSyntax: /admin set spawn\nSyntax: /admin set firstspawn"
+
+  chat:
+    joinFirstTime: "<dark_green>[<green>+</green>] <gold>%player% loggade in för första gången</gold></dark_green>"
+    join: "<dark_green>[<green>+</green>] <gold>%player%</gold></dark_green>"
+    quit: "<dark_red>[<red>-</red>] <gold>%player%</gold></dark_red>"
+    kicked: "<dark_red>[<red>-</red>] <gold>%player% fick en varning.</gold></dark_red>"
+    joinNameChange: "<dark_green>[<green>+</green>] <gold>%name% har bytt namn från %oldname%</gold></dark_green>"
+    leave: "<dark_green>[<green>-</green>] <gold>%player%</gold></dark_green>"
+    hidden: ""
+    greeting:
+      title: "Tjuhu, %player%!"
+      subtitle: "Välkommen till EnServer."

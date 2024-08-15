@@ -11,17 +11,16 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("message|msg")
 public class CommandMessage extends BaseCommand {
-    public static Mandatory plugin;
 
     @Default
     @CommandCompletion("@players")
     public void onMessage(Player player, OnlinePlayer target, String message) {
         if (!player.hasPermission("mandatory.command.message")) {
-            plugin.sendMessage(player, "messages.error.permissionDenied");
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
         if (target == null) {
-            plugin.sendMessage(player, "messages.error.playerNotFound");
+            Mandatory.sendMessage(player, "messages.error.playerNotFound");
             return;
         }
         MandatoryChat.sendPrivateMessage(player, target.getPlayer(), message);

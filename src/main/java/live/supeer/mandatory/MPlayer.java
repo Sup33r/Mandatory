@@ -1,12 +1,15 @@
 package live.supeer.mandatory;
 
+import co.aikar.commands.annotation.Private;
 import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
+import live.supeer.mandatory.utils.DateUtil;
 import live.supeer.mandatory.utils.LocationUtil;
 import live.supeer.mandatory.utils.Utilities;
 import lombok.Getter;
 import org.bukkit.Location;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +24,10 @@ public class MPlayer {
     private char[] flags;
     private int balance;
     private List<UUID> ignores;
+    private String chatprefix;
+    private final List<Home> homes = new ArrayList<>();
     private Location lastLocation;
+    private Location backLocation;
 
     public MPlayer(DbRow data) {
         this.uuid = UUID.fromString(data.getString("uuid"));
@@ -32,15 +38,31 @@ public class MPlayer {
         this.flags = data.getString("flags") == null ? new char[0] : data.getString("flags").toCharArray();
         this.balance = data.getInt("balance");
         this.ignores = new ArrayList<>(Utilities.stringToUUIDList(data.getString("ignores")));
-        this.lastLocation = null;
+        this.chatprefix = data.getString("chatprefix");
+        this.lastLocation = LocationUtil.stringToLocation(data.getString("location"));
+        this.backLocation = LocationUtil.stringToLocation(data.getString("backLocation"));
+        try {
+            DB.getResults("SELECT * FROM `md_homes` WHERE `playerUUID` = " + Database.sqlString(uuid.toString())).forEach(row -> homes.add(new Home(row)));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setLastLocation(Location lastLocation) {
         try {
             this.lastLocation = lastLocation;
             DB.executeUpdate("UPDATE `md_players` SET `position` = " + Database.sqlString(LocationUtil.locationToString(lastLocation)) + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setBackLocation(Location backLocation) {
+        try {
+            this.backLocation = backLocation;
+            DB.executeUpdate("UPDATE `md_players` SET `backPosition` = " + Database.sqlString(LocationUtil.locationToString(backLocation)) + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -49,8 +71,8 @@ public class MPlayer {
             BalanceManager.createBalanceLogEntry(uuid, balance, newBalance, json);
             this.balance = newBalance;
             DB.executeUpdate("UPDATE `md_players` SET `balance` = " + newBalance + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -59,8 +81,8 @@ public class MPlayer {
             BalanceManager.createBalanceLogEntry(uuid, balance, balance + amount, json);
             this.balance += amount;
             DB.executeUpdate("UPDATE `md_players` SET `balance` = " + balance + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -69,8 +91,8 @@ public class MPlayer {
             BalanceManager.createBalanceLogEntry(uuid, balance, balance - amount, json);
             this.balance -= amount;
             DB.executeUpdate("UPDATE `md_players` SET `balance` = " + balance + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -108,6 +130,58 @@ public class MPlayer {
         if (ignores.contains(playerUUID)) {
             ignores.remove(playerUUID);
             DB.executeUpdateAsync("UPDATE `md_players` SET `ignores` = " + Database.sqlString(Utilities.uuidListToString(ignores)) + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
+        }
+    }
+
+    public Home getHome(String name) {
+        for (Home home : homes) {
+            if (home.getName().equalsIgnoreCase(name)) {
+                return home;
+            }
+        }
+        return null;
+    }
+
+    public void addHome(Home home) {
+        homes.add(home);
+    }
+
+    public void newHome(String name, Location location) {
+        try {
+            DB.executeUpdate("INSERT INTO `md_homes` (`playerUUID`, `name`, `location`) VALUES (?, ?, ?)", uuid, name, LocationUtil.locationToString(location));
+            homes.add(new Home(DB.getResults("SELECT * FROM `md_homes` WHERE `playerUUID` = " + Database.sqlString(uuid.toString()) + " AND `name` = " + Database.sqlString(name)).getFirst()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeHome(Home home) {
+        homes.remove(home);
+        DB.executeUpdateAsync("DELETE FROM `md_homes` WHERE `playerUUID` = " + Database.sqlString(uuid.toString()) + " AND `name` = " + Database.sqlString(home.getName()));
+    }
+
+    public void setChatprefix(String chatprefix) {
+        this.chatprefix = chatprefix;
+        DB.executeUpdateAsync("UPDATE `md_players` SET `chatprefix` = " + Database.sqlString(chatprefix) + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
+    }
+
+    public void setLatestJoin(long latestJoin) {
+        this.latestJoin = latestJoin;
+        DB.executeUpdateAsync("UPDATE `md_players` SET `latestJoin` = " + latestJoin + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
+    }
+
+    public void setLatestLeave(long latestLeave) {
+        this.latestLeave = latestLeave;
+        DB.executeUpdateAsync("UPDATE `md_players` SET `latestLeave` = " + latestLeave + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
+    }
+
+    public void changeName(String name) {
+        this.name = name;
+        DB.executeUpdateAsync("UPDATE `md_players` SET `name` = " + Database.sqlString(name) + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
+        try {
+            DB.executeInsert("INSERT INTO `md_namechanges` (`playerUUID`, `playerName`, `dateTime`) VALUES (?, ?, ?)", uuid.toString(), name, DateUtil.getTimestamp());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

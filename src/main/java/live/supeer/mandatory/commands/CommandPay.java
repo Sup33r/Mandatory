@@ -10,9 +10,6 @@ import live.supeer.mandatory.utils.Utilities;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Array;
-import java.util.Set;
-
 @CommandAlias("pay")
 public class CommandPay extends BaseCommand {
 

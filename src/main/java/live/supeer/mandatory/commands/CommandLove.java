@@ -9,46 +9,46 @@ import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import live.supeer.mandatory.MPlayerManager;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.DateUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 @CommandAlias("love")
 public class CommandLove extends BaseCommand {
-    public static Mandatory plugin;
 
     @Default
     public void onLove(Player player, OnlinePlayer receiver, @Optional String reason) {
         if (!player.hasPermission("mandatory.command.love")) {
-            plugin.sendMessage(player,"messages.error.permissionDenied");
+            Mandatory.sendMessage(player,"messages.error.permissionDenied");
             return;
         }
-        if (plugin.loveCooldown.contains(player)) {
-            plugin.sendMessage(player, "messages.love.cooldown", "%time%", DateUtil.formatDateDiff(Mandatory.configuration.getLoveCooldown()+System.currentTimeMillis()));
+        if (Mandatory.loveCooldown.contains(player)) {
+            Mandatory.sendMessage(player, "messages.love.cooldown", "%time%", DateUtil.formatDateDiff(Mandatory.configuration.getLoveCooldown()+System.currentTimeMillis()));
             return;
         }
 
         if( player.equals(receiver.getPlayer())) {
-            plugin.sendMessage(player, "messages.love.self");
+            Mandatory.sendMessage(player, "messages.love.self");
             return;
         }
-        plugin.loveCooldown.add(player);
+        Mandatory.loveCooldown.add(player);
         MPlayerManager.handleLoveSent(player, receiver.getPlayer(), reason);
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.loveCooldown.remove(player), 20L * Mandatory.configuration.getLoveCooldown());
+        Bukkit.getServer().getScheduler().runTaskLater(Mandatory.getInstance(), () -> Mandatory.loveCooldown.remove(player), 20L * Mandatory.configuration.getLoveCooldown());
     }
 
     @Subcommand("all")
     public void onAllLove(Player player, @Optional String reason) {
         if (!player.hasPermission("mandatory.command.love.all")) {
-            plugin.sendMessage(player,"messages.error.permissionDenied");
+            Mandatory.sendMessage(player,"messages.error.permissionDenied");
             return;
         }
-        if (plugin.loveCooldown.contains(player)) {
-            plugin.sendMessage(player, "messages.love.cooldown", "%time%", DateUtil.formatDateDiff(Mandatory.configuration.getLoveCooldown()+System.currentTimeMillis()));
+        if (Mandatory.loveCooldown.contains(player)) {
+            Mandatory.sendMessage(player, "messages.love.cooldown", "%time%", DateUtil.formatDateDiff(Mandatory.configuration.getLoveCooldown()+System.currentTimeMillis()));
             return;
         }
-        plugin.loveCooldown.add(player);
-        for (Player onlinePlayer : plugin.getServer().getOnlinePlayers()) {
+        Mandatory.loveCooldown.add(player);
+        for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
             MPlayerManager.handleLoveSent(player, onlinePlayer, reason);
         }
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.loveCooldown.remove(player), 20L * Mandatory.configuration.getLoveCooldown());
+        Mandatory.getInstance().getServer().getScheduler().runTaskLater(Mandatory.getInstance(), () -> Mandatory.loveCooldown.remove(player), 20L * Mandatory.configuration.getLoveCooldown());
     }
 }

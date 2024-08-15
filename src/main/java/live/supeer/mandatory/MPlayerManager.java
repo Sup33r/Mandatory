@@ -4,6 +4,7 @@ import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
 import live.supeer.mandatory.utils.DateUtil;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -12,19 +13,39 @@ import java.util.List;
 import java.util.UUID;
 
 public class MPlayerManager {
-    public static Mandatory plugin;
 
     @Getter
     private static List<MPlayer> players = new ArrayList<>();
+
+    public static void addPlayer(MPlayer player) {
+        players.add(player);
+    }
+
+    public static void removePlayer(MPlayer player) {
+        players.remove(player);
+    }
+
+    public static MPlayer createPlayer(Player player) {
+        try {
+            DB.executeInsert("INSERT INTO `md_players` (`playerUUID`, `name`, `firstJoin`, `latestJoin`, `balance`) VALUES (?, ?, ?, ?, ?)",
+                    player.getUniqueId().toString(),
+                    player.getName(),
+                    DateUtil.getTimestamp(),
+                    DateUtil.getTimestamp(),
+                    Mandatory.configuration.getStartingBalance());
+            return new MPlayer(DB.getFirstRow("SELECT * FROM `md_players` WHERE `playerUUID` = ?", player.getUniqueId().toString()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static MPlayer getPlayerFromUUID(UUID uuid) {
         try {
             DbRow row = DB.getFirstRow("SELECT * FROM `md_players` WHERE `playerUUID` = ?", uuid.toString());
             return row != null ? new MPlayer(row) : null;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
 
     }
 
@@ -33,17 +54,15 @@ public class MPlayerManager {
             DbRow row = DB.getFirstRow("SELECT * FROM `md_players` WHERE `name` = ?", name);
             return row != null ? new MPlayer(row) : null;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     public static MPlayer getPlayerFromPlayer(Player player) {
-        try {
-            DbRow row = DB.getFirstRow("SELECT * FROM `md_players` WHERE `playerUUID` = ?", player.getUniqueId().toString());
-            return row != null ? new MPlayer(row) : null;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        for (MPlayer mPlayer : players) {
+            if (mPlayer.getUuid().equals(player.getUniqueId())) {
+                return mPlayer;
+            }
         }
         return null;
     }
@@ -67,22 +86,22 @@ public class MPlayerManager {
                 ignoredByPlayers.add(ignoredBy.getString("name"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return ignoredByPlayers;
     }
 
     public static void handleLoveSent(Player from, Player to, String reason) {
-        plugin.sendMessage(from, "messages.love.sent", "%player%", to.getName());
+        Mandatory.sendMessage(from, "messages.love.sent", "%player%", to.getName());
         if (reason == null) {
-            plugin.sendMessage(to, "messages.love.received.noReason", "%player%", from.getName());
+            Mandatory.sendMessage(to, "messages.love.received.noReason", "%player%", from.getName());
         } else {
-            plugin.sendMessage(to, "messages.love.received.reason", "%player%", from.getName(), "%reason%", reason);
+            Mandatory.sendMessage(to, "messages.love.received.reason", "%player%", from.getName(), "%reason%", reason);
         }
         try {
             DB.executeUpdate("INSERT INTO md_loves (playerUUID, senderUUID, reason, dateTime) VALUES (?, ?, ?, ?)", from.getUniqueId().toString(), to.getUniqueId().toString(), Database.sqlString(reason), DateUtil.getTimestamp());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

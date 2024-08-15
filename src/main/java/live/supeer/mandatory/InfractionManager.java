@@ -5,6 +5,8 @@ import live.supeer.mandatory.utils.DateUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
+import java.sql.SQLException;
+
 public class InfractionManager {
     public static Mandatory plugin;
 
@@ -13,8 +15,8 @@ public class InfractionManager {
         player.kick(component);
         try {
             DB.executeUpdate("INSERT INTO md_kicks (playerUUID, placerUUID, reason, dateTime) VALUES (?, ?, ?, ?)", player.getUniqueId().toString(), placer.getUniqueId().toString(), Database.sqlString(reason), DateUtil.getTimestamp());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

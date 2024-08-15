@@ -1,6 +1,7 @@
 package live.supeer.mandatory;
 
 import co.aikar.commands.PaperCommandManager;
+import co.aikar.idb.DB;
 import com.google.common.collect.ImmutableList;
 import de.tr7zw.changeme.nbtapi.NBT;
 import live.supeer.mandatory.commands.*;
@@ -26,12 +27,14 @@ public final class Mandatory extends JavaPlugin {
     private static Mandatory plugin;
     private static LanguageManager languageManager;
 
-    public HashMap<Player, Location> backLocations = new HashMap<>();
-    public HashMap<Player, List<Component>> afkPlayers = new HashMap<>();
-    public List<Player> loveCooldown = new ArrayList<>();
-    public HashMap<Player, Player> replyPlayers = new HashMap<>();
+    public static HashMap<Player, Location> backLocations = new HashMap<>();
+    public static HashMap<Player, List<Component>> afkPlayers = new HashMap<>();
+    public static List<Player> loveCooldown = new ArrayList<>();
+    public static HashMap<Player, Player> replyPlayers = new HashMap<>();
     public static HashMap<Player, Player> teleportRequests = new HashMap<>();
-    public HashMap<Player, Go> promptedPayment = new HashMap<>();
+    public static HashMap<Player, Go> promptedPayment = new HashMap<>();
+    public static List<Player> firstTimePlayer = new ArrayList<>();
+    public static List<Player> kickedPlayers = new ArrayList<>();
 
 
     public static Mandatory getInstance() {
@@ -44,20 +47,39 @@ public final class Mandatory extends JavaPlugin {
         this.logger = getLogger();
         configuration = new MandatoryConfiguration(this);
 
-        this.languageManager = new LanguageManager(this, "sv_se");
+        languageManager = new LanguageManager(this, "sv_se");
 
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.enableUnstableAPI("brigadier");
 
-        manager.registerCommand(new CommandSpawn());
+        manager.registerCommand(new CommandAdmin());
         manager.registerCommand(new CommandAFK());
         manager.registerCommand(new CommandBack());
+        manager.registerCommand(new CommandBalance());
         manager.registerCommand(new CommandBroadcast());
+        manager.registerCommand(new CommandBuy());
         manager.registerCommand(new CommandFeed());
         manager.registerCommand(new CommandFly());
         manager.registerCommand(new CommandGamemode());
+        manager.registerCommand(new CommandGo());
+        manager.registerCommand(new CommandHelpop());
+        manager.registerCommand(new CommandHome());
+        manager.registerCommand(new CommandIgnore());
+        manager.registerCommand(new CommandKick());
+        manager.registerCommand(new CommandLove());
+        manager.registerCommand(new CommandMe());
+        manager.registerCommand(new CommandMessage());
+        manager.registerCommand(new CommandModchat());
+        manager.registerCommand(new CommandPay());
+        manager.registerCommand(new CommandPayall());
+        manager.registerCommand(new CommandPlayer());
         manager.registerCommand(new CommandRepair());
-        manager.registerCommand(new CommandSpeed());
+        manager.registerCommand(new CommandReply());
+        manager.registerCommand(new CommandSpawn());
+        manager.registerCommand(new CommandTeleportAccept());
+        manager.registerCommand(new CommandTeleportAsk());
+        manager.registerCommand(new CommandTeleportDeny());
+        manager.registerCommand(new CommandUpdate());
         manager.registerCommand(new CommandVision());
 
         registerCompletions(manager);
@@ -67,12 +89,12 @@ public final class Mandatory extends JavaPlugin {
             this.getServer().getPluginManager().disablePlugin(this);
         }
 
-//        Database.initialize();
+        Database.initialize();
     }
 
     @Override
     public void onDisable() {
-//        DB.close();
+        DB.close();
     }
 
     public static void sendMessage(
@@ -108,7 +130,7 @@ public final class Mandatory extends JavaPlugin {
 
     private static @NotNull String getLocale(@NotNull CommandSender sender) {
         if (sender instanceof Player) {
-            return ((Player) sender).getLocale();
+            return ((Player) sender).locale().toString();
         } else {
             return getInstance().getConfig().getString("settings.locale", "sv_se");
         }

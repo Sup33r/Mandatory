@@ -2,6 +2,7 @@ package live.supeer.mandatory.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
 import live.supeer.mandatory.MPlayer;
 import live.supeer.mandatory.MPlayerManager;
 import live.supeer.mandatory.Mandatory;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 @CommandAlias("payall")
 public class CommandPayall extends BaseCommand {
 
+    @Default
     public void onPayall(Player player, int amount, String reason) {
         if (!player.hasPermission("mandatory.command.payall")) {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
