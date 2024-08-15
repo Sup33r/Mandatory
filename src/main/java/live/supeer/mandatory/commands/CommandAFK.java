@@ -19,7 +19,7 @@ public class CommandAFK extends BaseCommand {
 
     @Default
     @CommandCompletion("@players")
-    public void onAFK(Player player, @Optional OnlinePlayer target) {
+    public static void onAFK(Player player, @Optional OnlinePlayer target) {
         Location spawnLocation = Mandatory.configuration.getSpawnLocation();
         if (spawnLocation == null) {
             plugin.sendMessage(player, "messages.error.noAFKSet");
@@ -34,7 +34,7 @@ public class CommandAFK extends BaseCommand {
                 plugin.sendMessage(player, "messages.afk.alreadyAfk");
             }
             plugin.afkPlayers.put(player, new ArrayList<>());
-            TeleportUtil.Teleport(player, spawnLocation, plugin.getMessage("messages.names.afk"), false);
+            TeleportUtil.teleport(player, spawnLocation, Mandatory.getMessage("messages.names.afk"), false);
         } else {
             if (!player.hasPermission("mandatory.command.afk.others")) {
                 plugin.sendMessage(player, "messages.error.permissionDenied");
@@ -44,7 +44,7 @@ public class CommandAFK extends BaseCommand {
                 plugin.sendMessage(player, "messages.afk.alreadyAfkOther", "%player%", target.getPlayer().getName());
             }
             plugin.afkPlayers.put(target.getPlayer(), new ArrayList<>());
-            TeleportUtil.Teleport(target.getPlayer(), spawnLocation, plugin.getMessage("messages.names.afk"), true);
+            TeleportUtil.teleport(target.getPlayer(), spawnLocation, Mandatory.getMessage("messages.names.afk"), true);
             plugin.sendMessage(player, "messages.successful.afk", "%player%", target.getPlayer().getName());
         }
     }

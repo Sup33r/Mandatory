@@ -243,5 +243,12 @@ messages:
     impossible: "<red>Du kan inte ignorera %player%.</red>"
     alreadyIgnored: "<red>%player% är redan ignorerad.</red>"
 
+  pay:
+    reasonInvalid: "<red>Anledningen är inte tillräckligt bra. Tydliggör, precisera!</red>"
+    notEnoughMoney: "<red>Du har inte %amount% encoins.</red>"
+    cantPaySelf: "<red>Du kan inte betala dig själv.</red>"
+    received: "<dark_aqua>--- <aqua>Mottagen överföring</aqua> ---\nFrån: <aqua>%player%</aqua>\nBelopp: <aqua>%amount% encoins</aqua>\nAnledning: <aqua>%reason%</aqua>"
+    success: "<aqua>Du skickade %amount% encoins till %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+
 
 

@@ -11,16 +11,16 @@ import org.bukkit.entity.Player;
 public class CommandKick extends BaseCommand {
     public static Mandatory plugin;
 
-    public void onKick(Player player, OnlinePlayer target, String reason) {
+    public static void onKick(Player player, OnlinePlayer target, String reason) {
         if (!player.hasPermission("mandatory.command.kick")) {
             plugin.sendMessage(player,"messages.error.permissionDenied");
             return;
         }
         if (reason.equals("spam")) {
-            reason = plugin.getMessage("messages.kick.reasons.spam");
+            reason = Mandatory.getMessage("messages.kick.reasons.spam");
         }
         if (reason.equals("language")) {
-            reason = plugin.getMessage("messages.kick.reasons.language");
+            reason = Mandatory.getMessage("messages.kick.reasons.language");
         }
         InfractionManager.kickPlayer(target.getPlayer(), player, reason);
         plugin.sendMessage(player, "messages.kick.successful", "%player%", target.getPlayer().getName(), "%reason%", reason);

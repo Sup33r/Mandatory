@@ -144,7 +144,7 @@ public class DateUtil {
     public static String formatDateDiff(final Calendar fromDate, final Calendar toDate) {
         boolean future = false;
         if (toDate.equals(fromDate)) {
-            return plugin.getMessage("messages.time.now");
+            return Mandatory.getMessage("messages.time.now");
         }
         if (toDate.after(fromDate)) {
             future = true;
@@ -153,7 +153,7 @@ public class DateUtil {
         toDate.add(Calendar.MILLISECOND, future ? 50 : -50);
         final StringBuilder sb = new StringBuilder();
         final int[] types = new int[] {Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.SECOND};
-        final String[] names = new String[] {plugin.getMessage("messages.time.year"), plugin.getMessage("messages.time.years"), plugin.getMessage("messages.time.month"), plugin.getMessage("messages.time.months"), plugin.getMessage("messages.time.day"), plugin.getMessage("messages.time.days"), plugin.getMessage("messages.time.hour"), plugin.getMessage("messages.time.hours"), plugin.getMessage("messages.time.minute"), plugin.getMessage("messages.time.minutes"), plugin.getMessage("messages.time.second"), plugin.getMessage("messages.time.seconds")};
+        final String[] names = new String[] {Mandatory.getMessage("messages.time.year"), Mandatory.getMessage("messages.time.years"), Mandatory.getMessage("messages.time.month"), Mandatory.getMessage("messages.time.months"), Mandatory.getMessage("messages.time.day"), Mandatory.getMessage("messages.time.days"), Mandatory.getMessage("messages.time.hour"), Mandatory.getMessage("messages.time.hours"), Mandatory.getMessage("messages.time.minute"), Mandatory.getMessage("messages.time.minutes"), Mandatory.getMessage("messages.time.second"), Mandatory.getMessage("messages.time.seconds")};
         int accuracy = 0;
         for (int i = 0; i < types.length; i++) {
             if (accuracy > 2) {
@@ -168,7 +168,7 @@ public class DateUtil {
         // Preserve correctness in the original date object by removing the extra buffer time
         toDate.add(Calendar.MILLISECOND, future ? -50 : 50);
         if (sb.isEmpty()) {
-            return plugin.getMessage("messages.time.now");
+            return Mandatory.getMessage("messages.time.now");
         }
         return sb.toString().trim();
     }
@@ -183,22 +183,22 @@ public class DateUtil {
 
         StringBuilder readableTime = new StringBuilder();
         if (years > 0) {
-            readableTime.append(years).append(" ").append(plugin.getMessage("messages.time.years")).append(" ");
+            readableTime.append(years).append(" ").append(Mandatory.getMessage("messages.time.years")).append(" ");
         }
         if (weeks > 0) {
-            readableTime.append(weeks).append(" ").append(plugin.getMessage("messages.time.weeks")).append(" ");
+            readableTime.append(weeks).append(" ").append(Mandatory.getMessage("messages.time.weeks")).append(" ");
         }
         if (days > 0) {
-            readableTime.append(days).append(" ").append(plugin.getMessage("messages.time.days")).append(" ");
+            readableTime.append(days).append(" ").append(Mandatory.getMessage("messages.time.days")).append(" ");
         }
         if (hours > 0) {
-            readableTime.append(hours).append(" ").append(plugin.getMessage("messages.time.hours")).append(" ");
+            readableTime.append(hours).append(" ").append(Mandatory.getMessage("messages.time.hours")).append(" ");
         }
         if (minutes > 0) {
-            readableTime.append(minutes).append(" ").append(plugin.getMessage("messages.time.minutes")).append(" ");
+            readableTime.append(minutes).append(" ").append(Mandatory.getMessage("messages.time.minutes")).append(" ");
         }
         if (seconds > 0) {
-            readableTime.append(seconds).append(" ").append(plugin.getMessage("messages.time.seconds"));
+            readableTime.append(seconds).append(" ").append(Mandatory.getMessage("messages.time.seconds"));
         }
 
         return readableTime.toString().trim();
@@ -223,24 +223,24 @@ public class DateUtil {
 
         String day;
         String[] months = {
-                plugin.getMessage("messages.months.january"),
-                plugin.getMessage("messages.months.february"),
-                plugin.getMessage("messages.months.march"),
-                plugin.getMessage("messages.months.april"),
-                plugin.getMessage("messages.months.may"),
-                plugin.getMessage("messages.months.june"),
-                plugin.getMessage("messages.months.july"),
-                plugin.getMessage("messages.months.august"),
-                plugin.getMessage("messages.months.september"),
-                plugin.getMessage("messages.months.october"),
-                plugin.getMessage("messages.months.november"),
-                plugin.getMessage("messages.months.december")
+                Mandatory.getMessage("messages.months.january"),
+                Mandatory.getMessage("messages.months.february"),
+                Mandatory.getMessage("messages.months.march"),
+                Mandatory.getMessage("messages.months.april"),
+                Mandatory.getMessage("messages.months.may"),
+                Mandatory.getMessage("messages.months.june"),
+                Mandatory.getMessage("messages.months.july"),
+                Mandatory.getMessage("messages.months.august"),
+                Mandatory.getMessage("messages.months.september"),
+                Mandatory.getMessage("messages.months.october"),
+                Mandatory.getMessage("messages.months.november"),
+                Mandatory.getMessage("messages.months.december")
         };
 
         if (date.get(Calendar.DAY_OF_MONTH) == dateNow.get(Calendar.DAY_OF_MONTH)
                 && date.get(Calendar.MONTH) == dateNow.get(Calendar.MONTH)
                 && date.get(Calendar.YEAR) == dateNow.get(Calendar.YEAR)) {
-            day = plugin.getMessage("messages.days.today");
+            day = Mandatory.getMessage("messages.days.today");
         } else {
             Calendar dateYesterday = Calendar.getInstance();
             dateYesterday.setTimeInMillis((rightNow - 86400) * 1000);
@@ -249,7 +249,7 @@ public class DateUtil {
                     date.get(Calendar.DAY_OF_MONTH) == dateYesterday.get(Calendar.DAY_OF_MONTH)
                             && date.get(Calendar.MONTH) == dateYesterday.get(Calendar.MONTH)
                             && date.get(Calendar.YEAR) == dateYesterday.get(Calendar.YEAR)
-                            ? plugin.getMessage("messages.days.yesterday")
+                            ? Mandatory.getMessage("messages.days.yesterday")
                             : date.get(Calendar.DAY_OF_MONTH)
                             + " "
                             + months[date.get(Calendar.MONTH)]
@@ -278,14 +278,14 @@ public class DateUtil {
         String time = String.format("%02d:%02d", hour, minute);
 
         if (isSameDay(calendar, now)) {
-            return plugin.getMessage("messages.days.today") + " " + time;
+            return Mandatory.getMessage("messages.days.today") + " " + time;
         } else if (isSameDay(calendar, yesterday)) {
-            return plugin.getMessage("messages.days.yesterday") + " " + time;
+            return Mandatory.getMessage("messages.days.yesterday") + " " + time;
         } else {
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             int month = calendar.get(Calendar.MONTH);
             int year = calendar.get(Calendar.YEAR);
-            String monthName = plugin.getMessage("messages.months." + DateUtil.getMonthName(month).toLowerCase());
+            String monthName = Mandatory.getMessage("messages.months." + DateUtil.getMonthName(month).toLowerCase());
             return String.format("%d %s %d, %s", day, monthName, year, time);
         }
     }

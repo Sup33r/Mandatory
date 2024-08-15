@@ -3,6 +3,7 @@ package live.supeer.mandatory;
 import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
 import live.supeer.mandatory.utils.DateUtil;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -13,6 +14,7 @@ import java.util.UUID;
 public class MPlayerManager {
     public static Mandatory plugin;
 
+    @Getter
     private static List<MPlayer> players = new ArrayList<>();
 
     public static MPlayer getPlayerFromUUID(UUID uuid) {
@@ -83,4 +85,5 @@ public class MPlayerManager {
             e.printStackTrace();
         }
     }
+
 }

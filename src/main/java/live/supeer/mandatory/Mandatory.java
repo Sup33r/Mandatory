@@ -1,7 +1,6 @@
 package live.supeer.mandatory;
 
 import co.aikar.commands.PaperCommandManager;
-import co.aikar.idb.DB;
 import com.google.common.collect.ImmutableList;
 import de.tr7zw.changeme.nbtapi.NBT;
 import live.supeer.mandatory.commands.*;
@@ -15,7 +14,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -26,7 +24,7 @@ public final class Mandatory extends JavaPlugin {
     public static MandatoryConfiguration configuration;
     @Getter
     private static Mandatory plugin;
-    private LanguageManager languageManager;
+    private static LanguageManager languageManager;
 
     public HashMap<Player, Location> backLocations = new HashMap<>();
     public HashMap<Player, List<Component>> afkPlayers = new HashMap<>();
@@ -36,19 +34,13 @@ public final class Mandatory extends JavaPlugin {
     public HashMap<Player, Go> promptedPayment = new HashMap<>();
 
 
+    public static Mandatory getInstance() {
+        return plugin;
+    }
+
     @Override
     public void onEnable() {
         plugin = this;
-        CommandSpawn.plugin = this;
-        CommandAFK.plugin = this;
-        CommandBack.plugin = this;
-        CommandBroadcast.plugin = this;
-        CommandFeed.plugin = this;
-        CommandFly.plugin = this;
-        CommandGamemode.plugin = this;
-        CommandRepair.plugin = this;
-        CommandSpeed.plugin = this;
-        CommandVision.plugin = this;
         this.logger = getLogger();
         configuration = new MandatoryConfiguration(this);
 
@@ -83,9 +75,9 @@ public final class Mandatory extends JavaPlugin {
 //        DB.close();
     }
 
-    public void sendMessage(
+    public static void sendMessage(
             @NotNull CommandSender sender, @NotNull String key, String... replacements) {
-        String message = this.languageManager.getValue(key, getLocale(sender), replacements);
+        String message = languageManager.getValue(key, getLocale(sender), replacements);
 
         if (message != null && !message.isEmpty()) {
             Component component = languageManager.getMiniMessage().deserialize(message);
@@ -93,8 +85,8 @@ public final class Mandatory extends JavaPlugin {
         }
     }
 
-    public String getMessage(@NotNull String key, String... replacements) {
-        String message = this.languageManager.getValue(key, "sv_se", replacements);
+    public static String getMessage(@NotNull String key, String... replacements) {
+        String message = languageManager.getValue(key, "sv_se", replacements);
 
         if (message != null && !message.isEmpty()) {
             // Deserialize MiniMessage to a Component
@@ -105,8 +97,8 @@ public final class Mandatory extends JavaPlugin {
         return null;
     }
 
-    public Component getMessageComponent(@NotNull String key, String... replacements) {
-        String message = this.languageManager.getValue(key, "sv_se", replacements);
+    public static Component getMessageComponent(@NotNull String key, String... replacements) {
+        String message = languageManager.getValue(key, "sv_se", replacements);
 
         if (message != null && !message.isEmpty()) {
             return languageManager.getMiniMessage().deserialize(message);
@@ -114,11 +106,11 @@ public final class Mandatory extends JavaPlugin {
         return null;
     }
 
-    private @NotNull String getLocale(@NotNull CommandSender sender) {
+    private static @NotNull String getLocale(@NotNull CommandSender sender) {
         if (sender instanceof Player) {
             return ((Player) sender).getLocale();
         } else {
-            return this.getConfig().getString("settings.locale", "sv_se");
+            return getInstance().getConfig().getString("settings.locale", "sv_se");
         }
     }
 

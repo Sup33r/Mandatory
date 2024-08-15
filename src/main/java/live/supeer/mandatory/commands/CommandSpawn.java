@@ -18,7 +18,7 @@ public class CommandSpawn extends BaseCommand {
 
     @Default
     @CommandCompletion("@players")
-    public void onSpawn(Player player, @Optional OnlinePlayer target) {
+    public static void onSpawn(Player player, @Optional OnlinePlayer target) {
         Location spawnLocation = Mandatory.configuration.getSpawnLocation();
         if (target == null) {
             if (!player.hasPermission("mandatory.command.spawn")) {
@@ -30,7 +30,7 @@ public class CommandSpawn extends BaseCommand {
                 plugin.sendMessage(player, "messages.error.noSpawnSet");
                 return;
             }
-            TeleportUtil.Teleport(player, spawnLocation, plugin.getMessage("messages.names.spawn"), false);
+            TeleportUtil.teleport(player, spawnLocation, Mandatory.getMessage("messages.names.spawn"), false);
         } else {
             if (!player.hasPermission("mandatory.command.spawn.others")) {
                 plugin.sendMessage(player, "messages.error.permissionDenied");
@@ -40,7 +40,7 @@ public class CommandSpawn extends BaseCommand {
                 plugin.sendMessage(player, "messages.error.noSpawnSet");
                 return;
             }
-            TeleportUtil.Teleport(target.getPlayer(), spawnLocation, plugin.getMessage("messages.names.spawn"), true);
+            TeleportUtil.teleport(target.getPlayer(), spawnLocation, Mandatory.getMessage("messages.names.spawn"), true);
             plugin.sendMessage(player, "messages.successful.spawn", "%player%", target.getPlayer().getName());
         }
     }

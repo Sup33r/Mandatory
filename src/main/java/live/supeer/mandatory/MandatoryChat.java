@@ -55,7 +55,7 @@ public class MandatoryChat {
         if (isAfk) {
             Date now = new Date();
             SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-            Component recipientMessage = plugin.getMessageComponent("messages.message.receivedAfk","%time%", format.format(now), "%sender%", player.getName(), "%message%", message);
+            Component recipientMessage = Mandatory.getMessageComponent("messages.message.receivedAfk","%time%", format.format(now), "%sender%", player.getName(), "%message%", message);
             plugin.afkPlayers.get(target).add(recipientMessage);
             plugin.sendMessage(player, "messages.message.sentAfk", "%receiver%", target.getName(), "%message%", message);
             plugin.sendMessage(player,"messages.message.received", "%sender%", player.getName(), "%message%", message);

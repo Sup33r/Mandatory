@@ -106,10 +106,10 @@ public class CommandGo extends BaseCommand {
                         plugin.sendMessage(player, "messages.go.info.displayname", "%displayname%", go.getDisplayname());
                     }
                     plugin.sendMessage(player, "messages.go.info.owner", "%owner%", MPlayerManager.getPlayerFromUUID(go.getOwnerUUID()).getName());
-                    plugin.sendMessage(player, "messages.go.info.open.open", "%open%", go.isOpen() ? plugin.getMessage("messages.go.info.open.true") : plugin.getMessage("messages.go.info.open.false"));
+                    plugin.sendMessage(player, "messages.go.info.open.open", "%open%", go.isOpen() ? Mandatory.getMessage("messages.go.info.open.true") : Mandatory.getMessage("messages.go.info.open.false"));
                     plugin.sendMessage(player, "messages.go.info.created", "%created%", DateUtil.formatDate(go.getCreateDate()));
                     plugin.sendMessage(player, "messages.go.info.latestUse", "%latestUse%", DateUtil.formatDate(GoManager.getLatestUse(go)));
-                    String price = go.getChargeAmount() == 0 ? plugin.getMessage("messages.free") : go.getChargeAmount() + " encoins";
+                    String price = go.getChargeAmount() == 0 ? Mandatory.getMessage("messages.free") : go.getChargeAmount() + " encoins";
                     plugin.sendMessage(player, "messages.go.info.price", "%price%", price);
                     return;
                 }

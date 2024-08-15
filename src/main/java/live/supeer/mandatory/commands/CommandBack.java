@@ -2,7 +2,6 @@ package live.supeer.mandatory.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Default;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.TeleportUtil;
@@ -27,7 +26,7 @@ public class CommandBack extends BaseCommand {
             return;
         }
         playerLocation.put(player, player.getLocation());
-        TeleportUtil.Teleport(player, plugin.backLocations.get(player), plugin.getMessage("messages.names.back"), false);
+        TeleportUtil.teleport(player, plugin.backLocations.get(player), Mandatory.getMessage("messages.names.back"), false);
         plugin.backLocations.replace(player, playerLocation.get(player));
         playerLocation.remove(player);
     }
