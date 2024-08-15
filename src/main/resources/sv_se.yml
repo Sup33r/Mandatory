@@ -43,6 +43,7 @@ messages:
     sent: "<green>Ditt meddelande har skickats till våra moderatorer, och de kontaktar dig så fort det finns tid och möjlighet. Du kan alltid komma i kontakt med oss genom att skapa ett ärende på hemsidan: <underlined>https://enserver.se/support/new</underlined>"
 
   teleportRequests:
+    teleportsNotAllowed: "<red>%target% tillåter inte spelare att teleportera till sig.</red>"
     self: "<red>Du kan inte teleportera till dig själv.</red>"
     cancelledSelf: "<green>Avbröt teleporteringsförfrågan till %target%."
     cancelledOther: "<aqua>%player% avbröt teleporteringsförfrågan till dig."
@@ -249,6 +250,39 @@ messages:
     cantPaySelf: "<red>Du kan inte betala dig själv.</red>"
     received: "<dark_aqua>--- <aqua>Mottagen överföring</aqua> ---\nFrån: <aqua>%player%</aqua>\nBelopp: <aqua>%amount% encoins</aqua>\nAnledning: <aqua>%reason%</aqua>"
     success: "<aqua>Du skickade %amount% encoins till %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+
+  player:
+    info:
+      header: "<dark_green>--- <green>Spelare: %name% <dark_green>---"
+      playedSince: "<dark_green>Spelat sedan: %time%"
+      status: "Status: Online, sedan idag, 18:32"
+      latestPosition: "<dark_green>Senaste position: <green>%position%"
+      wallet: "<dark_green>Plånbok: <green>%amount% encoins"
+    toggle:
+      chestmessages:
+        on: "<green>Du kommer nu få meddelanden när du öppnar dina kistor.</green>"
+        off: "<green>Du kommer nu inte längre få några meddelanden när du öppnar dina kistor.</green>"
+      chatcolor:
+        on: "<green>Du har nu aktiverat färg på dina chattmeddelanden.</green>"
+        off: "<green>Du har nu avaktiverat färg på dina chattmeddelanden.</green>"
+      externalprefixes:
+        on: "<green>Du har nu aktiverat externa prefixar i chatten.</green>"
+        off: "<green>Du har nu avaktiverat externa prefixar i chatten.</green>"
+      greeting:
+        on: "<green>Du har nu aktiverat välkomstmeddelandet.</green>"
+        off: "<green>Du har nu avaktiverat välkostmeddelandet.</green>"
+      insecureconnections:
+        on: "<green>Du har nu aktiverat osäkra anslutningar.</green>"
+        off: "<green>Du har nu avaktiverat osäkra anslutningar.</green>"
+      joinleaves:
+        on: "<green>In- och utloggningar kommer nu att visas</green>"
+        off: "<green>In- och utloggningar kommer nu att döljas</green>"
+      payments:
+        on: "<green>Betalningar är nu påslagna.</green>"
+        off: "<green>Betalningar är nu avstängda.</green>"
+      teleport:
+        on: "<green>Du tillåter nu spelare att skicka teleporteringsförfrågningar.</green>"
+        off: "<green>Du tillåter inte längre spelare att skicka teleporteringsförfrågningar.</green>"
 
 
 

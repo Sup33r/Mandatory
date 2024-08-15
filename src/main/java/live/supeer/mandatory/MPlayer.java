@@ -87,7 +87,7 @@ public class MPlayer {
         return false;
     }
 
-    public void setflags(String flags) {
+    public void setFlags(String flags) {
         this.flags = flags.toCharArray();
         DB.executeUpdateAsync(
                 "UPDATE `md_players` SET `flags` = "
