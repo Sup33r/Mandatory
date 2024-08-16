@@ -27,7 +27,7 @@ public class CommandTeleportAsk extends BaseCommand {
             return;
         }
         MPlayer mPlayerTarget = MPlayerManager.getPlayerFromPlayer(target.getPlayer());
-        if (mPlayerTarget != null && !mPlayerTarget.hasFlag('t')) {
+        if (mPlayerTarget != null && mPlayerTarget.hasFlag('t')) {
             Mandatory.sendMessage(player, "messages.teleportRequests.teleportsNotAllowed", "%target%", target.getPlayer().getName());
             return;
         }

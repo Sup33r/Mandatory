@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Subcommand;
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import live.supeer.mandatory.CopyrightManager;
 import live.supeer.mandatory.MPlayer;
 import live.supeer.mandatory.MPlayerManager;
 import live.supeer.mandatory.Mandatory;
@@ -13,6 +14,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.UUID;
 
 @CommandAlias("update")
 public class CommandUpdate extends BaseCommand {
@@ -28,24 +31,24 @@ public class CommandUpdate extends BaseCommand {
             Mandatory.sendMessage(player, "messages.update.copyright.noItemInHand");
             return;
         }
-        if (item.getType() != Material.FILLED_MAP || item.getType() != Material.WRITTEN_BOOK || !item.getItemMeta().hasLore()) {
+        if (!item.getType().equals(Material.FILLED_MAP)) {
             Mandatory.sendMessage(player, "messages.update.copyright.noCopyright");
             return;
         }
-        NBTItem nbtItem = new NBTItem(item);
-        String copyrighter = nbtItem.getString("copyrighter");
-        MPlayer mPlayer = MPlayerManager.getPlayerFromUUID(player.getUniqueId());
-        if (copyrighter == null || mPlayer == null) {
+        if (!CopyrightManager.hasCopyright(item)) {
             Mandatory.sendMessage(player, "messages.update.copyright.noCopyright");
             return;
         }
-        ItemMeta meta = item.getItemMeta();
-        ArrayList<String> lore = new ArrayList<>();
-        lore.add("§dKopieringsskyddad av " + mPlayer.getName());
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        player.getInventory().getItemInMainHand().setAmount(0);
-        player.getInventory().addItem(item);
+        UUID copyrighter = CopyrightManager.getCopyrighter(item);
+        assert copyrighter != null;
+        MPlayer mPlayer = MPlayerManager.getPlayerFromUUID(copyrighter);
+        if (mPlayer == null) {
+            Mandatory.sendMessage(player, "messages.update.copyright.noCopyright");
+            return;
+        }
+        ItemStack itemStack = CopyrightManager.updateCopyright(item);
+        //player.getInventory().getItemInMainHand().setAmount(0);
+        player.getInventory().addItem(itemStack);
         Mandatory.sendMessage(player, "messages.update.copyright.success");
     }
 }

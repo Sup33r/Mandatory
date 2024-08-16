@@ -77,10 +77,10 @@ messages:
     noReply: "<red>Det finns ingen att svara på.</red>"
 
   message:
-    recieved: "<dark_red>[<red>%sender% -> dig<dark_red>] <white>%message%</white>"
-    recievedAfk: "<dark_red>[<red>%time%<dark_red>] [<red>%sender% -> dig<dark_red>] <white>%message%</white>"
-    sent: "<dark_red>[du -> %receiver%<dark_red>] <white>%message%</white>"
-    sentAfk: "<dark_red>[du -> [AFK] %receiver%<dark_red>] <white>%message%</white>"
+    received: "<dark_red>[<red>%sender% -> dig<dark_red>] <white>%message%</white>"
+    receivedAfk: "<dark_red>[<red>%time%<dark_red>] [<red>%sender% -> dig<dark_red>] <white>%message%</white>"
+    sent: "<dark_red>[<red>du -> %receiver%<dark_red>] <white>%message%</white>"
+    sentAfk: "<dark_red>[<red>du -> <dark_red>[<red>AFK<dark_red>]<red> %receiver%<dark_red>] <white>%message%</white>"
 
   modchat:
     announcement: "<dark_red>\n#modzone <gray>| <red>%message%</red>\n</dark_red>"
@@ -216,9 +216,9 @@ messages:
   buy:
     copyright:
       success: "<green>Du har köpt ett kopieringsskydd för %price% encoins.</green>"
-      notCopyrightable: "<redFöremålet du håller i handen kan inte kopieringsskyddas.</red>"
+      notCopyrightable: "<red>Föremålet du håller i handen kan inte kopieringsskyddas.</red>"
       noItemInHand: "<red>Vänligen håll det du vill kopieringsskydda i handen.</red>"
-      notEnoughMoney: "<redDu har inte råd med %price% encoins, som ett kopieringsskydd kostar.</red>"
+      notEnoughMoney: "<red>Du har inte råd med %price% encoins, som ett kopieringsskydd kostar.</red>"
     head:
       notEnoughMoney: "<red>Du har inte råd med %price% encoins, som ett exemplar av ditt huvud kostar.</red>"
       success: "<green>Du har köpt ett exemplar av ditt huvud för %price% encoins.</green>"
@@ -249,6 +249,8 @@ messages:
     alreadyIgnored: "<red>%player% är redan ignorerad.</red>"
 
   pay:
+    onlyOnePlayer: "<red>Du kan inte göra en payall när det endast är en annan spelare online! Använd /pay istället!</red>"
+    noPlayers: "<red>Det finns inga spelare online som kan ta emot din payall!</red>"
     reasonInvalid: "<red>Anledningen är inte tillräckligt bra. Tydliggör, precisera!</red>"
     notEnoughMoney: "<red>Du har inte %amount% encoins.</red>"
     cantPaySelf: "<red>Du kan inte betala dig själv.</red>"
@@ -313,6 +315,8 @@ messages:
   disabled:
     name: "<red>Namnet %name% är avstängt på EnServer. Vänligen byt namn för att kunna logga in.</red>"
     other: "<red>Du är avstängd från EnServer. Kontakta supporten för mer information.</red>"
+
+  copyrighted: "<red>Föremålet du försöker kopiera är kopieringsskyddat.</red>"
 
   admin:
     toggle:

@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -32,15 +33,20 @@ public class MPlayer {
     public MPlayer(DbRow data) {
         this.uuid = UUID.fromString(data.getString("uuid"));
         this.name = data.getString("name");
-        this.firstJoin = data.getLong("firstJoin");
-        this.latestJoin = data.getLong("latestJoin");
-        this.latestLeave = data.getLong("latestLeave");
+        this.firstJoin = data.getLong("firstJoin") != null ? data.getLong("firstJoin") : 0L;
+        this.latestJoin = data.getLong("latestJoin") != null ? data.getLong("latestJoin") : 0L;
+        this.latestLeave = data.getLong("latestLeave") != null ? data.getLong("latestLeave") : 0L;
         this.flags = data.getString("flags") == null ? new char[0] : data.getString("flags").toCharArray();
         this.balance = data.getInt("balance");
         this.ignores = new ArrayList<>(Utilities.stringToUUIDList(data.getString("ignores")));
         this.chatprefix = data.getString("chatprefix");
-        this.lastLocation = LocationUtil.stringToLocation(data.getString("location"));
-        this.backLocation = LocationUtil.stringToLocation(data.getString("backLocation"));
+        this.lastLocation = Optional.ofNullable(data.getString("location"))
+                .map(LocationUtil::stringToLocation)
+                .orElse(null);
+
+        this.backLocation = Optional.ofNullable(data.getString("backLocation"))
+                .map(LocationUtil::stringToLocation)
+                .orElse(null);
         try {
             DB.getResults("SELECT * FROM `md_homes` WHERE `playerUUID` = " + Database.sqlString(uuid.toString())).forEach(row -> homes.add(new Home(row)));
         } catch (SQLException e) {
@@ -51,7 +57,7 @@ public class MPlayer {
     public void setLastLocation(Location lastLocation) {
         try {
             this.lastLocation = lastLocation;
-            DB.executeUpdate("UPDATE `md_players` SET `position` = " + Database.sqlString(LocationUtil.locationToString(lastLocation)) + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
+            DB.executeUpdate("UPDATE `md_players` SET `location` = " + Database.sqlString(LocationUtil.locationToString(lastLocation)) + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -60,7 +66,7 @@ public class MPlayer {
     public void setBackLocation(Location backLocation) {
         try {
             this.backLocation = backLocation;
-            DB.executeUpdate("UPDATE `md_players` SET `backPosition` = " + Database.sqlString(LocationUtil.locationToString(backLocation)) + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
+            DB.executeUpdate("UPDATE `md_players` SET `backLocation` = " + Database.sqlString(LocationUtil.locationToString(backLocation)) + " WHERE `uuid` = " + Database.sqlString(uuid.toString()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

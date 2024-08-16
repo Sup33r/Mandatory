@@ -7,8 +7,6 @@ import java.sql.SQLException;
 
 public class Database {
 
-    public static Mandatory plugin;
-
     public static void initialize() {
         try {
             BukkitDB.createHikariDatabase(
@@ -21,8 +19,8 @@ public class Database {
                             + Mandatory.configuration.getSqlPort());
             createTables();
         } catch (Exception e) {
-            plugin.getLogger().warning("Failed to initialize database, disabling plugin.");
-            plugin.getServer().getPluginManager().disablePlugin(plugin);
+            Mandatory.getInstance().getLogger().warning("Failed to initialize database, disabling plugin.\nError: " + e.getMessage());
+            Mandatory.getInstance().getServer().getPluginManager().disablePlugin(Mandatory.getInstance());
         }
     }
 
@@ -52,12 +50,12 @@ public class Database {
                                 `latestJoin` bigint(30) DEFAULT NULL,
                                 `latestLeave` bigint(30) DEFAULT NULL,
                                 `flags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `balance` int(25) NOT NULL,
+                                `balance` int(25) NOT NULL DEFAULT 0,
                                 `ignores` text COLLATE utf8mb4_unicode_ci,
                                 `chatprefix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `backLocation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                PRIMARY KEY (`cityId`)
+                                `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `backLocation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                PRIMARY KEY (`uuid`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;""");
 
             DB.executeUpdate(
@@ -84,8 +82,8 @@ public class Database {
                               CREATE TABLE IF NOT EXISTS `md_loginlogs` (
                                 `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `playerIp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `dateTime` bigint(30) DEFAULT NULL,
-                                `playTime` bigint(30) DEFAULT NULL,
+                                `dateTime` bigint(30) DEFAULT '0',
+                                `playTime` bigint(30) DEFAULT '0',
                                 PRIMARY KEY (`playerUUID`, `dateTime`, `playTime`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
             DB.executeUpdate(

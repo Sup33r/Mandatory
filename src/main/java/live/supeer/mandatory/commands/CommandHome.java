@@ -28,12 +28,12 @@ public class CommandHome extends BaseCommand {
         if (args.length == 0) {
             MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
             if (mPlayer == null) {
-                player.sendMessage("messages.error.playerNotFound");
+                Mandatory.sendMessage(player,"messages.error.playerNotFound");
                 return;
             }
             Home home = mPlayer.getHome("Hem");
             if (home == null) {
-                player.sendMessage("messages.home.none");
+                Mandatory.sendMessage(player,"messages.home.none");
                 return;
             }
             TeleportUtil.teleport(player, home.getLocation(),home.getName(),false);
@@ -41,45 +41,45 @@ public class CommandHome extends BaseCommand {
         if (args.length == 1) {
             MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
             if (mPlayer == null) {
-                player.sendMessage("messages.error.playerNotFound");
+                Mandatory.sendMessage(player,"messages.error.playerNotFound");
                 return;
             }
             if (args[0].equalsIgnoreCase("delete")) {
                 Home home = mPlayer.getHome("Hem");
                 if (home == null) {
-                    player.sendMessage("messages.home.none");
+                    Mandatory.sendMessage(player,"messages.home.none");
                     return;
                 }
                 mPlayer.removeHome(home);
-                player.sendMessage("messages.home.deleted");
+                Mandatory.sendMessage(player,"messages.home.deleted");
                 return;
             }
             if (args[0].equalsIgnoreCase("set")) {
                 Home home = mPlayer.getHome("Hem");
                 if (home == null) {
                     mPlayer.newHome("Hem", player.getLocation());
-                    player.sendMessage("messages.home.saved");
+                    Mandatory.sendMessage(player,"messages.home.saved");
                     return;
                 }
                 home.updateHomeLocation(player.getLocation());
-                player.sendMessage("messages.home.updated");
+                Mandatory.sendMessage(player,"messages.home.updated");
                 return;
             }
             if (args[0].contains(":")) {
                 if (!player.hasPermission("mandatory.command.home.others")) {
-                    player.sendMessage("messages.error.permissionDenied");
+                    Mandatory.sendMessage(player,"messages.error.permissionDenied");
                     return;
                 }
                 String[] split = args[0].split(":");
                 MPlayer target = MPlayerManager.getPlayerFromName(split[0]);
                 if (target == null) {
-                    player.sendMessage("messages.error.playerNotFound");
+                    Mandatory.sendMessage(player,"messages.error.playerNotFound");
                     return;
                 }
                 if (split.length == 1) {
                     Home home = target.getHome("Hem");
                     if (home == null) {
-                        player.sendMessage("messages.home.doesntExist");
+                        Mandatory.sendMessage(player,"messages.home.doesntExist");
                         return;
                     }
                     TeleportUtil.teleport(player, home.getLocation(),home.getName(),false);
@@ -87,7 +87,7 @@ public class CommandHome extends BaseCommand {
                 }
                 Home home = mPlayer.getHome(split[1]);
                 if (home == null) {
-                    player.sendMessage("messages.home.others.doesntExist", "%player%", target.getName());
+                    Mandatory.sendMessage(player,"messages.home.others.doesntExist", "%player%", target.getName());
                     return;
                 }
                 TeleportUtil.teleport(player, home.getLocation(),home.getName(),false);
@@ -95,7 +95,7 @@ public class CommandHome extends BaseCommand {
             }
             Home home = mPlayer.getHome(args[0]);
             if (home == null) {
-                player.sendMessage("messages.home.doesntExist");
+                Mandatory.sendMessage(player,"messages.home.doesntExist");
                 return;
             }
             TeleportUtil.teleport(player, home.getLocation(),home.getName(),false);
@@ -106,20 +106,20 @@ public class CommandHome extends BaseCommand {
 
             if (args[0].contains(":")) {
                 if (!player.hasPermission("mandatory.command.home.others")) {
-                    player.sendMessage("messages.error.permissionDenied");
+                    Mandatory.sendMessage(player,"messages.error.permissionDenied");
                     return;
                 }
                 String[] split = args[0].split(":");
                 mPlayer = MPlayerManager.getPlayerFromName(split[0]);
                 if (mPlayer == null) {
-                    player.sendMessage("messages.error.playerNotFound");
+                    Mandatory.sendMessage(player,"messages.error.playerNotFound");
                     return;
                 }
                 homeName = split[1];
             } else {
                 mPlayer = MPlayerManager.getPlayerFromPlayer(player);
                 if (mPlayer == null) {
-                    player.sendMessage("messages.error.playerNotFound");
+                    Mandatory.sendMessage(player,"messages.error.playerNotFound");
                     return;
                 }
                 homeName = args[0];
@@ -130,32 +130,32 @@ public class CommandHome extends BaseCommand {
                 if (home == null) {
                     mPlayer.newHome(homeName, player.getLocation());
                     if (!mPlayerEqualsPlayer) {
-                        player.sendMessage("messages.home.others.saved", "%name%", homeName, "%player%", mPlayer.getName());
+                        Mandatory.sendMessage(player,"messages.home.others.saved", "%name%", homeName, "%player%", mPlayer.getName());
                     } else {
-                        player.sendMessage("messages.home.name.saved", "%name%", homeName);
+                        Mandatory.sendMessage(player,"messages.home.name.saved", "%name%", homeName);
                     }
                 } else {
                     home.updateHomeLocation(player.getLocation());
                     if (!mPlayerEqualsPlayer) {
-                        player.sendMessage("messages.home.others.updated", "%name%", homeName, "%player%", mPlayer.getName());
+                        Mandatory.sendMessage(player,"messages.home.others.updated", "%name%", homeName, "%player%", mPlayer.getName());
                     } else {
-                        player.sendMessage("messages.home.name.updated", "%name%", homeName);
+                        Mandatory.sendMessage(player,"messages.home.name.updated", "%name%", homeName);
                     }
                 }
             } else if (args[1].equalsIgnoreCase("delete")) {
                 Home home = mPlayer.getHome(homeName);
                 if (home == null) {
-                    player.sendMessage("messages.home.doesntExist");
+                    Mandatory.sendMessage(player,"messages.home.doesntExist");
                 } else {
                     if (!mPlayerEqualsPlayer) {
-                        player.sendMessage("messages.home.others.deleted", "%name%", homeName, "%player%", mPlayer.getName());
+                        Mandatory.sendMessage(player,"messages.home.others.deleted", "%name%", homeName, "%player%", mPlayer.getName());
                     } else {
-                        player.sendMessage("messages.home.name.deleted", "%name%", homeName);
+                        Mandatory.sendMessage(player,"messages.home.name.deleted", "%name%", homeName);
                     }
                     mPlayer.removeHome(home);
                 }
             } else {
-                player.sendMessage("messages.home.syntax");
+                Mandatory.sendMessage(player,"messages.home.syntax");
             }
         }
     }
@@ -169,12 +169,12 @@ public class CommandHome extends BaseCommand {
             }
             MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
             if (mPlayer == null) {
-                player.sendMessage("messages.error.playerNotFound");
+                Mandatory.sendMessage(player,"messages.error.playerNotFound");
                 return;
             }
             List<Home> homes = mPlayer.getHomes();
             if (homes.isEmpty()) {
-                player.sendMessage("messages.player.homes.none");
+                Mandatory.sendMessage(player,"messages.player.homes.none");
                 return;
             }
             String names = Utilities.formatStringList(homes.stream().map(Home::getName).toList());
@@ -192,12 +192,12 @@ public class CommandHome extends BaseCommand {
             }
             MPlayer mPlayer = MPlayerManager.getPlayerFromName(name);
             if (mPlayer == null) {
-                player.sendMessage("messages.error.playerNotFound");
+                Mandatory.sendMessage(player,"messages.error.playerNotFound");
                 return;
             }
             List<Home> homes = mPlayer.getHomes();
             if (homes.isEmpty()) {
-                player.sendMessage("messages.player.homes.none");
+                Mandatory.sendMessage(player,"messages.player.homes.none");
                 return;
             }
             String names = Utilities.formatStringList(homes.stream().map(Home::getName).toList());

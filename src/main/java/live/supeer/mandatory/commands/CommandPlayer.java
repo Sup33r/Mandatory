@@ -25,7 +25,7 @@ public class CommandPlayer extends BaseCommand {
         }
         MPlayer mPlayer = MPlayerManager.getPlayerFromName(playerName);
         if (mPlayer == null) {
-            player.sendMessage("messages.error.playerNotFound");
+            Mandatory.sendMessage(player,"messages.error.playerNotFound");
             return;
         }
         Mandatory.sendMessage(player, "messages.player.info.header", "%name%", mPlayer.getName());
@@ -39,7 +39,7 @@ public class CommandPlayer extends BaseCommand {
             if (MPlayerManager.getPlayers().contains(mPlayer)) {
                 Player target = Mandatory.getInstance().getServer().getPlayer(mPlayer.getUuid());
                 if (target == null) {
-                    player.sendMessage("messages.error.playerNotFound");
+                    Mandatory.sendMessage(player,"messages.error.playerNotFound");
                     return;
                 }
                 Mandatory.sendMessage(player, "messages.player.info.latestPosition", "%location%", LocationUtil.formatLocation(target.getLocation()));

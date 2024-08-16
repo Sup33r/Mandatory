@@ -1,6 +1,7 @@
 package live.supeer.mandatory.commands;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import live.supeer.mandatory.MPlayer;
 import live.supeer.mandatory.MPlayerManager;
@@ -8,6 +9,7 @@ import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.Utilities;
 import org.bukkit.entity.Player;
 
+@CommandAlias("balance|b|bal")
 public class CommandBalance extends BaseCommand {
 
     @Default
@@ -18,7 +20,7 @@ public class CommandBalance extends BaseCommand {
                 Mandatory.sendMessage(player,"messages.error.permissionDenied");
                 return;
             }
-            MPlayer mPlayer = MPlayerManager.getPlayerFromUUID(player.getUniqueId());
+            MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
             assert mPlayer != null;
             Mandatory.sendMessage(player, "messages.balance.own", "%balance%", Utilities.formattedMoney(mPlayer.getBalance()));
             return;

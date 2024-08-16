@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 public final class Mandatory extends JavaPlugin {
@@ -28,13 +29,14 @@ public final class Mandatory extends JavaPlugin {
     private static LanguageManager languageManager;
 
     public static HashMap<Player, Location> backLocations = new HashMap<>();
-    public static HashMap<Player, List<Component>> afkPlayers = new HashMap<>();
+    public static HashMap<UUID, List<Component>> afkPlayers = new HashMap<>();
     public static List<Player> loveCooldown = new ArrayList<>();
     public static HashMap<Player, Player> replyPlayers = new HashMap<>();
     public static HashMap<Player, Player> teleportRequests = new HashMap<>();
     public static HashMap<Player, Go> promptedPayment = new HashMap<>();
     public static List<Player> firstTimePlayer = new ArrayList<>();
     public static List<Player> kickedPlayers = new ArrayList<>();
+    public static HashMap<UUID, Long> startTime = new HashMap<>();
 
 
     public static Mandatory getInstance() {
@@ -76,6 +78,7 @@ public final class Mandatory extends JavaPlugin {
         manager.registerCommand(new CommandRepair());
         manager.registerCommand(new CommandReply());
         manager.registerCommand(new CommandSpawn());
+        manager.registerCommand(new CommandSpeed());
         manager.registerCommand(new CommandTeleportAccept());
         manager.registerCommand(new CommandTeleportAsk());
         manager.registerCommand(new CommandTeleportDeny());
@@ -84,6 +87,7 @@ public final class Mandatory extends JavaPlugin {
 
         registerCompletions(manager);
 
+        this.getServer().getPluginManager().registerEvents(new MandatoryListerner(), this);
         if (!NBT.preloadApi()) {
             getLogger().warning("NBT-API wasn't initialized properly, disabling the plugin");
             this.getServer().getPluginManager().disablePlugin(this);

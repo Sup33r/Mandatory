@@ -68,7 +68,7 @@ public class MandatoryConfiguration {
         headPrice = plugin.getConfig().getInt("settings.price.head");
         copyrightPrice = plugin.getConfig().getInt("settings.price.copyright");
 
-        disabledNames = plugin.getConfig().getStringList("disabled_names");
+        disabledNames = plugin.getConfig().getStringList("settings.disablednames");
 
         startingBalance = plugin.getConfig().getInt("settings.startingbalance");
 
@@ -94,7 +94,7 @@ public class MandatoryConfiguration {
 
     public void addDisabledName(String name) {
         disabledNames.add(name);
-        Mandatory.getInstance().getConfig().set("disabled_names", disabledNames);
+        Mandatory.getInstance().getConfig().set("settings.disablednames", disabledNames);
         save();
     }
 

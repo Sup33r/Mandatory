@@ -103,6 +103,7 @@ public class CommandBuy extends BaseCommand {
         }
         MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
         assert mPlayer != null;
+        Mandatory.getInstance().logger.info(mPlayer.getBalance() + " " + Mandatory.configuration.getCopyrightPrice());
         if (mPlayer.getBalance() < Mandatory.configuration.getCopyrightPrice()) {
             Mandatory.sendMessage(player, "messages.buy.copyright.notEnoughMoney", "%price%", Utilities.formattedMoney(Mandatory.configuration.getCopyrightPrice()));
             return;
@@ -112,22 +113,13 @@ public class CommandBuy extends BaseCommand {
             Mandatory.sendMessage(player, "messages.buy.copyright.noItemInHand");
             return;
         }
-        if (item.getType() != Material.FILLED_MAP || item.getType() != Material.WRITTEN_BOOK || item.getItemMeta().hasLore()) {
+        if (!item.getType().equals(Material.FILLED_MAP)) {
             Mandatory.sendMessage(player, "messages.buy.copyright.notCopyrightable");
             return;
         }
-
-        ItemMeta meta = item.getItemMeta();
-        TextComponent lore = Component.text("Kopieringsskyddad av: " + player.getName()).color(TextColor.fromCSSHexString("#ab8aff"));
-        Objects.requireNonNull(meta.lore()).add(lore);
-        item.setItemMeta(meta);
-        ReadWriteNBT nbti = NBT.itemStackToNBT(item);
-        nbti.setString("copyrighter", player.getUniqueId().toString());
-        item = nbti.getItemStack(nbti.getString("tag"));
-        nbti.getKeys();
-        player.getInventory().getItemInMainHand().setAmount(0);
-        assert item != null;
-        player.getInventory().addItem(item);
+        ItemStack itemStack = CopyrightManager.createCopyright(player, item);
+        //player.getInventory().getItemInMainHand().setAmount(0);
+        player.getInventory().addItem(itemStack);
         mPlayer.removeBalance(Mandatory.configuration.getCopyrightPrice(),"{ \"type\": \"buy\", \"subtype\": \"copyright\"}");
         Mandatory.sendMessage(player, "messages.buy.copyright.success", "%price%", Utilities.formattedMoney(Mandatory.configuration.getCopyrightPrice()));
     }

@@ -15,7 +15,7 @@ import java.util.UUID;
 public class MPlayerManager {
 
     @Getter
-    private static List<MPlayer> players = new ArrayList<>();
+    private static final List<MPlayer> players = new ArrayList<>();
 
     public static void addPlayer(MPlayer player) {
         players.add(player);
@@ -27,13 +27,13 @@ public class MPlayerManager {
 
     public static MPlayer createPlayer(Player player) {
         try {
-            DB.executeInsert("INSERT INTO `md_players` (`playerUUID`, `name`, `firstJoin`, `latestJoin`, `balance`) VALUES (?, ?, ?, ?, ?)",
+            DB.executeInsert("INSERT INTO `md_players` (`uuid`, `name`, `firstJoin`, `latestJoin`, `balance`) VALUES (?, ?, ?, ?, ?)",
                     player.getUniqueId().toString(),
                     player.getName(),
                     DateUtil.getTimestamp(),
                     DateUtil.getTimestamp(),
                     Mandatory.configuration.getStartingBalance());
-            return new MPlayer(DB.getFirstRow("SELECT * FROM `md_players` WHERE `playerUUID` = ?", player.getUniqueId().toString()));
+            return new MPlayer(DB.getFirstRow("SELECT * FROM `md_players` WHERE `uuid` = ?", player.getUniqueId().toString()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -41,7 +41,7 @@ public class MPlayerManager {
 
     public static MPlayer getPlayerFromUUID(UUID uuid) {
         try {
-            DbRow row = DB.getFirstRow("SELECT * FROM `md_players` WHERE `playerUUID` = ?", uuid.toString());
+            DbRow row = DB.getFirstRow("SELECT * FROM `md_players` WHERE `uuid` = ?", uuid.toString());
             return row != null ? new MPlayer(row) : null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -100,6 +100,24 @@ public class MPlayerManager {
         }
         try {
             DB.executeUpdate("INSERT INTO md_loves (playerUUID, senderUUID, reason, dateTime) VALUES (?, ?, ?, ?)", from.getUniqueId().toString(), to.getUniqueId().toString(), Database.sqlString(reason), DateUtil.getTimestamp());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Long createLoginLog(UUID uuid, String ip) {
+        try {
+            Long dateTime = DateUtil.getTimestamp();
+            DB.executeUpdate("INSERT INTO md_loginlogs (playerUUID, playerIp, dateTime) VALUES (?, ?, ?)", uuid.toString(), ip, dateTime);
+            return dateTime;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateLoginLogPlaytime(UUID uuid, long dateTime, long playtime) {
+        try {
+            DB.executeUpdate("UPDATE md_loginlogs SET playtime = ? WHERE playerUUID = ? AND dateTime = ?", playtime, uuid.toString(), dateTime);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

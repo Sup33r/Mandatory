@@ -57,18 +57,26 @@ public class MandatoryChat {
         }
     }
 
+    public static void sendBroadcast(String message) {
+        for (Player onlinePlayer : Mandatory.getInstance().getServer().getOnlinePlayers()) {
+            if (onlinePlayer.hasPermission("mandatory.broadcast")) {
+                Mandatory.sendMessage(onlinePlayer, "messages.broadcast.admin", "%message%", message);
+            }
+        }
+    }
+
     public static void sendPrivateMessage(Player player, Player target, String message) {
-        boolean isAfk = Mandatory.afkPlayers.containsKey(target);
+        boolean isAfk = Mandatory.afkPlayers.containsKey(target.getUniqueId());
         if (isAfk) {
             Date now = new Date();
             SimpleDateFormat format = new SimpleDateFormat("HH:mm");
             Component recipientMessage = Mandatory.getMessageComponent("messages.message.receivedAfk","%time%", format.format(now), "%sender%", player.getName(), "%message%", message);
-            Mandatory.afkPlayers.get(target).add(recipientMessage);
+            Mandatory.afkPlayers.get(target.getUniqueId()).add(recipientMessage);
             Mandatory.sendMessage(player, "messages.message.sentAfk", "%receiver%", target.getName(), "%message%", message);
-            Mandatory.sendMessage(player,"messages.message.received", "%sender%", player.getName(), "%message%", message);
+            Mandatory.sendMessage(target,"messages.message.received", "%sender%", player.getName(), "%message%", message);
         } else {
             Mandatory.sendMessage(player, "messages.message.sent", "%receiver%", target.getName(), "%message%", message);
-            Mandatory.sendMessage(player,"messages.message.received", "%sender%", player.getName(), "%message%", message);
+            Mandatory.sendMessage(target,"messages.message.received", "%sender%", player.getName(), "%message%", message);
         }
 
         Mandatory.getInstance().logger.info("[DM] " + player.getName() + " -> " + target.getName() + ": " + message);

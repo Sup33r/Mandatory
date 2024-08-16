@@ -30,7 +30,7 @@ public class CommandAdmin extends BaseCommand {
             return;
         }
         Mandatory.configuration.addDisabledName(name);
-        player.sendMessage("messages.admin.disablename.success", "%name%", name);
+        Mandatory.sendMessage(player,"messages.admin.disablename.success", "%name%", name);
     }
 
     @Subcommand("enable")
@@ -41,14 +41,14 @@ public class CommandAdmin extends BaseCommand {
         }
         MPlayer mPlayer = MPlayerManager.getPlayerFromName(name);
         if (mPlayer == null) {
-            player.sendMessage("messages.error.playerNotFound");
+            Mandatory.sendMessage(player,"messages.error.playerNotFound");
             return;
         }
         if (!mPlayer.hasFlag('s')) {
             Mandatory.sendMessage(player, "messages.admin.enable.alreadyEnabled");
         }
         mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "s");
-        player.sendMessage("messages.admin.enable.success", "%player%", mPlayer.getName());
+        Mandatory.sendMessage(player,"messages.admin.enable.success", "%player%", mPlayer.getName());
     }
 
     @Subcommand("disable")
@@ -59,14 +59,14 @@ public class CommandAdmin extends BaseCommand {
         }
         MPlayer mPlayer = MPlayerManager.getPlayerFromName(name);
         if (mPlayer == null) {
-            player.sendMessage("messages.error.playerNotFound");
+            Mandatory.sendMessage(player,"messages.error.playerNotFound");
             return;
         }
         if (mPlayer.hasFlag('s')) {
             Mandatory.sendMessage(player, "messages.admin.disable.alreadyDisabled");
         }
         mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("s", ""));
-        player.sendMessage("messages.admin.disable.success", "%player%",mPlayer.getName());
+        Mandatory.sendMessage(player,"messages.admin.disable.success", "%player%",mPlayer.getName());
     }
 
     @Subcommand("toggle")
@@ -77,26 +77,26 @@ public class CommandAdmin extends BaseCommand {
         }
         MPlayer mPlayer = MPlayerManager.getPlayerFromName(target);
         if (mPlayer == null) {
-            player.sendMessage("messages.error.playerNotFound");
+            Mandatory.sendMessage(player,"messages.error.playerNotFound");
             return;
         }
         if (action.equalsIgnoreCase("chatcolor")) {
             if (mPlayer.hasFlag('c')) {
                 mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("c", ""));
-                player.sendMessage("messages.admin.toggle.chatcolor.removed", "%player%", mPlayer.getName());
+                Mandatory.sendMessage(player,"messages.admin.toggle.chatcolor.removed", "%player%", mPlayer.getName());
             } else {
                 mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "c");
-                player.sendMessage("messages.admin.toggle.chatcolor.added", "%player%", mPlayer.getName());
+                Mandatory.sendMessage(player,"messages.admin.toggle.chatcolor.added", "%player%", mPlayer.getName());
             }
             return;
         }
         if (action.equalsIgnoreCase("extprefix")) {
             if (mPlayer.hasFlag('e')) {
                 mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("e", ""));
-                player.sendMessage("messages.admin.toggle.externalprefix.removed", "%player%", mPlayer.getName());
+                Mandatory.sendMessage(player,"messages.admin.toggle.externalprefix.removed", "%player%", mPlayer.getName());
             } else {
                 mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "e");
-                player.sendMessage("messages.admin.toggle.externalprefix.added", "%player%", mPlayer.getName());
+                Mandatory.sendMessage(player,"messages.admin.toggle.externalprefix.added", "%player%", mPlayer.getName());
             }
         }
     }
@@ -108,7 +108,7 @@ public class CommandAdmin extends BaseCommand {
             return;
         }
         if (args.length == 0 || args.length == 2) {
-            player.sendMessage("messages.admin.set.syntax");
+            Mandatory.sendMessage(player,"messages.admin.set.syntax");
             return;
         }
         if (args.length == 1) {
@@ -118,7 +118,7 @@ public class CommandAdmin extends BaseCommand {
                     return;
                 }
                 Mandatory.configuration.setAfkLocation(player.getLocation());
-                player.sendMessage("messages.admin.set.afk");
+                Mandatory.sendMessage(player,"messages.admin.set.afk");
             }
             if (args[0].equalsIgnoreCase("spawn")) {
                 if (!player.hasPermission("mandatory.command.admin.set.spawn")) {
@@ -126,7 +126,7 @@ public class CommandAdmin extends BaseCommand {
                     return;
                 }
                 Mandatory.configuration.setSpawnLocation(player.getLocation());
-                player.sendMessage("messages.admin.set.spawn");
+                Mandatory.sendMessage(player,"messages.admin.set.spawn");
             }
             if (args[0].equalsIgnoreCase("firstspawn")) {
                 if (!player.hasPermission("mandatory.command.admin.set.firstspawn")) {
@@ -134,14 +134,14 @@ public class CommandAdmin extends BaseCommand {
                     return;
                 }
                 Mandatory.configuration.setFirstSpawnLocation(player.getLocation());
-                player.sendMessage("messages.admin.set.firstspawn");
+                Mandatory.sendMessage(player,"messages.admin.set.firstspawn");
             }
             return;
         }
         if (args.length == 3) {
             MPlayer mPlayer = MPlayerManager.getPlayerFromName(args[1]);
             if (mPlayer == null) {
-                player.sendMessage("messages.error.playerNotFound");
+                Mandatory.sendMessage(player,"messages.error.playerNotFound");
                 return;
             }
             if (args[0].equalsIgnoreCase("chatprefix")) {
@@ -150,7 +150,7 @@ public class CommandAdmin extends BaseCommand {
                     return;
                 }
                 mPlayer.setChatprefix(args[2]);
-                player.sendMessage("messages.admin.set.chatprefix.success", "%player%", mPlayer.getName());
+                Mandatory.sendMessage(player,"messages.admin.set.chatprefix.success", "%player%", mPlayer.getName());
             }
         }
     }
