@@ -348,7 +348,6 @@ messages:
     quit: "<dark_red>[<red>-</red>] <gold>%player%</gold></dark_red>"
     kicked: "<dark_red>[<red>-</red>] <gold>%player% fick en varning.</gold></dark_red>"
     joinNameChange: "<dark_green>[<green>+</green>] <gold>%name% har bytt namn från %oldname%</gold></dark_green>"
-    leave: "<dark_green>[<green>-</green>] <gold>%player%</gold></dark_green>"
     hidden: ""
     greeting:
       title: "Tjuhu, %player%!"

@@ -91,7 +91,7 @@ public class MandatoryListerner implements Listener {
         }
         Mandatory.firstTimePlayer.remove(event.getPlayer());
         Mandatory.promptedPayment.remove(event.getPlayer());
-        Mandatory.afkPlayers.remove(event.getPlayer());
+        Mandatory.afkPlayers.remove(event.getPlayer().getUniqueId());
         Mandatory.replyPlayers.remove(event.getPlayer());
         Mandatory.backLocations.remove(event.getPlayer());
         Mandatory.startTime.remove(mPlayer.getUuid());
@@ -110,9 +110,6 @@ public class MandatoryListerner implements Listener {
         if (event.getSlotType() != InventoryType.SlotType.RESULT) {
             return;
         }
-        event.getWhoClicked().sendMessage(event.getAction().name());
-        event.getWhoClicked().sendMessage(event.getClick().name());
-
         if (event.getAction() != InventoryAction.PICKUP_ALL &&
                 event.getAction() != InventoryAction.PICKUP_HALF &&
                 event.getAction() != InventoryAction.PICKUP_ONE &&
@@ -141,11 +138,6 @@ public class MandatoryListerner implements Listener {
 
         event.setCancelled(true);
         Mandatory.sendMessage(event.getWhoClicked(), "messages.copyrighted");
-    }
-
-    @EventHandler
-    public void onInventoryAction(InventoryInteractEvent event) {
-
     }
 
 }

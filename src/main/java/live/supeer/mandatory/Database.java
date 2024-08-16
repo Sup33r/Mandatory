@@ -53,11 +53,19 @@ public class Database {
                                 `balance` int(25) NOT NULL DEFAULT 0,
                                 `ignores` text COLLATE utf8mb4_unicode_ci,
                                 `chatprefix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `chatChannel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `previousChannel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                 `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                 `backLocation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                 PRIMARY KEY (`uuid`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;""");
-
+            DB.executeUpdate(
+                    """
+                              CREATE TABLE IF NOT EXISTS `md_channels` (
+                                `channelName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `channelType` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                PRIMARY KEY (channelName)
+                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
             DB.executeUpdate(
                     """
                               CREATE TABLE IF NOT EXISTS `md_namechanges` (

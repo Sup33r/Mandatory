@@ -38,7 +38,7 @@ public class CommandTeleportAsk extends BaseCommand {
             Mandatory.teleportRequests.remove(player);
             return;
         }
-        Mandatory.teleportRequests.put(target.getPlayer(), player);
+        Mandatory.teleportRequests.put(player, target.getPlayer());
         Mandatory.sendMessage(player, "messages.teleportRequests.sentSelf", "%target%", target.getPlayer().getName());
         Mandatory.sendMessage(target.getPlayer(), "messages.teleportRequests.sentOther", "%player%", player.getName());
     }

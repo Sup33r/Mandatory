@@ -22,7 +22,7 @@ public class CommandTeleportAccept extends BaseCommand {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        if (!Mandatory.teleportRequests.containsKey(player)) {
+        if (!Mandatory.teleportRequests.containsValue(player)) {
             Mandatory.sendMessage(player, "messages.teleportRequests.noRequests");
             return;
         }
@@ -32,14 +32,21 @@ public class CommandTeleportAccept extends BaseCommand {
                 Mandatory.sendMessage(player, "messages.teleportRequests.accept.multipleRequests");
                 return;
             }
-            //teleport the player to the requester
-            Player requester = Mandatory.teleportRequests.remove(player);
-            Mandatory.sendMessage(player, "messages.teleportRequests.accept.selfOne", "%target%", requester.getName());
-            Mandatory.sendMessage(requester, "messages.teleportRequests.accept.other", "%player%", player.getName());
-            TeleportUtil.teleport(requester, player.getLocation(), player.getName(),false);
+            //find the key that corresponds to the player as a value
+            Player requester = Mandatory.teleportRequests.entrySet().stream()
+                    .filter(entry -> entry.getValue().equals(player))
+                    .map(Map.Entry::getKey)
+                    .findFirst()
+                    .orElse(null);
+            if (requester != null) {
+                Mandatory.teleportRequests.remove(requester);
+                Mandatory.sendMessage(player, "messages.teleportRequests.accept.selfOne", "%target%", requester.getName());
+                Mandatory.sendMessage(requester, "messages.teleportRequests.accept.other", "%player%", player.getName());
+                TeleportUtil.teleport(requester, player.getLocation(), player.getName(),false);
+            }
             return;
         }
-        if (Mandatory.teleportRequests.containsKey(target.getPlayer()) && Mandatory.teleportRequests.get(target.getPlayer()).equals(player)) {
+        if (target.getPlayer() != null && Mandatory.teleportRequests.containsKey(target.getPlayer()) && Mandatory.teleportRequests.get(target.getPlayer()).equals(player)) {
             Mandatory.teleportRequests.remove(target.getPlayer());
             Mandatory.sendMessage(player, "messages.teleportRequests.accept.selfOne", "%target%", target.getPlayer().getName());
             Mandatory.sendMessage(target.getPlayer(), "messages.teleportRequests.accept.other", "%player%", player.getName());
@@ -50,18 +57,21 @@ public class CommandTeleportAccept extends BaseCommand {
     }
 
     @Private
-    @CommandAlias("teleportaccept!|tpaceept!|tpyes!")
+    @CommandAlias("teleportaccept!|tpaccept!|tpyes!")
     public void onTeleportAcceptAll(Player player) {
         if (!player.hasPermission("mandatory.command.teleportaccept")) {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        if (Mandatory.teleportRequests.containsKey(player)) {
-            List<Player> requesters = Mandatory.teleportRequests.entrySet().stream().filter(entry -> entry.getValue().equals(player)).map(Map.Entry::getKey).toList();
+        if (Mandatory.teleportRequests.containsValue(player)) {
+            List<Player> requesters = Mandatory.teleportRequests.entrySet().stream()
+                    .filter(entry -> entry.getValue().equals(player))
+                    .map(Map.Entry::getKey)
+                    .toList();
             requesters.forEach(requester -> {
                 Mandatory.teleportRequests.remove(requester);
                 Mandatory.sendMessage(requester, "messages.teleportRequests.accept.other", "%player%", player.getName());
-                TeleportUtil.teleport(requester, player.getLocation(), player.getName(),false);
+                TeleportUtil.teleport(requester, player.getLocation(), player.getName(), false);
             });
             Mandatory.sendMessage(player, "messages.teleportRequests.accept.selfAll");
         } else {
