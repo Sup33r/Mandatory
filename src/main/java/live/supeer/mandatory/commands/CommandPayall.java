@@ -3,8 +3,9 @@ package live.supeer.mandatory.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
-import live.supeer.mandatory.MPlayer;
-import live.supeer.mandatory.MPlayerManager;
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
+import live.supeer.apied.MPlayerManager;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.Utilities;
 import org.bukkit.Bukkit;
@@ -28,7 +29,7 @@ public class CommandPayall extends BaseCommand {
             return;
         }
 
-        MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+        MPlayer mPlayer = ApiedAPI.getPlayer(player);
         assert mPlayer != null;
         List<MPlayer> players = new ArrayList<>(MPlayerManager.getPlayers());
         if (players.size() == 1) {

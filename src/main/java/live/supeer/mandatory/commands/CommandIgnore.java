@@ -5,8 +5,9 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
-import live.supeer.mandatory.MPlayer;
-import live.supeer.mandatory.MPlayerManager;
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
+import live.supeer.apied.MPlayerManager;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.Utilities;
 import org.bukkit.entity.Player;
@@ -22,7 +23,7 @@ public class CommandIgnore extends BaseCommand {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+        MPlayer mPlayer = ApiedAPI.getPlayer(player);
         assert mPlayer != null;
         if (target == null) {
             List<String> ignoringNames = MPlayerManager.getPlayerNamesFromUUIDs(mPlayer.getIgnores());

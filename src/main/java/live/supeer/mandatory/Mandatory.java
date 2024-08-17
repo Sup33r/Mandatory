@@ -97,12 +97,18 @@ public final class Mandatory extends JavaPlugin {
         Database.initialize();
         ChannelManager.loadChannels();
 
-        MandatoryAPI.setPlugin(this);
-
         if (getServer().getPluginManager().getPlugin("Metropolis") != null) {
-            getLogger().info("Metropolis found! Enabling integration.");
+            getLogger().info("Metropolis found!");
         } else {
-            getLogger().warning("Metropolis not found. Some features may be disabled.");
+            getLogger().warning("Metropolis not found. disabling plugin");
+            getServer().getPluginManager().disablePlugin(this);
+        }
+
+        if (getServer().getPluginManager().getPlugin("Apied") != null) {
+            getLogger().info("Apied found!");
+        } else {
+            getLogger().warning("Apied not found. disabling plugin");
+            getServer().getPluginManager().disablePlugin(this);
         }
     }
 

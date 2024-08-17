@@ -4,8 +4,8 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
-import live.supeer.mandatory.MPlayer;
-import live.supeer.mandatory.MPlayerManager;
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.Mandatory;
 import org.bukkit.entity.Player;
 
@@ -26,7 +26,7 @@ public class CommandTeleportAsk extends BaseCommand {
             Mandatory.sendMessage(player, "messages.teleportRequests.self");
             return;
         }
-        MPlayer mPlayerTarget = MPlayerManager.getPlayerFromPlayer(target.getPlayer());
+        MPlayer mPlayerTarget = ApiedAPI.getPlayer(target.getPlayer());
         if (mPlayerTarget != null && mPlayerTarget.hasFlag('t')) {
             Mandatory.sendMessage(player, "messages.teleportRequests.teleportsNotAllowed", "%target%", target.getPlayer().getName());
             return;

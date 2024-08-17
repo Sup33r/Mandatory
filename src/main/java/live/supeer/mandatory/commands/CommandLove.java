@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
-import live.supeer.mandatory.MPlayerManager;
+import live.supeer.mandatory.Database;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.DateUtil;
 import org.bukkit.Bukkit;
@@ -31,7 +31,7 @@ public class CommandLove extends BaseCommand {
             return;
         }
         Mandatory.loveCooldown.add(player);
-        MPlayerManager.handleLoveSent(player, receiver.getPlayer(), reason);
+        Database.handleLoveSent(player, receiver.getPlayer(), reason);
         Bukkit.getServer().getScheduler().runTaskLater(Mandatory.getInstance(), () -> Mandatory.loveCooldown.remove(player), 20L * Mandatory.configuration.getLoveCooldown());
     }
 
@@ -47,7 +47,7 @@ public class CommandLove extends BaseCommand {
         }
         Mandatory.loveCooldown.add(player);
         for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
-            MPlayerManager.handleLoveSent(player, onlinePlayer, reason);
+            Database.handleLoveSent(player, onlinePlayer, reason);
         }
         Mandatory.getInstance().getServer().getScheduler().runTaskLater(Mandatory.getInstance(), () -> Mandatory.loveCooldown.remove(player), 20L * Mandatory.configuration.getLoveCooldown());
     }

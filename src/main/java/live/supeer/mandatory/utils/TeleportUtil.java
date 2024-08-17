@@ -1,5 +1,7 @@
 package live.supeer.mandatory.utils;
 
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.*;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
@@ -123,7 +125,7 @@ public class TeleportUtil {
                 if (go.isWhitelistcharge() || !go.isWhitelisted(player.getUniqueId())) {
                     Mandatory.promptedPayment.remove(player);
                     Mandatory.sendMessage(player, "messages.go.charged", "%charge%", String.valueOf(go.getChargeAmount()));
-                    MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+                    MPlayer mPlayer = ApiedAPI.getPlayer(player);
                     if (mPlayer != null) {
                         mPlayer.removeBalance(go.getChargeAmount(),"{ \"type\": \"go\", \"subtype\": \"teleport\", \"goName\": \"" + go.getName() + "}");
                     }
@@ -152,7 +154,7 @@ public class TeleportUtil {
                 if (go.isWhitelistcharge() || !go.isWhitelisted(player.getUniqueId())) {
                     Mandatory.promptedPayment.remove(player);
                     Mandatory.sendMessage(player, "messages.go.charged", "%charge%", String.valueOf(go.getChargeAmount()));
-                    MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+                    MPlayer mPlayer = ApiedAPI.getPlayer(player);
                     if (mPlayer != null) {
                         mPlayer.removeBalance(go.getChargeAmount(),"{ \"type\": \"go\", \"subtype\": \"teleport\", \"goName\": \"" + go.getName() + "}");
                     }

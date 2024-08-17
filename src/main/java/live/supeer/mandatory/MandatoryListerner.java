@@ -1,6 +1,8 @@
 package live.supeer.mandatory;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.utils.DateUtil;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.title.TitlePart;
@@ -29,23 +31,23 @@ public class MandatoryListerner implements Listener {
             MandatoryChat.modChatAnnouncement(Mandatory.getMessage("messages.modchat.messages.disabledUsername", "%player%", event.getPlayer().getName()));
             return;
         }
-        MPlayer player = MPlayerManager.getPlayerFromUUID(event.getPlayer().getUniqueId());
+        MPlayer player = ApiedAPI.getPlayer(event.getPlayer().getUniqueId());
         if (player == null) {
-            player = MPlayerManager.createPlayer(event.getPlayer());
+            player = ApiedAPI.createPlayer(event.getPlayer());
             Mandatory.firstTimePlayer.add(event.getPlayer());
         }
         if (player.hasFlag('s')) {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, Objects.requireNonNull(Mandatory.getMessageComponent("messages.disabled.other")));
             MandatoryChat.modChatAnnouncement(Mandatory.getMessage("messages.modchat.messages.disabledOther", "%player%", event.getPlayer().getName()));
         }
-        Mandatory.startTime.put(player.getUuid(), MPlayerManager.createLoginLog(player.getUuid(), event.getRealAddress().getHostAddress()));
-        MPlayerManager.addPlayer(player);
+        Mandatory.startTime.put(player.getUuid(), Database.createLoginLog(player.getUuid(), event.getRealAddress().getHostAddress()));
+        ApiedAPI.addPlayer(player);
         ChannelManager.initiatePlayer(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(event.getPlayer());
+        MPlayer mPlayer = ApiedAPI.getPlayer(event.getPlayer());
         assert mPlayer != null;
         mPlayer.setLatestJoin(DateUtil.getTimestamp());
         if (mPlayer.getBackLocation() != null) {
@@ -73,15 +75,15 @@ public class MandatoryListerner implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(event.getPlayer());
+        MPlayer mPlayer = ApiedAPI.getPlayer(event.getPlayer());
         assert mPlayer != null;
         if (Mandatory.backLocations.containsKey(event.getPlayer())) {
             mPlayer.setBackLocation(Mandatory.backLocations.get(event.getPlayer()));
         }
         mPlayer.setLastLocation(event.getPlayer().getLocation());
         mPlayer.setLatestLeave(DateUtil.getTimestamp());
-        MPlayerManager.updateLoginLogPlaytime(mPlayer.getUuid(), Mandatory.startTime.get(mPlayer.getUuid()), DateUtil.getTimestamp() - Mandatory.startTime.get(mPlayer.getUuid()));
-        MPlayerManager.removePlayer(mPlayer);
+        Database.updateLoginLogPlaytime(mPlayer.getUuid(), Mandatory.startTime.get(mPlayer.getUuid()), DateUtil.getTimestamp() - Mandatory.startTime.get(mPlayer.getUuid()));
+        ApiedAPI.removePlayer(mPlayer);
         if (!event.getPlayer().hasPermission("mandatory.hide.quit")) {
             if (Mandatory.kickedPlayers.contains(event.getPlayer())) {
                 event.quitMessage(Mandatory.getMessageComponent("messages.chat.kicked", "%player%", event.getPlayer().getName()));

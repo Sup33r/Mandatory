@@ -5,6 +5,8 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.*;
 import org.bukkit.entity.Player;
 
@@ -38,7 +40,7 @@ public class CommandAdmin extends BaseCommand {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        MPlayer mPlayer = MPlayerManager.getPlayerFromName(name);
+        MPlayer mPlayer = ApiedAPI.getPlayer(name);
         if (mPlayer == null) {
             Mandatory.sendMessage(player,"messages.error.playerNotFound");
             return;
@@ -56,7 +58,7 @@ public class CommandAdmin extends BaseCommand {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        MPlayer mPlayer = MPlayerManager.getPlayerFromName(name);
+        MPlayer mPlayer = ApiedAPI.getPlayer(name);
         if (mPlayer == null) {
             Mandatory.sendMessage(player,"messages.error.playerNotFound");
             return;
@@ -76,7 +78,7 @@ public class CommandAdmin extends BaseCommand {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        MPlayer mPlayer = MPlayerManager.getPlayerFromName(target);
+        MPlayer mPlayer = ApiedAPI.getPlayer(target);
         if (mPlayer == null) {
             Mandatory.sendMessage(player,"messages.error.playerNotFound");
             return;
@@ -140,7 +142,7 @@ public class CommandAdmin extends BaseCommand {
             return;
         }
         if (args.length == 3) {
-            MPlayer mPlayer = MPlayerManager.getPlayerFromName(args[1]);
+            MPlayer mPlayer = ApiedAPI.getPlayer(args[1]);
             if (mPlayer == null) {
                 Mandatory.sendMessage(player,"messages.error.playerNotFound");
                 return;

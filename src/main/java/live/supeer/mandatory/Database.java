@@ -2,8 +2,11 @@ package live.supeer.mandatory;
 
 import co.aikar.idb.BukkitDB;
 import co.aikar.idb.DB;
+import live.supeer.mandatory.utils.DateUtil;
+import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class Database {
 
@@ -40,24 +43,6 @@ public class Database {
 
     public static void createTables() {
         try {
-
-            DB.executeUpdate(
-                    """
-                              CREATE TABLE IF NOT EXISTS `md_players` (
-                                `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `firstJoin` bigint(30) DEFAULT NULL,
-                                `latestJoin` bigint(30) DEFAULT NULL,
-                                `latestLeave` bigint(30) DEFAULT NULL,
-                                `flags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `balance` int(25) NOT NULL DEFAULT 0,
-                                `ignores` text COLLATE utf8mb4_unicode_ci,
-                                `chatprefix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `chatChannel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `backLocation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                PRIMARY KEY (`uuid`)
-                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;""");
             DB.executeUpdate(
                     """
                               CREATE TABLE IF NOT EXISTS `md_channels` (
@@ -80,17 +65,6 @@ public class Database {
                                 `playerName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `dateTime` bigint(30) DEFAULT NULL,
                                 PRIMARY KEY (playerUUID,dateTime)
-                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
-            DB.executeUpdate(
-                    """
-                              CREATE TABLE IF NOT EXISTS `md_balancelogs` (
-                                `logId` int(11) NOT NULL AUTO_INCREMENT,
-                                `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `dateTime` bigint(30) DEFAULT NULL,
-                                `balanceBefore` int(25) NOT NULL,
-                                `balanceAfter` int(25) NOT NULL,
-                                `jsonLog` text NOT NULL,
-                                PRIMARY KEY (logId)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
             DB.executeUpdate(
                     """
@@ -132,14 +106,6 @@ public class Database {
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
             DB.executeUpdate(
                     """
-                              CREATE TABLE IF NOT EXISTS `md_homes` (
-                                `playerUUID` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `homeName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                                `location` varchar(255) COLLATE utf8mb4_unicode_ci,
-                                PRIMARY KEY (`playerUUID`, `homeName`)
-                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
-            DB.executeUpdate(
-                    """
                               CREATE TABLE IF NOT EXISTS `md_goes` (
                                 `goName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `displayName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -166,4 +132,35 @@ public class Database {
         }
     }
 
+    public static void handleLoveSent(Player from, Player to, String reason) {
+        Mandatory.sendMessage(from, "messages.love.sent", "%player%", to.getName());
+        if (reason == null) {
+            Mandatory.sendMessage(to, "messages.love.received.noReason", "%player%", from.getName());
+        } else {
+            Mandatory.sendMessage(to, "messages.love.received.reason", "%player%", from.getName(), "%reason%", reason);
+        }
+        try {
+            DB.executeUpdate("INSERT INTO md_loves (playerUUID, senderUUID, reason, dateTime) VALUES (?, ?, ?, ?)", from.getUniqueId().toString(), to.getUniqueId().toString(), Database.sqlString(reason), DateUtil.getTimestamp());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Long createLoginLog(UUID uuid, String ip) {
+        try {
+            Long dateTime = DateUtil.getTimestamp();
+            DB.executeUpdate("INSERT INTO md_loginlogs (playerUUID, playerIp, dateTime) VALUES (?, ?, ?)", uuid.toString(), ip, dateTime);
+            return dateTime;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateLoginLogPlaytime(UUID uuid, long dateTime, long playtime) {
+        try {
+            DB.executeUpdate("UPDATE md_loginlogs SET playtime = ? WHERE playerUUID = ? AND dateTime = ?", playtime, uuid.toString(), dateTime);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

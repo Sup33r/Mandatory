@@ -4,9 +4,9 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Optional;
-import live.supeer.mandatory.Home;
-import live.supeer.mandatory.MPlayer;
-import live.supeer.mandatory.MPlayerManager;
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.Home;
+import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.TeleportUtil;
 import live.supeer.mandatory.utils.Utilities;
@@ -26,7 +26,7 @@ public class CommandHome extends BaseCommand {
             return;
         }
         if (args.length == 0) {
-            MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+            MPlayer mPlayer = ApiedAPI.getPlayer(player);
             if (mPlayer == null) {
                 Mandatory.sendMessage(player,"messages.error.playerNotFound");
                 return;
@@ -39,7 +39,7 @@ public class CommandHome extends BaseCommand {
             TeleportUtil.teleport(player, home.getLocation(),home.getName(),false);
         }
         if (args.length == 1) {
-            MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+            MPlayer mPlayer = ApiedAPI.getPlayer(player);
             if (mPlayer == null) {
                 Mandatory.sendMessage(player,"messages.error.playerNotFound");
                 return;
@@ -71,7 +71,7 @@ public class CommandHome extends BaseCommand {
                     return;
                 }
                 String[] split = args[0].split(":");
-                MPlayer target = MPlayerManager.getPlayerFromName(split[0]);
+                MPlayer target = ApiedAPI.getPlayer(split[0]);
                 if (target == null) {
                     Mandatory.sendMessage(player,"messages.error.playerNotFound");
                     return;
@@ -110,14 +110,14 @@ public class CommandHome extends BaseCommand {
                     return;
                 }
                 String[] split = args[0].split(":");
-                mPlayer = MPlayerManager.getPlayerFromName(split[0]);
+                mPlayer = ApiedAPI.getPlayer(split[0]);
                 if (mPlayer == null) {
                     Mandatory.sendMessage(player,"messages.error.playerNotFound");
                     return;
                 }
                 homeName = split[1];
             } else {
-                mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+                mPlayer = ApiedAPI.getPlayer(player);
                 if (mPlayer == null) {
                     Mandatory.sendMessage(player,"messages.error.playerNotFound");
                     return;
@@ -167,7 +167,7 @@ public class CommandHome extends BaseCommand {
                 Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
-            MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+            MPlayer mPlayer = ApiedAPI.getPlayer(player);
             if (mPlayer == null) {
                 Mandatory.sendMessage(player,"messages.error.playerNotFound");
                 return;
@@ -190,7 +190,7 @@ public class CommandHome extends BaseCommand {
                 Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
-            MPlayer mPlayer = MPlayerManager.getPlayerFromName(name);
+            MPlayer mPlayer = ApiedAPI.getPlayer(name);
             if (mPlayer == null) {
                 Mandatory.sendMessage(player,"messages.error.playerNotFound");
                 return;

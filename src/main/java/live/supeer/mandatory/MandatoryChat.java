@@ -1,5 +1,7 @@
 package live.supeer.mandatory;
 
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
 import live.supeer.metropolis.MetropolisAPI;
 import live.supeer.metropolis.city.City;
 import live.supeer.metropolis.city.Member;
@@ -72,7 +74,7 @@ public class MandatoryChat {
     }
 
     public static String getPrefix(Player player) {
-        MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+        MPlayer mPlayer = ApiedAPI.getPlayer(player);
         if (mPlayer == null) {
             return "";
         }
@@ -107,7 +109,7 @@ public class MandatoryChat {
 
     public static void sendMessage(Player player, TextComponent component) {
         String message = component.content();
-        MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+        MPlayer mPlayer = ApiedAPI.getPlayer(player);
         if (mPlayer == null) {
             return;
         }

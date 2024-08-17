@@ -6,6 +6,8 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Subcommand;
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.*;
 import live.supeer.mandatory.utils.PlayerHeadUtil;
 import live.supeer.mandatory.utils.Utilities;
@@ -37,7 +39,7 @@ public class CommandBuy extends BaseCommand {
             Mandatory.sendMessage(player,"messages.error.permissionDenied");
             return;
         }
-        MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+        MPlayer mPlayer = ApiedAPI.getPlayer(player);
         assert mPlayer != null;
         if (mPlayer.getBalance() < Mandatory.configuration.getBroadcastPrice()) {
             Mandatory.sendMessage(player, "messages.buy.broadcast.notEnoughMoney", "%price%", Utilities.formattedMoney(Mandatory.configuration.getBroadcastPrice()));
@@ -62,7 +64,7 @@ public class CommandBuy extends BaseCommand {
             Mandatory.sendMessage(player, "messages.buy.go.alreadyExists");
             return;
         }
-        MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+        MPlayer mPlayer = ApiedAPI.getPlayer(player);
         assert mPlayer != null;
         if (mPlayer.getBalance() < Mandatory.configuration.getGoPrice()) {
             Mandatory.sendMessage(player, "messages.buy.go.notEnoughMoney", "%price%", Utilities.formattedMoney(Mandatory.configuration.getGoPrice()));
@@ -84,7 +86,7 @@ public class CommandBuy extends BaseCommand {
             Mandatory.sendMessage(player, "messages.buy.head.noSpace");
             return;
         }
-        MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+        MPlayer mPlayer = ApiedAPI.getPlayer(player);
         assert mPlayer != null;
         if (mPlayer.getBalance() < Mandatory.configuration.getHeadPrice()) {
             Mandatory.sendMessage(player, "messages.buy.head.notEnoughMoney", "%price%", Utilities.formattedMoney(Mandatory.configuration.getHeadPrice()));
@@ -101,7 +103,7 @@ public class CommandBuy extends BaseCommand {
             Mandatory.sendMessage(player,"messages.error.permissionDenied");
             return;
         }
-        MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+        MPlayer mPlayer = ApiedAPI.getPlayer(player);
         assert mPlayer != null;
         Mandatory.getInstance().logger.info(mPlayer.getBalance() + " " + Mandatory.configuration.getCopyrightPrice());
         if (mPlayer.getBalance() < Mandatory.configuration.getCopyrightPrice()) {

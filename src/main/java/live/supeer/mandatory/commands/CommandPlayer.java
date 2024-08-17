@@ -5,8 +5,9 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.annotation.Subcommand;
-import live.supeer.mandatory.MPlayer;
-import live.supeer.mandatory.MPlayerManager;
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
+import live.supeer.apied.MPlayerManager;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.DateUtil;
 import live.supeer.mandatory.utils.LocationUtil;
@@ -23,7 +24,7 @@ public class CommandPlayer extends BaseCommand {
         if (playerName == null) {
             playerName = player.getName();
         }
-        MPlayer mPlayer = MPlayerManager.getPlayerFromName(playerName);
+        MPlayer mPlayer = ApiedAPI.getPlayer(playerName);
         if (mPlayer == null) {
             Mandatory.sendMessage(player,"messages.error.playerNotFound");
             return;

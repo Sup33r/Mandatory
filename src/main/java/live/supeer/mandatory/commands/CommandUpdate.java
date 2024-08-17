@@ -3,18 +3,14 @@ package live.supeer.mandatory.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Subcommand;
-import de.tr7zw.changeme.nbtapi.NBTItem;
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.CopyrightManager;
-import live.supeer.mandatory.MPlayer;
-import live.supeer.mandatory.MPlayerManager;
 import live.supeer.mandatory.Mandatory;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Objects;
 import java.util.UUID;
 
 @CommandAlias("update")
@@ -41,7 +37,7 @@ public class CommandUpdate extends BaseCommand {
         }
         UUID copyrighter = CopyrightManager.getCopyrighter(item);
         assert copyrighter != null;
-        MPlayer mPlayer = MPlayerManager.getPlayerFromUUID(copyrighter);
+        MPlayer mPlayer = ApiedAPI.getPlayer(copyrighter);
         if (mPlayer == null) {
             Mandatory.sendMessage(player, "messages.update.copyright.noCopyright");
             return;

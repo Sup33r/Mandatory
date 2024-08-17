@@ -2,6 +2,8 @@ package live.supeer.mandatory;
 
 import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
@@ -44,7 +46,7 @@ public class CopyrightManager {
     }
 
     public static ItemStack updateCopyright(ItemStack item) {
-        MPlayer mPlayer = MPlayerManager.getPlayerFromUUID(getCopyrighter(item));
+        MPlayer mPlayer = ApiedAPI.getPlayer(getCopyrighter(item));
         if (mPlayer == null) {
             return null;
         }

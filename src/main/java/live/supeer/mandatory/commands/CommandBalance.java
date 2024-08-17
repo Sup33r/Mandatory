@@ -3,8 +3,8 @@ package live.supeer.mandatory.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
-import live.supeer.mandatory.MPlayer;
-import live.supeer.mandatory.MPlayerManager;
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.Utilities;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class CommandBalance extends BaseCommand {
                 Mandatory.sendMessage(player,"messages.error.permissionDenied");
                 return;
             }
-            MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+            MPlayer mPlayer = ApiedAPI.getPlayer(player);
             assert mPlayer != null;
             Mandatory.sendMessage(player, "messages.balance.own", "%balance%", Utilities.formattedMoney(mPlayer.getBalance()));
             return;
@@ -30,7 +30,7 @@ public class CommandBalance extends BaseCommand {
                 Mandatory.sendMessage(player,"messages.error.permissionDenied");
                 return;
             }
-            MPlayer mPlayer = MPlayerManager.getPlayerFromName(args[0]);
+            MPlayer mPlayer = ApiedAPI.getPlayer(args[0]);
             if (mPlayer == null) {
                 Mandatory.sendMessage(player, "messages.playerNotFound");
                 return;
@@ -54,7 +54,7 @@ public class CommandBalance extends BaseCommand {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        MPlayer mPlayer = MPlayerManager.getPlayerFromName(args[0]);
+        MPlayer mPlayer = ApiedAPI.getPlayer(args[0]);
         if (mPlayer == null) {
             Mandatory.sendMessage(player, "messages.playerNotFound");
             return;

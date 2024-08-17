@@ -153,5 +153,19 @@
             <artifactId>idb-bukkit</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>live.supeer</groupId>
+            <artifactId>Metropolis</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../Metropolis/target/Metropolis-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>live.supeer</groupId>
+            <artifactId>Apied</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../Apied/target/Apied-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>

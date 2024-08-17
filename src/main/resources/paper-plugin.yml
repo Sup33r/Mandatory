@@ -7,6 +7,11 @@ description: An Essentials-like plugin
 website: supeer.live
 dependencies:
   server:
-    PlaceholderAPI:
+    Apied:
       load: BEFORE
-      required: false
+      required: true
+      join-classpath: true
+    Metropolis:
+      load: BEFORE
+      required: true
+      join-classpath: true
