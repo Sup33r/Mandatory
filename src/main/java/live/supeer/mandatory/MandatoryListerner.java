@@ -1,6 +1,8 @@
 package live.supeer.mandatory;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
 import live.supeer.mandatory.utils.DateUtil;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.title.TitlePart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -38,6 +40,7 @@ public class MandatoryListerner implements Listener {
         }
         Mandatory.startTime.put(player.getUuid(), MPlayerManager.createLoginLog(player.getUuid(), event.getRealAddress().getHostAddress()));
         MPlayerManager.addPlayer(player);
+        ChannelManager.initiatePlayer(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -95,6 +98,14 @@ public class MandatoryListerner implements Listener {
         Mandatory.replyPlayers.remove(event.getPlayer());
         Mandatory.backLocations.remove(event.getPlayer());
         Mandatory.startTime.remove(mPlayer.getUuid());
+        Mandatory.activeChannel.remove(mPlayer.getUuid());
+        Mandatory.playerChannels.remove(mPlayer.getUuid());
+    }
+
+    @EventHandler
+    public void onChatEvent(AsyncChatEvent event) {
+        event.setCancelled(true);
+        MandatoryChat.sendMessage(event.getPlayer(), (TextComponent) event.message());
     }
 
     @EventHandler

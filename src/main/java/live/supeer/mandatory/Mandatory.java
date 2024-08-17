@@ -11,6 +11,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,12 +38,12 @@ public final class Mandatory extends JavaPlugin {
     public static List<Player> firstTimePlayer = new ArrayList<>();
     public static List<Player> kickedPlayers = new ArrayList<>();
     public static HashMap<UUID, Long> startTime = new HashMap<>();
-
+    public static HashMap<UUID, Channel> activeChannel = new HashMap<>();
+    public static HashMap<UUID, List<Channel>> playerChannels = new HashMap<>();
 
     public static Mandatory getInstance() {
         return plugin;
     }
-
     @Override
     public void onEnable() {
         plugin = this;
@@ -60,6 +61,7 @@ public final class Mandatory extends JavaPlugin {
         manager.registerCommand(new CommandBalance());
         manager.registerCommand(new CommandBroadcast());
         manager.registerCommand(new CommandBuy());
+        manager.registerCommand(new CommandChat());
         manager.registerCommand(new CommandFeed());
         manager.registerCommand(new CommandFly());
         manager.registerCommand(new CommandGamemode());
@@ -92,15 +94,22 @@ public final class Mandatory extends JavaPlugin {
             getLogger().warning("NBT-API wasn't initialized properly, disabling the plugin");
             this.getServer().getPluginManager().disablePlugin(this);
         }
-
         Database.initialize();
+        ChannelManager.loadChannels();
+
+        MandatoryAPI.setPlugin(this);
+
+        if (getServer().getPluginManager().getPlugin("Metropolis") != null) {
+            getLogger().info("Metropolis found! Enabling integration.");
+        } else {
+            getLogger().warning("Metropolis not found. Some features may be disabled.");
+        }
     }
 
     @Override
     public void onDisable() {
         DB.close();
     }
-
     public static void sendMessage(
             @NotNull CommandSender sender, @NotNull String key, String... replacements) {
         String message = languageManager.getValue(key, getLocale(sender), replacements);
@@ -119,6 +128,14 @@ public final class Mandatory extends JavaPlugin {
             Component component = languageManager.getMiniMessage().deserialize(message);
             // Convert the Component to a legacy formatted string
             return LegacyComponentSerializer.legacySection().serialize(component);
+        }
+        return null;
+    }
+
+    public static String getRawMessage(@NotNull String key, String... replacements) {
+        String message = languageManager.getValue(key, "sv_se", replacements);
+        if (message != null && !message.isEmpty()) {
+            return message;
         }
         return null;
     }

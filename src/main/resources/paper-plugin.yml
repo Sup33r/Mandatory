@@ -5,3 +5,8 @@ api-version: '1.21'
 authors: [ Supeeer ]
 description: An Essentials-like plugin
 website: supeer.live
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: false

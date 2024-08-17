@@ -319,6 +319,9 @@ messages:
   copyrighted: "<red>Föremålet du försöker kopiera är kopieringsskyddat.</red>"
 
   admin:
+    chat:
+      new:
+        success: "<green>En ny chattkanal har skapats med namnet #%channel%."
     toggle:
       externalprefix:
         added: "<green>%player% har fått sina externa prefixar återaktiverade i chatten.</green>"
@@ -343,6 +346,32 @@ messages:
     syntax: "<gray>Syntax: /admin disable <underlined>namn</underlined>\nSyntax: /admin enable <underlined>namn</underlined>\nSyntax: /admin toggle chatcolor <underlined>namn</underlined>\nSyntax: /admin toggle extprefix <underlined>namn</underlined>\nSyntax: /admin set <underlined>namn</underlined> chatprefix <underlined>prefix</underlined>\nSyntax: /admin set afk\nSyntax: /admin set spawn\nSyntax: /admin set firstspawn"
 
   chat:
+    prefix:
+      vip: "<hover:show_text:'<green>VIP-medlem</green>'><dark_green>[</dark_green><green>VIP</green><dark_green>]</dark_green></hover> "
+      mod: "<hover:show_text:'<aqua>Moderator</aqua>'><dark_aqua>[</dark_aqua><aqua>MOD</aqua><dark_aqua>]</dark_aqua></hover> "
+      city:
+        name: "<dark_gray>[</dark_gray><gray>%cityname%</gray><dark_gray>]</dark_gray> "
+        role:
+          inviter: "<hover:show_text:'<green>Inbjudare</green>'><dark_green>[</dark_green><green>i</green><dark_green>]</dark_green></hover> "
+          assistant: "<hover:show_text:'<green>Assistent</green>'><dark_green>[</dark_green><green>a</green><dark_green>]</dark_green></hover> "
+          vicemayor: "<hover:show_text:'<green>Vice Borgmästare</green>'><dark_green>[</dark_green><green>b</green><dark_green>]</dark_green></hover> "
+          mayor: "<hover:show_text:'<green>Borgmästare</green>'><dark_green>[</dark_green><green>B</green><dark_green>]</dark_green></hover> "
+    # Sätt cityrank efter playerrank.
+    city: "<yellow>%cityname% <gray>| <gold>%player%<gray> <yellow>%message%</yellow>"
+    mod: "<dark_red>#modzone <gray>| <gold>%player%<gray>> <red>%message%</red>"
+    meeting: "<red>MÖTE <gray>| <gold>%player%<gray> <white>%message%</white>"
+    global: "%prefixes%<gold>%player%<gray>> <white>%message%"
+    other: "<gold>#<yellow>%channel% <gray>| <gold>%player%<gray> <white>%message%</white>"
+    channels:
+      switched: "<greenDin aktiva chattkanal är nu <dark_green>#%channel%</dark_green>.</green>"
+      notInCity: "<red>Du är inte medlem i staden.</red>"
+      joined: "<green>Du gick med i kanalen #%channel%.</green>"
+      alreadyInChannel: "<red>Du är redan med i kanalen.</red>"
+      notInChannel: "<red>Du är inte med i kanalen.</red>"
+      noPermission: "<red>Kanalen kräver att du har blivit inbjuden.</red>"
+      notFound: "<red>Det finns ingen chattkanal med detta namn.</red>"
+      list: "<dark_green>Chattkanaler: <green>%channels%</green></dark_green>"
+      noChannels: "<red>Du inte med i några kanaler.</red>"
     joinFirstTime: "<dark_green>[<green>+</green>] <gold>%player% loggade in för första gången</gold></dark_green>"
     join: "<dark_green>[<green>+</green>] <gold>%player%</gold></dark_green>"
     quit: "<dark_red>[<red>-</red>] <gold>%player%</gold></dark_red>"

@@ -23,9 +23,10 @@ public class MPlayer {
     private long latestJoin;
     private long latestLeave;
     private char[] flags;
-    private int balance;
+    private double balance;
     private List<UUID> ignores;
     private String chatprefix;
+    private String chatChannel;
     private final List<Home> homes = new ArrayList<>();
     private Location lastLocation;
     private Location backLocation;
@@ -40,6 +41,7 @@ public class MPlayer {
         this.balance = data.getInt("balance");
         this.ignores = new ArrayList<>(Utilities.stringToUUIDList(data.getString("ignores")));
         this.chatprefix = data.getString("chatprefix");
+        this.chatChannel = data.getString("chatChannel");
         this.lastLocation = Optional.ofNullable(data.getString("location"))
                 .map(LocationUtil::stringToLocation)
                 .orElse(null);
@@ -72,7 +74,7 @@ public class MPlayer {
         }
     }
 
-    public void setBalance(int newBalance, String json) {
+    public void setBalance(double newBalance, String json) {
         try {
             BalanceManager.createBalanceLogEntry(uuid, balance, newBalance, json);
             this.balance = newBalance;
@@ -82,7 +84,7 @@ public class MPlayer {
         }
     }
 
-    public void addBalance(int amount, String json) {
+    public void addBalance(double amount, String json) {
         try {
             BalanceManager.createBalanceLogEntry(uuid, balance, balance + amount, json);
             this.balance += amount;
@@ -92,7 +94,7 @@ public class MPlayer {
         }
     }
 
-    public void removeBalance(int amount, String json) {
+    public void removeBalance(double amount, String json) {
         try {
             BalanceManager.createBalanceLogEntry(uuid, balance, balance - amount, json);
             this.balance -= amount;

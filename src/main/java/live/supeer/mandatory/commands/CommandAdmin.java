@@ -4,9 +4,8 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Subcommand;
-import live.supeer.mandatory.MPlayer;
-import live.supeer.mandatory.MPlayerManager;
-import live.supeer.mandatory.Mandatory;
+import co.aikar.commands.bukkit.contexts.OnlinePlayer;
+import live.supeer.mandatory.*;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -68,6 +67,8 @@ public class CommandAdmin extends BaseCommand {
         mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("s", ""));
         Mandatory.sendMessage(player,"messages.admin.disable.success", "%player%",mPlayer.getName());
     }
+
+    // c = chatcolor, d = deathmessage, e = externalprefix, g = greeting, i = insecureconnections, j = joinleaves, m = chestmessages, p = payments, t = teleport, v = vipprefi, s = stadsprefix | [GRÅ[Anka] GRÖN[B]] GUL[VIP] BLÅ[ADMIN]
 
     @Subcommand("toggle")
     public void onToggle(Player player, String target, String action) {
@@ -153,5 +154,26 @@ public class CommandAdmin extends BaseCommand {
                 Mandatory.sendMessage(player,"messages.admin.set.chatprefix.success", "%player%", mPlayer.getName());
             }
         }
+    }
+
+    @Subcommand("chat")
+    public class ChatAdmin extends BaseCommand {
+
+        @Subcommand("force")
+        public void onForce(Player admin, OnlinePlayer target, String channelName) {
+            // Implement forcing a player into a channel
+        }
+
+        @Subcommand("new")
+        public void onNew(Player player, String channelName, String type) {
+            if (!player.hasPermission("mandatory.command.admin.chat.new")) {
+                Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                return;
+            }
+            ChannelManager.createChannel(channelName, ChannelType.getByName(type.toLowerCase()));
+            Mandatory.sendMessage(player,"messages.admin.chat.new.success", "%channel%", channelName);
+        }
+
+        // Other admin chat commands
     }
 }

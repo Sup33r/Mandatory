@@ -78,6 +78,10 @@ public class MPlayerManager {
         return names;
     }
 
+    public static boolean playerExists(UUID uuid) {
+        return getPlayerFromUUID(uuid) != null;
+    }
+
 
     public static List<String> getIgnoredByPlayers(UUID playerUUID) {
         List<String> ignoredByPlayers = new ArrayList<>();

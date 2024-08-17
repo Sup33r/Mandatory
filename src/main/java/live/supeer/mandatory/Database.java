@@ -54,7 +54,6 @@ public class Database {
                                 `ignores` text COLLATE utf8mb4_unicode_ci,
                                 `chatprefix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                 `chatChannel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                                `previousChannel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                 `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                 `backLocation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                 PRIMARY KEY (`uuid`)
@@ -65,6 +64,14 @@ public class Database {
                                 `channelName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 `channelType` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                                 PRIMARY KEY (channelName)
+                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
+            DB.executeUpdate(
+                    """
+                              CREATE TABLE IF NOT EXISTS `md_channelmembers` (
+                                `channelName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `playerUUID` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                PRIMARY KEY (`channelName`, `playerUUID`),
+                                FOREIGN KEY (`channelName`) REFERENCES `md_channels` (`channelName`) ON DELETE CASCADE
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
             DB.executeUpdate(
                     """

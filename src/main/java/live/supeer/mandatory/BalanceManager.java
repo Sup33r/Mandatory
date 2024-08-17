@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class BalanceManager {
 
-    public static void createBalanceLogEntry(UUID uuid, int balanceBefore, int balanceAfter, String reason) {
+    public static void createBalanceLogEntry(UUID uuid, double balanceBefore, double balanceAfter, String reason) {
         try {
             DB.executeUpdate("INSERT INTO md_balancelogs (playerUUID, dateTime, balanceBefore, balanceAfter, jsonLog) VALUES (?, ?, ?, ?, ?)", uuid.toString(), DateUtil.getTimestamp(), balanceBefore, balanceAfter, Database.sqlString(reason));
         } catch (SQLException e) {
