@@ -155,6 +155,10 @@ public final class Mandatory extends JavaPlugin {
         return null;
     }
 
+    public static Component stringToMiniMessage(String message) {
+        return languageManager.getMiniMessage().deserialize(message);
+    }
+
     private static @NotNull String getLocale(@NotNull CommandSender sender) {
         if (sender instanceof Player) {
             return ((Player) sender).locale().toString();

@@ -347,6 +347,8 @@ messages:
 
   chat:
     prefix:
+      tab:
+        mod: "<dark_aqua>[</dark_aqua><aqua>M</aqua><dark_aqua>]</dark_aqua> %player%"
       vip: "<hover:show_text:'<green>VIP-medlem</green>'><dark_green>[</dark_green><green>VIP</green><dark_green>]</dark_green></hover> "
       mod: "<hover:show_text:'<aqua>Moderator</aqua>'><dark_aqua>[</dark_aqua><aqua>MOD</aqua><dark_aqua>]</dark_aqua></hover> "
       city:

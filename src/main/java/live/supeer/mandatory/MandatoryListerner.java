@@ -4,6 +4,7 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.utils.DateUtil;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.title.TitlePart;
 import org.bukkit.event.EventHandler;
@@ -70,6 +71,10 @@ public class MandatoryListerner implements Listener {
         } else {
             event.joinMessage(Mandatory.getMessageComponent("messages.chat.hidden"));
             // TODO: Logga till console att saker händer!
+        }
+        Component prefix = MandatoryChat.getTABPrefix(event.getPlayer());
+        if (prefix != null) {
+            event.getPlayer().playerListName(prefix);
         }
     }
 
