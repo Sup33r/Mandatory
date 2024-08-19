@@ -14,7 +14,7 @@ public class GoManager {
 
     public static Go createGo(String name, Player player) {
         try {
-            DB.executeInsert("INSERT INTO `md_goes` (`goName`, `ownerUUID`, `createDate`, `position`, `charge`, `open`, `whitelistcharge`) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            DB.executeInsert("INSERT INTO `md_goes` (`goName`, `ownerUUID`, `createDate`, `location`, `chargeAmount`, `open`, `whitelistcharge`) VALUES (?, ?, ?, ?, ?, ?, ?)",
                     name, player.getUniqueId().toString(), System.currentTimeMillis(), LocationUtil.locationToString(player.getLocation()), 0, false, false);
             return new Go(DB.getFirstRow("SELECT * FROM `md_goes` WHERE `goName` = ?", name));
         } catch (SQLException e) {

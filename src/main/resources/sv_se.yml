@@ -83,6 +83,12 @@ messages:
     sentAfk: "<dark_red>[<red>du -> <dark_red>[<red>AFK<dark_red>]<red> %receiver%<dark_red>] <white>%message%</white>"
 
   modchat:
+    doesNotExist: "<red>Chatten finns inte.</red>"
+    missing:
+      channel: "<red>Du är inte medlem i #modzone. Gå med i kanalen, innan du kan byta mellan.</red>"
+    switched:
+      global: "<green>Din primära chattkanal är nu #global.</green>"
+      modchat: "<green>Din primära chattkanal är nu #modzone.</green>"
     announcement: "<dark_red>\n#modzone <gray>| <red>%message%</red>\n</dark_red>"
     message: "<dark_red>#modzone <gray>| <gold>%player%<gray>> <red>%message%</red>"
     helping: "<dark_red>#modzone <gray>| <red>%helper% hjälper %player%."
@@ -155,6 +161,7 @@ messages:
     give:
       given: "<green>%player% är nu ägaren av teleporteringspunkten <dark_green>%name%</dark_green>.</green>"
       self: "<red>Du kan inte ge teleporteringspunkten till dig själv.</red>"
+      received: "<green>Du har fått teleporteringspunkten <dark_green>%name%</dark_green> av %player%.</green>"
     whitelistcharge:
       enabled: "<green>Spelare på vitlistan betalar nu för att använda <dark_green>%name%</green>.</green>"
       disabled: "<red>Spelare på vitlistan betalar inte längre för att använda <dark_green>%name%</green>.</red>"
@@ -184,7 +191,7 @@ messages:
     list:
       notEnoughPages: "<red>Det finns inte så många sidor att visa.</red>"
       empty: "<red>Det finns inga teleporteringspunkter att visa.</red>"
-      list: "<dark_green>--- <green>Teleporteringspunkter (sida <bold>%start%</bold> av <bold>%end%</bold>)</green> <dark_green>---"
+      list: "<dark_green>--- <green>Teleporteringspunkter (sida <click:run_command:/go %previous%><bold>%start%</bold></click> av <click:run_command:/go %next%><bold>%end%</bold></click>)</green> <dark_green>---"
 
   balance:
     modify:
@@ -345,6 +352,15 @@ messages:
       success: "<green>Du har aktiverat spelaren %player%.</green>"
     syntax: "<gray>Syntax: /admin disable <underlined>namn</underlined>\nSyntax: /admin enable <underlined>namn</underlined>\nSyntax: /admin toggle chatcolor <underlined>namn</underlined>\nSyntax: /admin toggle extprefix <underlined>namn</underlined>\nSyntax: /admin set <underlined>namn</underlined> chatprefix <underlined>prefix</underlined>\nSyntax: /admin set afk\nSyntax: /admin set spawn\nSyntax: /admin set firstspawn"
 
+
+  citychat:
+    missing:
+      city: "<red>Du är inte medlem i någon stad.</red>"
+      channel: "<red>Du är inte medlem i någon chattkanal.</red>"
+      switched:
+        global: "<green>Din primära chattkanal är nu #global.</green>"
+        city: "<green>Din primära chattkanal är nu #%channel%.</green>"
+
   chat:
     prefix:
       tab:
@@ -365,7 +381,8 @@ messages:
     global: "%prefixes%<gold>%player%<gray>> <white>%message%"
     other: "<gold>#<yellow>%channel% <gray>| <gold>%player%<gray> <white>%message%</white>"
     channels:
-      switched: "<greenDin aktiva chattkanal är nu <dark_green>#%channel%</dark_green>.</green>"
+      left: "<green>Du lämnade kanalen #%channel%.</green>"
+      switched: "<green>Din aktiva chattkanal är nu <dark_green>#%channel%</dark_green>.</green>"
       notInCity: "<red>Du är inte medlem i staden.</red>"
       joined: "<green>Du gick med i kanalen #%channel%.</green>"
       alreadyInChannel: "<red>Du är redan med i kanalen.</red>"
@@ -378,8 +395,15 @@ messages:
     join: "<dark_green>[<green>+</green>] <gold>%player%</gold></dark_green>"
     quit: "<dark_red>[<red>-</red>] <gold>%player%</gold></dark_red>"
     kicked: "<dark_red>[<red>-</red>] <gold>%player% fick en varning.</gold></dark_red>"
+    banned: "<aqua>%player% har blivit bannlyst.</aqua>"
     joinNameChange: "<dark_green>[<green>+</green>] <gold>%name% har bytt namn från %oldname%</gold></dark_green>"
     hidden: ""
     greeting:
       title: "Tjuhu, %player%!"
       subtitle: "Välkommen till EnServer."
+
+  ban:
+    kickMessage: "<red>Du har blibit bannlyst:</red>\n%reason%"
+    success: "<aqua>Du har bannlyst %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>, i %length%.</aqua>"
+    alreadyBanned: "<red>Spelaren är redan bannlyst.</red>"
+    noReason: "<red>Anledningen är inte tillräckligt bra. Tydliggör, precisera!</red>"

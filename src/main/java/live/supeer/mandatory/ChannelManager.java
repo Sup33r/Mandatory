@@ -3,7 +3,6 @@ package live.supeer.mandatory;
 import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
 import live.supeer.metropolis.MetropolisAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -35,8 +34,6 @@ public class ChannelManager {
             }
             List<Channel> playerChannels = new ArrayList<>();
             List<DbRow> rows = DB.getResults("SELECT * FROM md_channelmembers WHERE playerUUID = ?", player.getUniqueId());
-
-            // If player has no rows in md_channelmembers, add global channels and create DB entries
             if (rows.isEmpty()) {
                 for (Channel channel : channels.values()) {
                     if (channel.getType().equals(ChannelType.GLOBAL)) {
@@ -66,6 +63,7 @@ public class ChannelManager {
     }
 
     public static void joinChannel(Player player, String channelName) {
+        channelName = channelName.replace("#", "");
         Channel channel = channels.get(channelName.toLowerCase());
         if (channel != null) {
             if (channel.hasMember(player.getUniqueId())) {
@@ -82,7 +80,8 @@ public class ChannelManager {
                 }
             } else if (player.hasPermission("mandatory.chat." + channelName.toLowerCase())) {
                 channel.addMember(player.getUniqueId());
-                Mandatory.sendMessage(player, "messages.chat.joined", "%channel%", channelName.toLowerCase());
+                setActiveChannel(player, channelName.toLowerCase());
+                Mandatory.sendMessage(player, "messages.chat.channels.joined", "%channel%", channelName.toLowerCase());
             } else {
                 Mandatory.sendMessage(player, "messages.chat.channels.noPermission");
             }
@@ -92,23 +91,25 @@ public class ChannelManager {
     }
 
     public static void leaveChannel(Player player, String channelName) {
+        channelName = channelName.replace("#", "");
         Channel channel = channels.get(channelName);
         if (channel != null && channel.hasMember(player.getUniqueId())) {
             channel.removeMember(player.getUniqueId());
             setActiveChannelToOther(player);
-            Mandatory.sendMessage(player, "messages.chat.left", "%channel%", channelName.toLowerCase());
+            Mandatory.sendMessage(player, "messages.chat.channels.left", "%channel%", channelName.toLowerCase());
         } else {
             Mandatory.sendMessage(player, "messages.chat.channels.notInChannel");
         }
     }
 
     public static void switchChannel(Player player, String channelName) {
-        Channel channel = channels.get(channelName);
+        channelName = channelName.replace("#", "");
+        Channel channel = channels.get(channelName.toLowerCase());
         if (channel != null && channel.hasMember(player.getUniqueId())) {
-            setActiveChannel(player, channelName);
+            setActiveChannel(player, channelName.toLowerCase());
             Mandatory.sendMessage(player, "messages.chat.channels.switched", "%channel%", channelName.toLowerCase());
         } else {
-            Mandatory.sendMessage(player, "messages.chat.notInChannel");
+            Mandatory.sendMessage(player, "messages.chat.channels.notInChannel");
         }
     }
 
@@ -126,8 +127,16 @@ public class ChannelManager {
         return channelNames;
     }
 
+    public static String parseCityChannelName(String channelName) {
+        String parsedName = channelName.replace("#", "");
+        parsedName = parsedName.replace(" ", "_");
+        parsedName = parsedName.toLowerCase();
+        return parsedName;
+    }
+
     // Other utility methods as needed
     public static void createChannel(String name, ChannelType type) {
+        name = name.replace("#", "");
         try {
             DB.executeInsert("INSERT INTO md_channels (channelName, channelType) VALUES (?, ?)", name.toLowerCase(), type.getType());
             channels.put(name, new Channel(DB.getFirstRow("SELECT * FROM md_channels WHERE channelName = ?", name.toLowerCase())));
@@ -136,9 +145,20 @@ public class ChannelManager {
         }
     }
 
+    public static void deleteChannel(String name) {
+        name = name.replace("#", "");
+        try {
+            DB.executeUpdate("DELETE FROM md_channels WHERE channelName = ?", name.toLowerCase());
+            channels.remove(name);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static Channel getChannel(String channelName) {
-        return channels.get(channelName);
+        channelName = channelName.replace("#", "");
+        return channels.get(channelName.toLowerCase());
     }
 
     public static boolean isActiveChannel(Player player, Channel channel) {
@@ -146,8 +166,9 @@ public class ChannelManager {
     }
 
     public static void setActiveChannel(Player player, String channelName) {
-        Mandatory.activeChannel.put(player.getUniqueId(), channels.get(channelName));
-        updateActiveChannel(player, channelName);
+        channelName = channelName.replace("#", "");
+        Mandatory.activeChannel.put(player.getUniqueId(), channels.get(channelName.toLowerCase()));
+        updateActiveChannel(player, channelName.toLowerCase());
     }
 
     public static void setActiveChannelToOther(Player player) {
@@ -165,6 +186,7 @@ public class ChannelManager {
     }
 
     public static void updateActiveChannel(Player player, String channelName) {
+        channelName = channelName.replace("#", "");
         try {
             DB.executeUpdate("UPDATE md_players SET chatChannel = ? WHERE uuid = ?", channelName.toLowerCase(), player.getUniqueId().toString());
         } catch (SQLException e) {

@@ -18,38 +18,47 @@ import java.util.UUID;
 
 public class MandatoryChat {
 
-    public static void sendModChatMessage(Player player, String message) {
-        for (Player onlinePlayer : Mandatory.getInstance().getServer().getOnlinePlayers()) {
-            if (onlinePlayer.hasPermission("mandatory.modchat")) {
-                Mandatory.sendMessage(onlinePlayer, "messages.modchat.message", "%player%", player.getName(), "%message%", message);
-            }
-        }
-    }
-
     public static void modChatHelping(Player helper, Player player) {
-        for (Player onlinePlayer : Mandatory.getInstance().getServer().getOnlinePlayers()) {
-            if (onlinePlayer.hasPermission("mandatory.modchat")) {
+        Channel channel = ChannelManager.getChannel("modzone");
+        if (channel != null) {
+            for (UUID memberUUID : channel.getMembers()) {
+                Player member = Bukkit.getPlayer(memberUUID);
+                if (member == null) {
+                    continue;
+                }
                 player.sendMessage("");
-                Mandatory.sendMessage(onlinePlayer, "messages.modchat.helping", "%helper%", helper.getName(), "%player%", player.getName());
+                Mandatory.sendMessage(member, "messages.modchat.helping", "%helper%", helper.getName(), "%player%", player.getName());
                 player.sendMessage("");
             }
         }
     }
 
     public static void modChatAnnouncement(String message) {
-        for (Player onlinePlayer : Mandatory.getInstance().getServer().getOnlinePlayers()) {
-            if (onlinePlayer.hasPermission("mandatory.modchat")) {
-                Mandatory.sendMessage(onlinePlayer, "messages.modchat.announcement", "%message%", message);
+        Channel channel = ChannelManager.getChannel("modzone");
+        if (channel != null) {
+            for (UUID memberUUID : channel.getMembers()) {
+                Player member = Bukkit.getPlayer(memberUUID);
+                if (member == null) {
+                    continue;
+                }
+                Mandatory.sendMessage(member, "messages.modchat.announcement", "%message%", message);
             }
         }
     }
 
     public static void helpopMessage(Player player, String message) {
         boolean recieved = false;
+        Channel channel = ChannelManager.getChannel("modzone");
         for (Player onlinePlayer : Mandatory.getInstance().getServer().getOnlinePlayers()) {
-            if (onlinePlayer.hasPermission("mandatory.modchat")) {
-                recieved = true;
-                Mandatory.sendMessage(onlinePlayer, "messages.helpop.message", "%player%", player.getName(), "%message%", message);
+            if (channel != null) {
+                for (UUID memberUUID : channel.getMembers()) {
+                    Player member = Bukkit.getPlayer(memberUUID);
+                    if (member == null) {
+                        continue;
+                    }
+                    recieved = true;
+                    Mandatory.sendMessage(onlinePlayer, "messages.helpop.message", "%player%", player.getName(), "%message%", message);
+                }
             }
         }
         if (!recieved) {
@@ -67,9 +76,7 @@ public class MandatoryChat {
 
     public static void sendBroadcast(String message) {
         for (Player onlinePlayer : Mandatory.getInstance().getServer().getOnlinePlayers()) {
-            if (onlinePlayer.hasPermission("mandatory.broadcast")) {
-                Mandatory.sendMessage(onlinePlayer, "messages.broadcast.admin", "%message%", message);
-            }
+            Mandatory.sendMessage(onlinePlayer, "messages.broadcast.admin", "%message%", message);
         }
     }
 
@@ -131,6 +138,33 @@ public class MandatoryChat {
             message = "<aqua>" + message + "</aqua>";
         }
         Channel channel = Mandatory.activeChannel.get(player.getUniqueId());
+        sendChannelMessage(player, channel, message);
+    }
+
+    public static void sendMessage(Player player, Channel channel, TextComponent component) {
+        String message = component.content();
+        MPlayer mPlayer = ApiedAPI.getPlayer(player);
+        if (mPlayer == null) {
+            return;
+        }
+        if (mPlayer.hasFlag('c')) {
+            message = "<aqua>" + message + "</aqua>";
+        }
+        sendChannelMessage(player, channel, message);
+    }
+
+    public static void sendMeetingMessage(Player player, TextComponent component) {
+        List<Player> playerList = MetropolisAPI.playersInPlotAtPlayer(player);
+        String message = component.content();
+        if (playerList == null) {
+            return;
+        }
+        for (Player onlinePlayer : playerList) {
+            Mandatory.sendMessage(onlinePlayer, "messages.chat.meeting", "%player%", player.getName(), "%message%", message);
+        }
+    }
+
+    private static void sendChannelMessage(Player player, Channel channel, String message) {
         if (channel != null) {
             for (UUID memberUUID : channel.getMembers()) {
                 Player member = Bukkit.getPlayer(memberUUID);
@@ -139,17 +173,17 @@ public class MandatoryChat {
                         String cityname = MetropolisAPI.getCityByName(channel.getName()).getCityName();
                         Mandatory.sendMessage(member, "messages.chat.city", "%player%", player.getName(), "%message%", message, "%cityname%", cityname);
                         Mandatory.getInstance().logger.info("[CITYCHAT] [" + cityname + "] " + player.getName() + ": " + message);
-                        return;
+                        continue;
                     }
                     if (channel.getType().equals(ChannelType.MOD)) {
                         Mandatory.sendMessage(member, "messages.chat.mod", "%player%", player.getName(), "%message%", message);
                         Mandatory.getInstance().logger.info("[MODCHAT] " + player.getName() + ": " + message);
-                        return;
+                        continue;
                     }
                     if (channel.getType().equals(ChannelType.GLOBAL)) {
                         Mandatory.sendMessage(member, "messages.chat.global", "%player%", player.getName(), "%message%", message, "%prefixes%", getPrefix(player));
                         Mandatory.getInstance().logger.info("[GLOBAL] " + player.getName() + ": " + message);
-                        return;
+                        continue;
                     }
                     Mandatory.sendMessage(member, "messages.chat.other", "%player%", player.getName(), "%message%", message, "%channel%", channel.getName().toLowerCase());
                     Mandatory.getInstance().logger.info("[CHANNEL] " + player.getName() + " -> " + channel.getName() + ": " + message);

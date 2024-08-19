@@ -32,44 +32,28 @@ public class CommandChat extends BaseCommand {
 
     @Subcommand("join")
     public void onJoin(Player player, String channelName) {
+        if (!player.hasPermission("mandatory.command.chat.join")) {
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
+            return;
+        }
         ChannelManager.joinChannel(player, channelName);
     }
 
     @Subcommand("leave")
     public void onLeave(Player player, String channelName) {
+        if (!player.hasPermission("mandatory.command.chat.leave")) {
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
+            return;
+        }
         ChannelManager.leaveChannel(player, channelName);
     }
 
     @Subcommand("switch")
     public void onSwitch(Player player, String channelName) {
+        if (!player.hasPermission("mandatory.command.chat.switch")) {
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
+            return;
+        }
         ChannelManager.switchChannel(player, channelName);
-    }
-
-    @CommandAlias("citychat|cc")
-    public class CommandCityChat extends BaseCommand {
-
-        @Default
-        public void onCityChat(Player player, @Optional String message) {
-            if (message == null) {
-                ChannelManager.switchChannel(player, "city");
-            } else {
-                // Send message to city chat
-                // Implement this method
-            }
-        }
-    }
-
-    @CommandAlias("modchat|mc")
-    public class CommandModChat extends BaseCommand {
-
-        @Default
-        public void onModChat(Player player, @Optional String message) {
-            if (message == null) {
-                ChannelManager.switchChannel(player, "mod");
-            } else {
-                // Send message to mod chat
-                // Implement this method
-            }
-        }
     }
 }

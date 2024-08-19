@@ -8,6 +8,7 @@ import live.supeer.mandatory.commands.*;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public final class Mandatory extends JavaPlugin {
 
@@ -37,6 +39,7 @@ public final class Mandatory extends JavaPlugin {
     public static HashMap<Player, Go> promptedPayment = new HashMap<>();
     public static List<Player> firstTimePlayer = new ArrayList<>();
     public static List<Player> kickedPlayers = new ArrayList<>();
+    public static List<Player> bannedPlayers = new ArrayList<>();
     public static HashMap<UUID, Long> startTime = new HashMap<>();
     public static HashMap<UUID, Channel> activeChannel = new HashMap<>();
     public static HashMap<UUID, List<Channel>> playerChannels = new HashMap<>();
@@ -59,9 +62,11 @@ public final class Mandatory extends JavaPlugin {
         manager.registerCommand(new CommandAFK());
         manager.registerCommand(new CommandBack());
         manager.registerCommand(new CommandBalance());
+        manager.registerCommand(new CommandBan());
         manager.registerCommand(new CommandBroadcast());
         manager.registerCommand(new CommandBuy());
         manager.registerCommand(new CommandChat());
+        manager.registerCommand(new CommandCityChat());
         manager.registerCommand(new CommandFeed());
         manager.registerCommand(new CommandFly());
         manager.registerCommand(new CommandGamemode());
@@ -168,6 +173,11 @@ public final class Mandatory extends JavaPlugin {
     }
 
     public static void registerCompletions(PaperCommandManager manager) {
-        manager.getCommandCompletions().registerCompletion("gamemode", c -> ImmutableList.of("SURVIVAL", "CREATIVE", "ADVENTURE", "SPECTATOR", "0", "1", "2", "3"));
+        manager.getCommandCompletions().registerAsyncCompletion("gamemode", c -> ImmutableList.of("SURVIVAL", "CREATIVE", "ADVENTURE", "SPECTATOR", "0", "1", "2", "3"));
+        manager.getCommandCompletions().registerAsyncCompletion("goName", c -> {
+            Player player = c.getPlayer();
+            return new ArrayList<>(GoManager.getGoList(player).stream().map(Go::getName).toList());
+        });
+        manager.getCommandCompletions().registerAsyncCompletion("go1", c -> ImmutableList.of("set", "give", "toggle", "whitelist"));
     }
 }

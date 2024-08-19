@@ -2,6 +2,7 @@ package live.supeer.mandatory.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Default;
 import live.supeer.apied.MPlayer;
 import live.supeer.apied.MPlayerManager;
@@ -19,6 +20,7 @@ import java.util.Objects;
 public class CommandGo extends BaseCommand {
 
     @Default
+    @CommandCompletion("@goNames @go1")
     public void onGo(Player player, String[] args) {
         if (!player.hasPermission("mandatory.command.go")) {
             Mandatory.sendMessage(player,"messages.error.permissionDenied");
@@ -174,7 +176,7 @@ public class CommandGo extends BaseCommand {
                         Mandatory.sendMessage(player, "messages.error.permissionDenied");
                         return;
                     }
-                    MPlayer mPlayer = MPlayerManager.getPlayerFromName(args[2].substring(1));
+                    MPlayer mPlayer = MPlayerManager.getPlayerFromName(args[2]);
                     if (mPlayer == null) {
                         Mandatory.sendMessage(player, "messages.error.playerNotFound");
                         return;
@@ -185,6 +187,9 @@ public class CommandGo extends BaseCommand {
                     }
                     go.setOwnerUUID(mPlayer.getUuid());
                     Mandatory.sendMessage(player, "messages.go.give.given", "%name%", go.getName(), "%player%", mPlayer.getName());
+                    if (Mandatory.getInstance().getServer().getPlayer(mPlayer.getUuid()) != null) {
+                        Mandatory.sendMessage(Objects.requireNonNull(Mandatory.getInstance().getServer().getPlayer(mPlayer.getUuid())), "messages.go.give.received", "%name%", go.getName(), "%player%", player.getName());
+                    }
                     return;
                 }
                 case "set" -> {
@@ -234,6 +239,7 @@ public class CommandGo extends BaseCommand {
                     }
                     go.setDisplayName(args[3]);
                     Mandatory.sendMessage(player, "messages.go.set.displayname.success", "%name%", go.getName());
+                    return;
                 }
                 case "price" -> {
                     if (!player.hasPermission("mandatory.command.go.set.price") || !go.getOwnerUUID().equals(player.getUniqueId()) && !player.hasPermission("mandatory.command.go.set.price.others")) {
@@ -256,6 +262,7 @@ public class CommandGo extends BaseCommand {
                     }
                     go.setChargeAmount(chargeAmount);
                     Mandatory.sendMessage(player, "messages.go.set.chargeamount.set", "%name%", go.getName());
+                    return;
                 }
             }
             Mandatory.sendMessage(player, "messages.go.syntax");
@@ -266,12 +273,13 @@ public class CommandGo extends BaseCommand {
         StringBuilder tmpMessage = new StringBuilder();
         int itemsPerPage = 25;
         int start = (pageStart * itemsPerPage) - itemsPerPage;
-        int stop = pageStart * itemsPerPage;
+        int stop = Math.min(pageStart * itemsPerPage, list.size()); // Ensure stop does not exceed list size
+
         if (list.isEmpty()) {
             Mandatory.sendMessage(player, "messages.go.list.empty");
             return;
         }
-        if(start >= list.size()) {
+        if (start >= list.size()) {
             Mandatory.sendMessage(player, "messages.go.list.notEnoughPages");
             return;
         }
@@ -279,7 +287,8 @@ public class CommandGo extends BaseCommand {
         for (int i = start; i < stop; i++) {
             tmpMessage.append(list.get(i).getName()).append(", ");
         }
-        Mandatory.sendMessage(player, "messages.go.list.list", "%start%", String.valueOf(start), "%end%", String.valueOf(((int) Math.ceil(((double) list.size()) / ((double) itemsPerPage)))));
+        int displayStart = start + 1;
+        Mandatory.sendMessage(player, "messages.go.list.list", "%start%", String.valueOf(displayStart), "%end%", String.valueOf(((int) Math.ceil(((double) list.size()) / ((double) itemsPerPage)))), "%next%", String.valueOf(pageStart + 1), "%previous%", String.valueOf(pageStart - 1));
         player.sendMessage("§2" + tmpMessage.substring(0, tmpMessage.length() - 2));
     }
 

@@ -4,9 +4,15 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.utils.DateUtil;
+import live.supeer.metropolis.MetropolisAPI;
+import live.supeer.metropolis.event.CityCreationEvent;
+import live.supeer.metropolis.event.CityDeletionEvent;
+import live.supeer.metropolis.event.CityJoinEvent;
+import live.supeer.metropolis.event.CityLeaveEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.title.TitlePart;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -93,6 +99,9 @@ public class MandatoryListerner implements Listener {
             if (Mandatory.kickedPlayers.contains(event.getPlayer())) {
                 event.quitMessage(Mandatory.getMessageComponent("messages.chat.kicked", "%player%", event.getPlayer().getName()));
                 Mandatory.kickedPlayers.remove(event.getPlayer());
+            } else if (Mandatory.bannedPlayers.contains(event.getPlayer())) {
+                event.quitMessage(Mandatory.getMessageComponent("messages.chat.banned", "%player%", event.getPlayer().getName()));
+                Mandatory.bannedPlayers.remove(event.getPlayer());
             } else {
                 event.quitMessage(Mandatory.getMessageComponent("messages.chat.quit", "%player%", event.getPlayer().getName()));
             }
@@ -110,8 +119,50 @@ public class MandatoryListerner implements Listener {
     }
 
     @EventHandler
+    public void onCityJoinEvent(CityJoinEvent event) {
+        MPlayer player = ApiedAPI.getPlayer(event.getPlayer());
+        assert player != null;
+        Channel cityChannel = ChannelManager.getChannel(ChannelManager.parseCityChannelName(event.getCity().getCityName()));
+        if (cityChannel != null) {
+            cityChannel.addMember(player.getUuid());
+            ChannelManager.setActiveChannel(event.getPlayer(), cityChannel.getName().toLowerCase());
+        }
+    }
+
+    @EventHandler
+    public void onCityCreationEvent(CityCreationEvent event) {
+        Channel cityChannel = ChannelManager.getChannel(ChannelManager.parseCityChannelName(event.getCity().getCityName()));
+        if (cityChannel == null) {
+            ChannelManager.createChannel(ChannelManager.parseCityChannelName(event.getCity().getCityName()), ChannelType.CITY);
+        }
+    }
+
+    @EventHandler
+    public void onCityDeletionEvent(CityDeletionEvent event) {
+        Channel cityChannel = ChannelManager.getChannel(ChannelManager.parseCityChannelName(event.getCity().getCityName()));
+        if (cityChannel != null) {
+            ChannelManager.deleteChannel(ChannelManager.parseCityChannelName(event.getCity().getCityName()));
+        }
+    }
+
+    @EventHandler
+    public void onCityLeaveEvent(CityLeaveEvent event) {
+        MPlayer player = ApiedAPI.getPlayer(event.getPlayer());
+        assert player != null;
+        Channel cityChannel = ChannelManager.getChannel(ChannelManager.parseCityChannelName(event.getCity().getCityName()));
+        if (cityChannel != null) {
+            cityChannel.removeMember(player.getUuid());
+            ChannelManager.setActiveChannelToOther(event.getPlayer());
+        }
+    }
+
+    @EventHandler
     public void onChatEvent(AsyncChatEvent event) {
         event.setCancelled(true);
+        if (MetropolisAPI.isPlayerInMeeting(event.getPlayer())) {
+            MandatoryChat.sendMeetingMessage(event.getPlayer(), (TextComponent) event.message());
+            return;
+        }
         MandatoryChat.sendMessage(event.getPlayer(), (TextComponent) event.message());
     }
 
