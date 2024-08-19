@@ -2,6 +2,7 @@ package live.supeer.mandatory.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Default;
 import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.MPlayer;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Player;
 public class CommandBalance extends BaseCommand {
 
     @Default
+    @CommandCompletion("@players")
     public void onBalance(Player player, String[] args) {
 
         if (args.length == 0) {

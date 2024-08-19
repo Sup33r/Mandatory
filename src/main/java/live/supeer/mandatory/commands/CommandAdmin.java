@@ -2,6 +2,7 @@ package live.supeer.mandatory.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
@@ -73,6 +74,7 @@ public class CommandAdmin extends BaseCommand {
     // c = chatcolor, d = deathmessage, e = externalprefix, g = greeting, i = insecureconnections, j = joinleaves, m = chestmessages, p = payments, t = teleport, v = vipprefi, s = stadsprefix | [GRÅ[Anka] GRÖN[B]] GUL[VIP] BLÅ[ADMIN]
 
     @Subcommand("toggle")
+    @CommandCompletion("@players @toggleable")
     public void onToggle(Player player, String target, String action) {
         if (!player.hasPermission("mandatory.command.admin.toggle")) {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");

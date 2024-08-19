@@ -39,7 +39,7 @@ public class CommandBan extends BaseCommand {
             return;
         }
         String expiryDate = DateUtil.formatDateDiff(length);
-        MPlayerManager.placeBan(targetPlayer, player, reason, length);
+        MPlayerManager.placeBan(targetPlayer, player, reason, length/1000L);
         Player targetOnline = Bukkit.getPlayer(targetPlayer.getUuid());
         if (targetOnline != null) {
             Mandatory.bannedPlayers.add(targetOnline);

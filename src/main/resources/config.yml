@@ -28,6 +28,8 @@ settings:
     afklocation:
     firstspawnlocation:
 
+allowed_commands:
+
 allowed_repair:
   - BOW
   - BRUSH

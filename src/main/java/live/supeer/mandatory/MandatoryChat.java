@@ -172,21 +172,29 @@ public class MandatoryChat {
                     if (channel.getType().equals(ChannelType.CITY)) {
                         String cityname = MetropolisAPI.getCityByName(channel.getName()).getCityName();
                         Mandatory.sendMessage(member, "messages.chat.city", "%player%", player.getName(), "%message%", message, "%cityname%", cityname);
-                        Mandatory.getInstance().logger.info("[CITYCHAT] [" + cityname + "] " + player.getName() + ": " + message);
+                        if (!memberUUID.equals(player.getUniqueId())) {
+                            Mandatory.getInstance().logger.info("[CITYCHAT] [" + cityname + "] " + player.getName() + ": " + message);
+                        }
                         continue;
                     }
                     if (channel.getType().equals(ChannelType.MOD)) {
                         Mandatory.sendMessage(member, "messages.chat.mod", "%player%", player.getName(), "%message%", message);
-                        Mandatory.getInstance().logger.info("[MODCHAT] " + player.getName() + ": " + message);
+                        if (!memberUUID.equals(player.getUniqueId())) {
+                            Mandatory.getInstance().logger.info("[MODCHAT] " + player.getName() + ": " + message);
+                        }
                         continue;
                     }
                     if (channel.getType().equals(ChannelType.GLOBAL)) {
                         Mandatory.sendMessage(member, "messages.chat.global", "%player%", player.getName(), "%message%", message, "%prefixes%", getPrefix(player));
-                        Mandatory.getInstance().logger.info("[GLOBAL] " + player.getName() + ": " + message);
+                        if (!memberUUID.equals(player.getUniqueId())) {
+                            Mandatory.getInstance().logger.info("[GLOBAL] " + player.getName() + ": " + message);
+                        }
                         continue;
                     }
                     Mandatory.sendMessage(member, "messages.chat.other", "%player%", player.getName(), "%message%", message, "%channel%", channel.getName().toLowerCase());
-                    Mandatory.getInstance().logger.info("[CHANNEL] " + player.getName() + " -> " + channel.getName() + ": " + message);
+                    if (!memberUUID.equals(player.getUniqueId())) {
+                        Mandatory.getInstance().logger.info("[CHANNEL] " + player.getName() + " -> " + channel.getName() + ": " + message);
+                    }
                 }
             }
         } else {

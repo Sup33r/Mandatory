@@ -2,9 +2,12 @@ package live.supeer.mandatory;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.ChestManager;
 import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.utils.DateUtil;
+import live.supeer.mandatory.utils.LocationUtil;
 import live.supeer.metropolis.MetropolisAPI;
+import live.supeer.metropolis.city.Role;
 import live.supeer.metropolis.event.CityCreationEvent;
 import live.supeer.metropolis.event.CityDeletionEvent;
 import live.supeer.metropolis.event.CityJoinEvent;
@@ -12,20 +15,25 @@ import live.supeer.metropolis.event.CityLeaveEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.title.TitlePart;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.CrafterCraftEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.inventory.DoubleChestInventory;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -91,7 +99,9 @@ public class MandatoryListerner implements Listener {
         if (Mandatory.backLocations.containsKey(event.getPlayer())) {
             mPlayer.setBackLocation(Mandatory.backLocations.get(event.getPlayer()));
         }
-        mPlayer.setLastLocation(event.getPlayer().getLocation());
+        if (!mPlayer.isBanned()) {
+            mPlayer.setLastLocation(event.getPlayer().getLocation());
+        }
         mPlayer.setLatestLeave(DateUtil.getTimestamp());
         Database.updateLoginLogPlaytime(mPlayer.getUuid(), Mandatory.startTime.get(mPlayer.getUuid()), DateUtil.getTimestamp() - Mandatory.startTime.get(mPlayer.getUuid()));
         ApiedAPI.removePlayer(mPlayer);
@@ -159,6 +169,12 @@ public class MandatoryListerner implements Listener {
     @EventHandler
     public void onChatEvent(AsyncChatEvent event) {
         event.setCancelled(true);
+        MPlayer player = ApiedAPI.getPlayer(event.getPlayer());
+        assert player != null;
+        if (player.isBanned()) {
+            Mandatory.sendMessage(event.getPlayer(), "messages.ban.chatNotAllowed");
+            return;
+        }
         if (MetropolisAPI.isPlayerInMeeting(event.getPlayer())) {
             MandatoryChat.sendMeetingMessage(event.getPlayer(), (TextComponent) event.message());
             return;
@@ -207,6 +223,114 @@ public class MandatoryListerner implements Listener {
 
         event.setCancelled(true);
         Mandatory.sendMessage(event.getWhoClicked(), "messages.copyrighted");
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event) {
+        MPlayer player = ApiedAPI.getPlayer(event.getPlayer());
+        assert player != null;
+        if (player.isBanned()) {
+            event.setCancelled(true);
+            Mandatory.sendMessage(event.getPlayer(), "messages.ban.commandNotAllowed");
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (event.getMaterial() == Material.REDSTONE) {
+                Player player = event.getPlayer();
+                Block block = event.getClickedBlock();
+                assert block != null;
+                if (block.getType().equals(Material.CHEST) || block.getType().equals(Material.TRAPPED_CHEST) || block.getType().equals(Material.BARREL) || block.getType().equals(Material.SHULKER_BOX)) {
+                    if (ChestManager.chestInventories.containsKey(player.getUniqueId())) {
+                        event.setCancelled(true);
+                        if (block.getState() instanceof Chest chest1) {
+                            Inventory inventory = chest1.getInventory();
+                            if (inventory instanceof DoubleChestInventory doubleChestInventory) {
+                                live.supeer.apied.Chest chest = ChestManager.getClaimedChest(event.getClickedBlock().getLocation());
+                                if (chest == null) {
+                                    Mandatory.sendMessage(player, "messages.chest.error.notClaimed");
+                                    return;
+                                }
+                                if (!chest.getOwnerUUID().equals(player.getUniqueId())) {
+                                    Mandatory.sendMessage(player, "messages.chest.error.notOwner");
+                                    return;
+                                }
+                                //TODO: ADD A CHECK FOR IF THE CITYCLAIM IS OCCUPIED
+                                if (Arrays.stream(doubleChestInventory.getContents()).allMatch(Objects::isNull)) {
+                                    int id = ChestManager.chestInventories.get(player.getUniqueId());
+                                    Inventory archiveInventory = ChestManager.getInventoryFromArchive(id);
+                                    if (archiveInventory != null) {
+                                        chest1.getInventory().setContents(archiveInventory.getContents());
+                                        ChestManager.removeArchive(id);
+                                        ChestManager.chestInventories.remove(player.getUniqueId());
+                                        Mandatory.sendMessage(player, "messages.chest.claimedArchive");
+                                    } else {
+                                        Mandatory.sendMessage(player, "messages.chest.error.noItems");
+                                    }
+                                } else {
+                                    Mandatory.sendMessage(player, "messages.chest.error.notEmpty");
+                                    return;
+                                }
+                            } else {
+                                Mandatory.sendMessage(player, "messages.chest.error.notDouble");
+                                return;
+                            }
+                        }
+                    }
+                    if (ChestManager.isChestEventCounting(player.getUniqueId())) {
+                        event.setCancelled(true);
+                        String action = ChestManager.getChestEventCount(player.getUniqueId()).getType();
+                        switch (action) {
+                            case "info" -> {
+                                ChestManager.decrementChestEventCount(player.getUniqueId());
+                                live.supeer.apied.Chest chest = ChestManager.getClaimedChest(event.getClickedBlock().getLocation());
+                                int count = ChestManager.getChestEventCount(player.getUniqueId()).getCount();
+                                if (chest == null) {
+                                    Mandatory.sendMessage(player, "messages.chest.info.unlocked", "%location%", LocationUtil.formatLocation(event.getClickedBlock().getLocation()));
+                                    if (!(count <= 0)) {
+                                        Mandatory.sendMessage(player, "messages.chest.operationsleft", "%count%", String.valueOf(count));
+                                    }
+                                } else {
+                                    MPlayer owner = ApiedAPI.getPlayer(chest.getOwnerUUID());
+                                    Mandatory.sendMessage(player, "messages.chest.info.locked", "%location%", LocationUtil.formatLocation(event.getClickedBlock().getLocation()), "%owner%", owner.getName(), "%id%", String.valueOf(chest.getId()));
+                                    if (!(count <= 0)) {
+                                        Mandatory.sendMessage(player, "messages.chest.operationsleft", "%count%", String.valueOf(count));
+                                    }
+                                }
+                            }
+                            case "share" -> {
+                                ChestManager.decrementChestEventCount(player.getUniqueId());
+                                int count = ChestManager.getChestEventCount(player.getUniqueId()).getCount();
+                                ChestManager.handleChestShare(event.getClickedBlock().getLocation(), player, ChestManager.getChestEventCount(player.getUniqueId()).getTarget());
+                                if (!(count <= 0)) {
+                                    Mandatory.sendMessage(player, "messages.chest.operationsleft", "%count%", String.valueOf(count));
+                                }
+                            }
+                            case "give" -> {
+                                ChestManager.decrementChestEventCount(player.getUniqueId());
+                                int count = ChestManager.getChestEventCount(player.getUniqueId()).getCount();
+                                ChestManager.handleChestGive(event.getClickedBlock().getLocation(), player, ChestManager.getChestEventCount(player.getUniqueId()).getTarget());
+                                if (!(count <= 0)) {
+                                    Mandatory.sendMessage(player, "messages.chest.operationsleft", "%count%", String.valueOf(count));
+                                }
+                            }
+                            case "archive" -> {
+                                ChestManager.decrementChestEventCount(player.getUniqueId());
+                                int count = ChestManager.getChestEventCount(player.getUniqueId()).getCount();
+                                boolean city = MetropolisAPI.playerHasCityPermission(event.getClickedBlock().getLocation(), player, Role.ASSISTANT);
+                                boolean self = player.hasPermission("mandatory.command.chest.archive");
+                                ChestManager.handleArchiveItems(player, event.getClickedBlock().getLocation(), city, self);
+                                if (!(count <= 0)) {
+                                    Mandatory.sendMessage(player, "messages.chest.operationsleft", "%count%", String.valueOf(count));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

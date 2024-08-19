@@ -38,6 +38,8 @@ public class MandatoryConfiguration {
 
     private final List<String> disabledNames;
 
+    private final List<String> allowedCommands;
+
     MandatoryConfiguration(Mandatory plugin) {
         plugin.saveDefaultConfig();
         plugin.reloadConfig();
@@ -56,6 +58,7 @@ public class MandatoryConfiguration {
         firstSpawnLocation = plugin.getConfig().getLocation("settings.locations.firstspawnlocation");
 
         allowedRepairItems = plugin.getConfig().getStringList("allowed_repair");
+        allowedCommands = plugin.getConfig().getStringList("allowed_commands");
 
         goNameLimit = plugin.getConfig().getInt("settings.limits.goname");
         goDisplayNameLimit = plugin.getConfig().getInt("settings.limits.godisplayname");

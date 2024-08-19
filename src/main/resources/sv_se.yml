@@ -403,7 +403,40 @@ messages:
       subtitle: "Välkommen till EnServer."
 
   ban:
-    kickMessage: "<red>Du har blibit bannlyst:</red>\n%reason%"
+    commandNotAllowed: "<red>Kommandot kan inte användas när man är bannlyst.</red>"
+    chatNotAllowed: "<red>Man kan inte skriva i chatten när man är bannlyst.</red>"
+    kickMessage: "<red>Du har blivit bannlyst:</red>\n%reason%"
     success: "<aqua>Du har bannlyst %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>, i %length%.</aqua>"
     alreadyBanned: "<red>Spelaren är redan bannlyst.</red>"
     noReason: "<red>Anledningen är inte tillräckligt bra. Tydliggör, precisera!</red>"
+
+  unban:
+    notBanned: "<red>Spelaren är inte bannlyst.</red>"
+    success: "<aqua>Du har upphävt bannlysningen av %player%.</aqua>"
+
+  chest:
+    claimedArchive: "<green>Föremålen från din föremålsbank har nu placerats i dubbelkistan.</green>"
+    archive:
+      started: "<green>Arkivera kistor genom att klicka på <dark_green>%count% kistor</dark_green> med en pinne.\nAvbryt med <dark_green>/chest cancel</dark_green>.</green>"
+    give:
+      started: "<green>Lås åt <dark_green>%player%</dark_green>, genom att klicka på <dark_green>%count% kistor</dark_green> med en pinne.\nAvbryt med <dark_green>/chest cancel</dark_green>.</green>"
+    share:
+      notOwner: "<red>Du kan inte dela en kista som du inte är ägare av.</red>"
+      unlocked: "<red>Kistan är olåst och kan därför inte delas.</red>"
+      started: "<green>Dela kistor med <dark_green>%player%</dark_green>, genom att klicka på <dark_green>%count% kistor</dark_green> med en pinne.\nAvbryt med <dark_green>/chest cancel</dark_green>.</green>"
+    info:
+      unlocked: "<dark_green>--- <green>Kista: %location%</green> ---\nStatus: <green>Olåst</green>"
+      locked: "<dark_green>--- <green>Kista: %location%</green> ---\nStatus: <green>Låst av %player%</green>\nID: <green>%id%</green>"
+      started: "<green>Få information genom att klicka på <dark_green>%count% kistor</dark_green> med en pinne.\nAvbryt med <dark_green>/chest cancel</dark_green>.</green>"
+    error:
+      selfGive: "<red>Du kan inte ge en kista till dig själv.</red>"
+      selfShare: "<red>Du kan inte dela en kista med dig själv.</red>"
+      notOwner: "<red>Du är inte ägaren av kistan.</red>"
+      notLocked: "<red>Kistan är inte låst.</red>"
+      notEmpty: "<red>Kistan är inte tom.</red>"
+      notDouble: "<red>Kistan är inte en dubbelkista.</red>"
+      noItems: "<red>Föremålsbanken innehöll inga föremål.</red>"
+      noEvent: "<red>Det finns ingen pågående kistoperation.</red>"
+    cancel: "<green>Avbröt alla pågående kistoperationer.</green>"
+    operationsleft: "<gray>Kistoperationer kvar: <dark_gray>%count%</dark_gray></gray>"
+    syntax: "<gray>Syntax: /chest info\nSyntax: /chest share <underlined>spelare</underlined> <underlined>antal</underlined>\nSyntax: /chest give <underlined>spelare</underlined> <underlined>antal</underlined>\nSyntax: /chest archive <underlined>antal</underlined>\n/chest claim"
