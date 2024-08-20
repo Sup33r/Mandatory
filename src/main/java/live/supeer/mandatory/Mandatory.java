@@ -40,6 +40,8 @@ public final class Mandatory extends JavaPlugin {
     public static List<Player> firstTimePlayer = new ArrayList<>();
     public static List<Player> kickedPlayers = new ArrayList<>();
     public static List<Player> bannedPlayers = new ArrayList<>();
+    public static List<Player> chestOverride = new ArrayList<>();
+    public static List<Player> mapOverride = new ArrayList<>();
     public static HashMap<UUID, Long> startTime = new HashMap<>();
     public static HashMap<UUID, Channel> activeChannel = new HashMap<>();
     public static HashMap<UUID, List<Channel>> playerChannels = new HashMap<>();
@@ -66,6 +68,7 @@ public final class Mandatory extends JavaPlugin {
         manager.registerCommand(new CommandBroadcast());
         manager.registerCommand(new CommandBuy());
         manager.registerCommand(new CommandChat());
+        manager.registerCommand(new CommandChest());
         manager.registerCommand(new CommandCityChat());
         manager.registerCommand(new CommandFeed());
         manager.registerCommand(new CommandFly());
@@ -124,7 +127,9 @@ public final class Mandatory extends JavaPlugin {
     public static void sendMessage(
             @NotNull CommandSender sender, @NotNull String key, String... replacements) {
         String message = languageManager.getValue(key, getLocale(sender), replacements);
-
+        if (message == null || message.isEmpty()) {
+            sender.sendMessage("§cMessage not found: " + key);
+        }
         if (message != null && !message.isEmpty()) {
             Component component = languageManager.getMiniMessage().deserialize(message);
             sender.sendMessage(component);

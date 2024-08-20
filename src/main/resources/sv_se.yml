@@ -415,6 +415,18 @@ messages:
     success: "<aqua>Du har upphävt bannlysningen av %player%.</aqua>"
 
   chest:
+    create: "<green>Kistan är nu låst.</green>"
+    expand:
+      self: "<green>Du expanderade din kista.</green>"
+      override: "<green>Du expanderade %owner%s kista forcerat.</green>"
+    claim: "<green>Återta dina föremål från föremålsbanken genom att klicka på <dark_green>en dubbelkista</dark_green> med en pinne. Avbryt med <dark_green>/chest cancel</dark_green>.</green>"
+    open:
+      self: "<green>Du öppnade din kista.</green>"
+      shared: "<green>Du öppnade %owner%s kista.</green>"
+      override: "<green>Du öppnade %owner%s kista forcerat.</green>"
+    override:
+      enabled: "<green>Du kan nu öppna kistor som tillhör andra spelare.</green>"
+      disabled: "<green>Du kan inte längre öppna kistor som tillhör andra spelare.</green>"
     claimedArchive: "<green>Föremålen från din föremålsbank har nu placerats i dubbelkistan.</green>"
     archive:
       started: "<green>Arkivera kistor genom att klicka på <dark_green>%count% kistor</dark_green> med en pinne.\nAvbryt med <dark_green>/chest cancel</dark_green>.</green>"
@@ -439,4 +451,9 @@ messages:
       noEvent: "<red>Det finns ingen pågående kistoperation.</red>"
     cancel: "<green>Avbröt alla pågående kistoperationer.</green>"
     operationsleft: "<gray>Kistoperationer kvar: <dark_gray>%count%</dark_gray></gray>"
-    syntax: "<gray>Syntax: /chest info\nSyntax: /chest share <underlined>spelare</underlined> <underlined>antal</underlined>\nSyntax: /chest give <underlined>spelare</underlined> <underlined>antal</underlined>\nSyntax: /chest archive <underlined>antal</underlined>\n/chest claim"
+    syntax: "<gray>Syntax: /chest info\nSyntax: /chest share <underlined>spelare</underlined> <underlined>antal</underlined>\nSyntax: /chest give <underlined>spelare</underlined> <underlined>antal</underlined>\nSyntax: /chest archive <underlined>antal</underlined>\nSyntax: /chest claim"
+
+  map:
+    override:
+      enabled: "<green>Du kan nu kopiera kopieringsskyddade kartor.</green>"
+      disabled: "<green>Du kan inte längre kopiera kopieringsskyddade kartor.</green>"

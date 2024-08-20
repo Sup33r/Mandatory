@@ -3,6 +3,7 @@ package live.supeer.mandatory;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.ChestManager;
+import live.supeer.apied.ChestType;
 import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.utils.DateUtil;
 import live.supeer.mandatory.utils.LocationUtil;
@@ -16,13 +17,17 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.title.TitlePart;
 import org.bukkit.Material;
+import org.bukkit.block.Barrel;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.CrafterCraftEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -220,6 +225,10 @@ public class MandatoryListerner implements Listener {
         if (copyrighterUUID.equals(playerUUID)) {
             return;
         }
+        Player player = event.getWhoClicked() instanceof Player ? (Player) event.getWhoClicked() : null;
+        if (player != null && Mandatory.mapOverride.contains(player)) {
+            return;
+        }
 
         event.setCancelled(true);
         Mandatory.sendMessage(event.getWhoClicked(), "messages.copyrighted");
@@ -238,97 +247,175 @@ public class MandatoryListerner implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (event.getMaterial() == Material.REDSTONE) {
-                Player player = event.getPlayer();
-                Block block = event.getClickedBlock();
-                assert block != null;
-                if (block.getType().equals(Material.CHEST) || block.getType().equals(Material.TRAPPED_CHEST) || block.getType().equals(Material.BARREL) || block.getType().equals(Material.SHULKER_BOX)) {
-                    if (ChestManager.chestInventories.containsKey(player.getUniqueId())) {
-                        event.setCancelled(true);
-                        if (block.getState() instanceof Chest chest1) {
-                            Inventory inventory = chest1.getInventory();
-                            if (inventory instanceof DoubleChestInventory doubleChestInventory) {
-                                live.supeer.apied.Chest chest = ChestManager.getClaimedChest(event.getClickedBlock().getLocation());
-                                if (chest == null) {
-                                    Mandatory.sendMessage(player, "messages.chest.error.notClaimed");
-                                    return;
-                                }
-                                if (!chest.getOwnerUUID().equals(player.getUniqueId())) {
-                                    Mandatory.sendMessage(player, "messages.chest.error.notOwner");
-                                    return;
-                                }
-                                //TODO: ADD A CHECK FOR IF THE CITYCLAIM IS OCCUPIED
-                                if (Arrays.stream(doubleChestInventory.getContents()).allMatch(Objects::isNull)) {
-                                    int id = ChestManager.chestInventories.get(player.getUniqueId());
-                                    Inventory archiveInventory = ChestManager.getInventoryFromArchive(id);
-                                    if (archiveInventory != null) {
-                                        chest1.getInventory().setContents(archiveInventory.getContents());
-                                        ChestManager.removeArchive(id);
-                                        ChestManager.chestInventories.remove(player.getUniqueId());
-                                        Mandatory.sendMessage(player, "messages.chest.claimedArchive");
-                                    } else {
-                                        Mandatory.sendMessage(player, "messages.chest.error.noItems");
-                                    }
-                                } else {
-                                    Mandatory.sendMessage(player, "messages.chest.error.notEmpty");
-                                    return;
-                                }
-                            } else {
-                                Mandatory.sendMessage(player, "messages.chest.error.notDouble");
-                                return;
-                            }
-                        }
+            if (event.isCancelled()) {
+                return;
+            }
+            Block block = event.getClickedBlock();
+            Player player = event.getPlayer();
+            assert block != null;
+            if (block.getType().equals(Material.CHEST) || block.getType().equals(Material.TRAPPED_CHEST) || block.getType().equals(Material.BARREL) || block.getType().equals(Material.SHULKER_BOX)) {
+                live.supeer.apied.Chest chest1;
+                if (block.getState() instanceof Chest chest) {
+                    if (chest.getInventory() instanceof DoubleChestInventory doubleChestInventory) {
+                        chest1 = ChestManager.getClaimedChest(doubleChestInventory.getLeftSide().getLocation());
+                    } else {
+                        chest1 = ChestManager.getClaimedChest(block.getLocation());
                     }
-                    if (ChestManager.isChestEventCounting(player.getUniqueId())) {
-                        event.setCancelled(true);
-                        String action = ChestManager.getChestEventCount(player.getUniqueId()).getType();
-                        switch (action) {
-                            case "info" -> {
-                                ChestManager.decrementChestEventCount(player.getUniqueId());
-                                live.supeer.apied.Chest chest = ChestManager.getClaimedChest(event.getClickedBlock().getLocation());
-                                int count = ChestManager.getChestEventCount(player.getUniqueId()).getCount();
-                                if (chest == null) {
-                                    Mandatory.sendMessage(player, "messages.chest.info.unlocked", "%location%", LocationUtil.formatLocation(event.getClickedBlock().getLocation()));
-                                    if (!(count <= 0)) {
-                                        Mandatory.sendMessage(player, "messages.chest.operationsleft", "%count%", String.valueOf(count));
-                                    }
-                                } else {
-                                    MPlayer owner = ApiedAPI.getPlayer(chest.getOwnerUUID());
-                                    Mandatory.sendMessage(player, "messages.chest.info.locked", "%location%", LocationUtil.formatLocation(event.getClickedBlock().getLocation()), "%owner%", owner.getName(), "%id%", String.valueOf(chest.getId()));
-                                    if (!(count <= 0)) {
-                                        Mandatory.sendMessage(player, "messages.chest.operationsleft", "%count%", String.valueOf(count));
-                                    }
-                                }
+                } else {
+                    chest1 = ChestManager.getClaimedChest(block.getLocation());
+                }
+                if (chest1 != null) {
+                    MPlayer mPlayer = ApiedAPI.getPlayer(player);
+                    if (chest1.getOwnerUUID().equals(player.getUniqueId())) {
+                        if (!mPlayer.hasFlag('m')) {
+                            Mandatory.sendMessage(player, "messages.chest.open.self");
+                        }
+                    } else {
+                        if (chest1.getSharedPlayers().contains(player.getUniqueId())) {
+                            if (!mPlayer.hasFlag('m')) {
+                                Mandatory.sendMessage(player, "messages.chest.open.shared", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
                             }
-                            case "share" -> {
-                                ChestManager.decrementChestEventCount(player.getUniqueId());
-                                int count = ChestManager.getChestEventCount(player.getUniqueId()).getCount();
-                                ChestManager.handleChestShare(event.getClickedBlock().getLocation(), player, ChestManager.getChestEventCount(player.getUniqueId()).getTarget());
-                                if (!(count <= 0)) {
-                                    Mandatory.sendMessage(player, "messages.chest.operationsleft", "%count%", String.valueOf(count));
-                                }
-                            }
-                            case "give" -> {
-                                ChestManager.decrementChestEventCount(player.getUniqueId());
-                                int count = ChestManager.getChestEventCount(player.getUniqueId()).getCount();
-                                ChestManager.handleChestGive(event.getClickedBlock().getLocation(), player, ChestManager.getChestEventCount(player.getUniqueId()).getTarget());
-                                if (!(count <= 0)) {
-                                    Mandatory.sendMessage(player, "messages.chest.operationsleft", "%count%", String.valueOf(count));
-                                }
-                            }
-                            case "archive" -> {
-                                ChestManager.decrementChestEventCount(player.getUniqueId());
-                                int count = ChestManager.getChestEventCount(player.getUniqueId()).getCount();
-                                boolean city = MetropolisAPI.playerHasCityPermission(event.getClickedBlock().getLocation(), player, Role.ASSISTANT);
-                                boolean self = player.hasPermission("mandatory.command.chest.archive");
-                                ChestManager.handleArchiveItems(player, event.getClickedBlock().getLocation(), city, self);
-                                if (!(count <= 0)) {
-                                    Mandatory.sendMessage(player, "messages.chest.operationsleft", "%count%", String.valueOf(count));
-                                }
-                            }
+                        } else if (Mandatory.chestOverride.contains(player)) {
+                            Mandatory.sendMessage(player, "messages.chest.open.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
+                        } else {
+                            event.setCancelled(true);
+                            Mandatory.sendMessage(player, "messages.error.permissionDenied");
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBlockBreakEvent(BlockBreakEvent event) {
+        Block block = event.getBlock();
+        Player player = event.getPlayer();
+        if (block.getType().equals(Material.CHEST) || block.getType().equals(Material.TRAPPED_CHEST) || block.getType().equals(Material.BARREL) || block.getType().equals(Material.SHULKER_BOX)) {
+            live.supeer.apied.Chest chest1;
+            MPlayer mPlayer = ApiedAPI.getPlayer(player);
+            if (mPlayer == null) {
+                return;
+            }
+            if (block.getState() instanceof Chest chest) {
+                if (chest.getInventory() instanceof DoubleChestInventory doubleChestInventory) {
+                    chest1 = ChestManager.getClaimedChest(doubleChestInventory.getLeftSide().getLocation());
+                    if (doubleChestInventory.getLeftSide().getLocation().equals(block.getLocation())) {
+                        if (chest1 != null) {
+                            if (chest1.getOwnerUUID().equals(player.getUniqueId())) {
+                                chest1.setLocation(doubleChestInventory.getRightSide().getLocation());
+                                chest1.setType(ChestType.SINGLE);
+                                if (!mPlayer.hasFlag('m')) {
+                                    Mandatory.sendMessage(player, "messages.chest.shrink.self");
+                                }
+                            } else {
+                                if (chest1.getSharedPlayers().contains(player.getUniqueId())) {
+                                    event.setCancelled(true);
+                                    Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                                } else if (Mandatory.chestOverride.contains(player)) {
+                                    chest1.setLocation(doubleChestInventory.getRightSide().getLocation());
+                                    chest1.setType(ChestType.SINGLE);
+                                    Mandatory.sendMessage(player, "messages.chest.shrink.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
+                                } else {
+                                    event.setCancelled(true);
+                                    Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                                }
+                            }
+                        }
+                    } else {
+                        if (chest1 != null) {
+                            if (chest1.getOwnerUUID().equals(player.getUniqueId())) {
+                                if (!mPlayer.hasFlag('m')) {
+                                    Mandatory.sendMessage(player, "messages.chest.shrink.self");
+                                }
+                            } else {
+                                if (chest1.getSharedPlayers().contains(player.getUniqueId())) {
+                                    event.setCancelled(true);
+                                    Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                                } else if (Mandatory.chestOverride.contains(player)) {
+                                    Mandatory.sendMessage(player, "messages.chest.shrink.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
+                                } else {
+                                    event.setCancelled(true);
+                                    Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    chest1 = ChestManager.getClaimedChest(block.getLocation());
+                }
+            } else {
+                chest1 = ChestManager.getClaimedChest(block.getLocation());
+            }
+            if (chest1 != null) {
+                if (chest1.getOwnerUUID().equals(player.getUniqueId())) {
+                    ChestManager.removeChest(chest1.getLocation());
+                    if (!mPlayer.hasFlag('m')) {
+                        Mandatory.sendMessage(player, "messages.chest.remove.self");
+                    }
+                } else {
+                    if (chest1.getSharedPlayers().contains(player.getUniqueId())) {
+                        event.setCancelled(true);
+                        Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                    } else if (Mandatory.chestOverride.contains(player)) {
+                        ChestManager.removeChest(chest1.getLocation());
+                        Mandatory.sendMessage(player, "messages.chest.remove.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
+                    } else {
+                        event.setCancelled(true);
+                        Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBlockPlaceEvent(BlockPlaceEvent event) {
+        Block block = event.getBlock();
+        Player player = event.getPlayer();
+        if (block.getType().equals(Material.CHEST) || block.getType().equals(Material.TRAPPED_CHEST) || block.getType().equals(Material.BARREL) || block.getType().equals(Material.SHULKER_BOX)) {
+            String type = "";
+            MPlayer mPlayer = ApiedAPI.getPlayer(player);
+            if (mPlayer == null) {
+                return;
+            }
+            if (block.getState() instanceof Chest chest) {
+                if (chest.getInventory() instanceof DoubleChestInventory doubleChestInventory) {
+                    live.supeer.apied.Chest chest1 = ChestManager.getClaimedChest(doubleChestInventory.getLeftSide().getLocation());
+                    if (chest1 != null) {
+                        if (chest1.getOwnerUUID().equals(player.getUniqueId())) {
+                            chest1.setLocation(doubleChestInventory.getLeftSide().getLocation());
+                            chest1.setType(ChestType.DOUBLE);
+                            if (!mPlayer.hasFlag('m')) {
+                                Mandatory.sendMessage(player, "messages.chest.expand.self");
+                            }
+                        } else {
+                            if (chest1.getSharedPlayers().contains(player.getUniqueId())) {
+                                event.setCancelled(true);
+                                Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                            } else if (Mandatory.chestOverride.contains(player)) {
+                                chest1.setLocation(doubleChestInventory.getLeftSide().getLocation());
+                                chest1.setType(ChestType.DOUBLE);
+                                Mandatory.sendMessage(player, "messages.chest.expand.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
+                            } else {
+                                event.setCancelled(true);
+                                Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                            }
+                        }
+                    }
+                    return;
+                }
+                type = ChestType.SINGLE.getType();
+            }
+            if (block.getState() instanceof Barrel) {
+                type = ChestType.BARREL.getType();
+            }
+            if (block.getState() instanceof ShulkerBox) {
+                type = ChestType.SHULKER.getType();
+            }
+            ChestManager.newChest(block.getLocation(), player, type);
+            if (!mPlayer.hasFlag('m')) {
+                Mandatory.sendMessage(player, "messages.chest.create");
             }
         }
     }

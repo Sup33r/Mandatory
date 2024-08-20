@@ -25,6 +25,33 @@ public class CommandAdmin extends BaseCommand {
         Mandatory.sendMessage(player,"messages.admin.syntax");
     }
 
+    @Subcommand("override")
+    @CommandCompletion("@overrides")
+    public void onOverride(Player player, String action) {
+        if (!player.hasPermission("mandatory.command.admin.override")) {
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
+            return;
+        }
+        if (action.equalsIgnoreCase("chest")) {
+            if (Mandatory.chestOverride.contains(player)) {
+                Mandatory.chestOverride.remove(player);
+                Mandatory.sendMessage(player, "messages.chest.override.disabled");
+            } else {
+                Mandatory.chestOverride.add(player);
+                Mandatory.sendMessage(player, "messages.chest.override.enabled");
+            }
+        }
+        if (action.equalsIgnoreCase("map")) {
+            if (Mandatory.mapOverride.contains(player)) {
+                Mandatory.mapOverride.remove(player);
+                Mandatory.sendMessage(player, "messages.map.override.disabled");
+            } else {
+                Mandatory.mapOverride.add(player);
+                Mandatory.sendMessage(player, "messages.map.override.enabled");
+            }
+        }
+    }
+
     @Subcommand("disablename")
     public void onDisablename(Player player, String name) {
         if (!player.hasPermission("mandatory.command.admin.disablename")) {

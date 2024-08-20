@@ -20,7 +20,7 @@ import java.util.Objects;
 public class CommandGo extends BaseCommand {
 
     @Default
-    @CommandCompletion("@goNames @go1")
+    @CommandCompletion("@goName @go1")
     public void onGo(Player player, String[] args) {
         if (!player.hasPermission("mandatory.command.go")) {
             Mandatory.sendMessage(player,"messages.error.permissionDenied");
