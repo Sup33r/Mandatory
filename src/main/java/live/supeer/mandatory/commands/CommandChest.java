@@ -28,11 +28,11 @@ public class CommandChest extends BaseCommand {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        if (Mandatory.chestOverride.contains(player)) {
-            Mandatory.chestOverride.remove(player);
+        if (ChestManager.chestOverride.contains(player)) {
+            ChestManager.chestOverride.remove(player);
             Mandatory.sendMessage(player, "messages.chest.override.disabled");
         } else {
-            Mandatory.chestOverride.add(player);
+            ChestManager.chestOverride.add(player);
             Mandatory.sendMessage(player, "messages.chest.override.enabled");
         }
     }

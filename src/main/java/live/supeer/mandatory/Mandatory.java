@@ -40,7 +40,6 @@ public final class Mandatory extends JavaPlugin {
     public static List<Player> firstTimePlayer = new ArrayList<>();
     public static List<Player> kickedPlayers = new ArrayList<>();
     public static List<Player> bannedPlayers = new ArrayList<>();
-    public static List<Player> chestOverride = new ArrayList<>();
     public static List<Player> mapOverride = new ArrayList<>();
     public static HashMap<UUID, Long> startTime = new HashMap<>();
     public static HashMap<UUID, Channel> activeChannel = new HashMap<>();

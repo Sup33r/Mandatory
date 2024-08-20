@@ -7,6 +7,7 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.ChestManager;
 import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.*;
 import org.bukkit.entity.Player;
@@ -33,11 +34,11 @@ public class CommandAdmin extends BaseCommand {
             return;
         }
         if (action.equalsIgnoreCase("chest")) {
-            if (Mandatory.chestOverride.contains(player)) {
-                Mandatory.chestOverride.remove(player);
+            if (ChestManager.chestOverride.contains(player)) {
+                ChestManager.chestOverride.remove(player);
                 Mandatory.sendMessage(player, "messages.chest.override.disabled");
             } else {
-                Mandatory.chestOverride.add(player);
+                ChestManager.chestOverride.add(player);
                 Mandatory.sendMessage(player, "messages.chest.override.enabled");
             }
         }

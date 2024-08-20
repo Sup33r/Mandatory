@@ -245,49 +245,6 @@ public class MandatoryListerner implements Listener {
     }
 
     @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (event.isCancelled()) {
-                return;
-            }
-            Block block = event.getClickedBlock();
-            Player player = event.getPlayer();
-            assert block != null;
-            if (block.getType().equals(Material.CHEST) || block.getType().equals(Material.TRAPPED_CHEST) || block.getType().equals(Material.BARREL) || block.getType().equals(Material.SHULKER_BOX)) {
-                live.supeer.apied.Chest chest1;
-                if (block.getState() instanceof Chest chest) {
-                    if (chest.getInventory() instanceof DoubleChestInventory doubleChestInventory) {
-                        chest1 = ChestManager.getClaimedChest(doubleChestInventory.getLeftSide().getLocation());
-                    } else {
-                        chest1 = ChestManager.getClaimedChest(block.getLocation());
-                    }
-                } else {
-                    chest1 = ChestManager.getClaimedChest(block.getLocation());
-                }
-                if (chest1 != null) {
-                    MPlayer mPlayer = ApiedAPI.getPlayer(player);
-                    if (chest1.getOwnerUUID().equals(player.getUniqueId())) {
-                        if (!mPlayer.hasFlag('m')) {
-                            Mandatory.sendMessage(player, "messages.chest.open.self");
-                        }
-                    } else {
-                        if (chest1.getSharedPlayers().contains(player.getUniqueId())) {
-                            if (!mPlayer.hasFlag('m')) {
-                                Mandatory.sendMessage(player, "messages.chest.open.shared", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
-                            }
-                        } else if (Mandatory.chestOverride.contains(player)) {
-                            Mandatory.sendMessage(player, "messages.chest.open.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
-                        } else {
-                            event.setCancelled(true);
-                            Mandatory.sendMessage(player, "messages.error.permissionDenied");
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @EventHandler
     public void onBlockBreakEvent(BlockBreakEvent event) {
         Block block = event.getBlock();
         Player player = event.getPlayer();
@@ -308,17 +265,21 @@ public class MandatoryListerner implements Listener {
                                 if (!mPlayer.hasFlag('m')) {
                                     Mandatory.sendMessage(player, "messages.chest.shrink.self");
                                 }
+                                return;
                             } else {
                                 if (chest1.getSharedPlayers().contains(player.getUniqueId())) {
                                     event.setCancelled(true);
                                     Mandatory.sendMessage(player, "messages.error.permissionDenied");
-                                } else if (Mandatory.chestOverride.contains(player)) {
+                                    return;
+                                } else if (ChestManager.chestOverride.contains(player)) {
                                     chest1.setLocation(doubleChestInventory.getRightSide().getLocation());
                                     chest1.setType(ChestType.SINGLE);
                                     Mandatory.sendMessage(player, "messages.chest.shrink.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
+                                    return;
                                 } else {
                                     event.setCancelled(true);
                                     Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                                    return;
                                 }
                             }
                         }
@@ -327,16 +288,20 @@ public class MandatoryListerner implements Listener {
                             if (chest1.getOwnerUUID().equals(player.getUniqueId())) {
                                 if (!mPlayer.hasFlag('m')) {
                                     Mandatory.sendMessage(player, "messages.chest.shrink.self");
+                                    return;
                                 }
                             } else {
                                 if (chest1.getSharedPlayers().contains(player.getUniqueId())) {
                                     event.setCancelled(true);
                                     Mandatory.sendMessage(player, "messages.error.permissionDenied");
-                                } else if (Mandatory.chestOverride.contains(player)) {
+                                    return;
+                                } else if (ChestManager.chestOverride.contains(player)) {
                                     Mandatory.sendMessage(player, "messages.chest.shrink.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
+                                    return;
                                 } else {
                                     event.setCancelled(true);
                                     Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                                    return;
                                 }
                             }
                         }
@@ -357,7 +322,7 @@ public class MandatoryListerner implements Listener {
                     if (chest1.getSharedPlayers().contains(player.getUniqueId())) {
                         event.setCancelled(true);
                         Mandatory.sendMessage(player, "messages.error.permissionDenied");
-                    } else if (Mandatory.chestOverride.contains(player)) {
+                    } else if (ChestManager.chestOverride.contains(player)) {
                         ChestManager.removeChest(chest1.getLocation());
                         Mandatory.sendMessage(player, "messages.chest.remove.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
                     } else {
@@ -393,7 +358,7 @@ public class MandatoryListerner implements Listener {
                             if (chest1.getSharedPlayers().contains(player.getUniqueId())) {
                                 event.setCancelled(true);
                                 Mandatory.sendMessage(player, "messages.error.permissionDenied");
-                            } else if (Mandatory.chestOverride.contains(player)) {
+                            } else if (ChestManager.chestOverride.contains(player)) {
                                 chest1.setLocation(doubleChestInventory.getLeftSide().getLocation());
                                 chest1.setType(ChestType.DOUBLE);
                                 Mandatory.sendMessage(player, "messages.chest.expand.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
@@ -419,5 +384,4 @@ public class MandatoryListerner implements Listener {
             }
         }
     }
-
 }

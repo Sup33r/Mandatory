@@ -416,6 +416,12 @@ messages:
 
   chest:
     create: "<green>Kistan är nu låst.</green>"
+    remove:
+      self: "<green>Kistans lås har tagits bort.</green>"
+      override: "<green>%owner%s kistas lås har tagits bort.</green>"
+    shrink:
+      self: "<green>Dubbelkistan är nu en enkelkista.</green>"
+      override: "<green>%owner%s dubbelkista är nu en enkelkista.</green>"
     expand:
       self: "<green>Du expanderade din kista.</green>"
       override: "<green>Du expanderade %owner%s kista forcerat.</green>"
