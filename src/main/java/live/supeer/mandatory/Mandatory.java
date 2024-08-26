@@ -8,11 +8,9 @@ import live.supeer.mandatory.commands.*;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public final class Mandatory extends JavaPlugin {
 
@@ -86,6 +83,7 @@ public final class Mandatory extends JavaPlugin {
         manager.registerCommand(new CommandPlayer());
         manager.registerCommand(new CommandRepair());
         manager.registerCommand(new CommandReply());
+        manager.registerCommand(new CommandShop());
         manager.registerCommand(new CommandSpawn());
         manager.registerCommand(new CommandSpeed());
         manager.registerCommand(new CommandTeleportAccept());
@@ -183,5 +181,6 @@ public final class Mandatory extends JavaPlugin {
             return new ArrayList<>(GoManager.getGoList(player).stream().map(Go::getName).toList());
         });
         manager.getCommandCompletions().registerAsyncCompletion("go1", c -> ImmutableList.of("set", "give", "toggle", "whitelist"));
+        manager.getCommandCompletions().registerAsyncCompletion("shopTypes", c -> ImmutableList.of("maxuses", "maxdailyuses", "maxdailyplayeruses", "maxplayeruses"));
     }
 }

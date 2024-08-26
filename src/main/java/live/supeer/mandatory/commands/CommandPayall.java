@@ -50,12 +50,16 @@ public class CommandPayall extends BaseCommand {
             if (mPlayer1.getUuid().equals(player.getUniqueId())) {
                 continue;
             }
+            if (mPlayer.getIgnores().contains(mPlayer1.getUuid())) {
+                continue;
+            }
             mPlayer1.addBalance(amount, "{ \"type\": \"player\", \"subtype\": \"receive\", \"playerUUID\": \"" + player.getUniqueId() + "\", \"reason\": \"" + reason + "\"}");
             mPlayer.removeBalance(amount, "{ \"type\": \"player\", \"subtype\": \"send\", \"playerUUID\": \"" + mPlayer1.getUuid() + "\", \"reason\": \"" + reason + "\"}");
             Player targetPlayer = Bukkit.getPlayer(mPlayer1.getUuid());
             if (targetPlayer != null) {
-                Mandatory.sendMessage(targetPlayer, "messages.pay.received", "%player%", player.getName(), "%amount%", Utilities.formattedMoney(amount), "%reason%", reason);
+                Mandatory.sendMessage(targetPlayer, "messages.payall.received", "%player%", player.getName(), "%amount%", Utilities.formattedMoney(amount), "%reason%", reason);
             }
         }
+        Mandatory.sendMessage(player, "messages.payall.success", "%amount%", Utilities.formattedMoney(amount), "%reason%", reason);
     }
 }

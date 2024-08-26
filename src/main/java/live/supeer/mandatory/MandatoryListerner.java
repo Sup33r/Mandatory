@@ -1,10 +1,7 @@
 package live.supeer.mandatory;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
-import live.supeer.apied.ApiedAPI;
-import live.supeer.apied.ChestManager;
-import live.supeer.apied.ChestType;
-import live.supeer.apied.MPlayer;
+import live.supeer.apied.*;
 import live.supeer.mandatory.utils.DateUtil;
 import live.supeer.mandatory.utils.LocationUtil;
 import live.supeer.metropolis.MetropolisAPI;
@@ -17,10 +14,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.title.TitlePart;
 import org.bukkit.Material;
-import org.bukkit.block.Barrel;
-import org.bukkit.block.Block;
+import org.bukkit.block.*;
 import org.bukkit.block.Chest;
-import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -239,6 +234,10 @@ public class MandatoryListerner implements Listener {
     public void onBlockBreakEvent(BlockBreakEvent event) {
         Block block = event.getBlock();
         Player player = event.getPlayer();
+        if (block.getState() instanceof Sign) {
+            ShopManager.handleSignRemoval(block.getLocation());
+            return;
+        }
         if (block.getType().equals(Material.CHEST) || block.getType().equals(Material.TRAPPED_CHEST) || block.getType().equals(Material.BARREL) || block.getType().equals(Material.SHULKER_BOX)) {
             live.supeer.apied.Chest chest1;
             MPlayer mPlayer = ApiedAPI.getPlayer(player);
@@ -251,6 +250,7 @@ public class MandatoryListerner implements Listener {
                     if (doubleChestInventory.getLeftSide().getLocation().equals(block.getLocation())) {
                         if (chest1 != null) {
                             if (chest1.getOwnerUUID().equals(player.getUniqueId())) {
+                                ShopManager.handleChestLocationChange(chest1.getLocation(), doubleChestInventory.getRightSide().getLocation());
                                 chest1.setLocation(doubleChestInventory.getRightSide().getLocation());
                                 chest1.setType(ChestType.SINGLE);
                                 if (!mPlayer.hasFlag('m')) {
@@ -263,6 +263,7 @@ public class MandatoryListerner implements Listener {
                                     Mandatory.sendMessage(player, "messages.error.permissionDenied");
                                     return;
                                 } else if (ChestManager.chestOverride.contains(player)) {
+                                    ShopManager.handleChestLocationChange(chest1.getLocation(), doubleChestInventory.getRightSide().getLocation());
                                     chest1.setLocation(doubleChestInventory.getRightSide().getLocation());
                                     chest1.setType(ChestType.SINGLE);
                                     Mandatory.sendMessage(player, "messages.chest.shrink.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
@@ -277,6 +278,7 @@ public class MandatoryListerner implements Listener {
                     } else {
                         if (chest1 != null) {
                             if (chest1.getOwnerUUID().equals(player.getUniqueId())) {
+                                ShopManager.handleChestLocationChange(chest1.getLocation(), doubleChestInventory.getLeftSide().getLocation());
                                 chest1.setLocation(doubleChestInventory.getLeftSide().getLocation());
                                 chest1.setType(ChestType.SINGLE);
                                 if (!mPlayer.hasFlag('m')) {
@@ -289,6 +291,7 @@ public class MandatoryListerner implements Listener {
                                     Mandatory.sendMessage(player, "messages.error.permissionDenied");
                                     return;
                                 } else if (ChestManager.chestOverride.contains(player)) {
+                                    ShopManager.handleChestLocationChange(chest1.getLocation(), doubleChestInventory.getLeftSide().getLocation());
                                     chest1.setLocation(doubleChestInventory.getLeftSide().getLocation());
                                     chest1.setType(ChestType.SINGLE);
                                     Mandatory.sendMessage(player, "messages.chest.shrink.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
@@ -310,6 +313,7 @@ public class MandatoryListerner implements Listener {
             if (chest1 != null) {
                 if (chest1.getOwnerUUID().equals(player.getUniqueId())) {
                     ChestManager.removeChest(chest1.getLocation());
+                    ShopManager.handleChestRemoval(chest1.getLocation());
                     if (!mPlayer.hasFlag('m')) {
                         Mandatory.sendMessage(player, "messages.chest.remove.self");
                     }
@@ -319,6 +323,7 @@ public class MandatoryListerner implements Listener {
                         Mandatory.sendMessage(player, "messages.error.permissionDenied");
                     } else if (ChestManager.chestOverride.contains(player)) {
                         ChestManager.removeChest(chest1.getLocation());
+                        ShopManager.handleChestRemoval(chest1.getLocation());
                         Mandatory.sendMessage(player, "messages.chest.remove.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
                     } else {
                         event.setCancelled(true);
@@ -338,7 +343,7 @@ public class MandatoryListerner implements Listener {
             if (mPlayer == null) {
                 return;
             }
-            if (block.getState() instanceof Chest) {
+            if (block.getState() instanceof org.bukkit.block.Chest) {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -352,6 +357,7 @@ public class MandatoryListerner implements Listener {
                                 }
                                 if (chest1 != null) {
                                     if (chest1.getOwnerUUID().equals(player.getUniqueId())) {
+                                        ShopManager.handleChestLocationChange(chest1.getLocation(), block.getLocation());
                                         chest1.setLocation(doubleChestInventory.getLeftSide().getLocation());
                                         chest1.setType(ChestType.DOUBLE);
                                         if (!mPlayer.hasFlag('m')) {
@@ -363,6 +369,7 @@ public class MandatoryListerner implements Listener {
                                             event.setCancelled(true);
                                             Mandatory.sendMessage(player, "messages.error.permissionDenied");
                                         } else if (ChestManager.chestOverride.contains(player)) {
+                                            ShopManager.handleChestLocationChange(chest1.getLocation(), block.getLocation());
                                             chest1.setLocation(doubleChestInventory.getLeftSide().getLocation());
                                             chest1.setType(ChestType.DOUBLE);
                                             Mandatory.sendMessage(player, "messages.chest.expand.override", "%owner%", ApiedAPI.getPlayer(chest1.getOwnerUUID()).getName());
