@@ -166,6 +166,10 @@ public class MandatoryChat {
 
     private static void sendChannelMessage(Player player, Channel channel, String message) {
         if (channel != null) {
+            if (channel.isDisabled() && !Mandatory.chatOverride.contains(player)) {
+                Mandatory.sendMessage(player, "messages.chat.channelDisabled");
+                return;
+            }
             for (UUID memberUUID : channel.getMembers()) {
                 Player member = Bukkit.getPlayer(memberUUID);
                 if (member != null) {

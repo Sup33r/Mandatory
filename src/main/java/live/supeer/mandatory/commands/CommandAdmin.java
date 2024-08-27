@@ -1,10 +1,7 @@
 package live.supeer.mandatory.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.ChestManager;
@@ -135,6 +132,7 @@ public class CommandAdmin extends BaseCommand {
     }
 
     @Subcommand("set")
+    @CommandCompletion("@adminSettable")
     public void onSet(Player player, String[] args) {
         if (!player.hasPermission("mandatory.command.admin.set")) {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
@@ -190,13 +188,25 @@ public class CommandAdmin extends BaseCommand {
 
     @Subcommand("chat")
     public class ChatAdmin extends BaseCommand {
-
         @Subcommand("force")
+        @CommandCompletion("@players @channels")
         public void onForce(Player admin, OnlinePlayer target, String channelName) {
-            // Implement forcing a player into a channel
+            if (!admin.hasPermission("mandatory.command.admin.chat.force")) {
+                Mandatory.sendMessage(admin, "messages.error.permissionDenied");
+                return;
+            }
+            Channel channel = ChannelManager.getChannel(channelName);
+            if (channel == null) {
+                Mandatory.sendMessage(admin,"messages.error.channelNotFound");
+                return;
+            }
+            ChannelManager.setActiveChannel(target.getPlayer(), channel.getName());
+            ChannelManager.joinChannel(target.getPlayer(), channel.getName());
+            Mandatory.sendMessage(admin,"messages.admin.chat.force.success", "%player%", target.getPlayer().getName(), "%channel%", channel.getName());
         }
 
         @Subcommand("new")
+        @CommandCompletion("@nothing @channelTypes")
         public void onNew(Player player, String channelName, String type) {
             if (!player.hasPermission("mandatory.command.admin.chat.new")) {
                 Mandatory.sendMessage(player, "messages.error.permissionDenied");
@@ -206,6 +216,67 @@ public class CommandAdmin extends BaseCommand {
             Mandatory.sendMessage(player,"messages.admin.chat.new.success", "%channel%", channelName);
         }
 
-        // Other admin chat commands
+        @Subcommand("delete")
+        @CommandCompletion("@channels")
+        public void onDelete(Player player, String channelName) {
+            if (!player.hasPermission("mandatory.command.admin.chat.delete")) {
+                Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                return;
+            }
+            Channel channel = ChannelManager.getChannel(channelName);
+            if (channel == null) {
+                Mandatory.sendMessage(player,"messages.error.channelNotFound");
+                return;
+            }
+            ChannelManager.deleteChannel(channel.getName());
+            Mandatory.sendMessage(player,"messages.admin.chat.delete.success", "%channel%", channelName);
+        }
+
+        @Subcommand("disable")
+        @CommandCompletion("@channels")
+        public void onDisable(Player player, String channelName) {
+            if (!player.hasPermission("mandatory.command.admin.chat.disable")) {
+                Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                return;
+            }
+            Channel channel = ChannelManager.getChannel(channelName);
+            if (channel == null) {
+                Mandatory.sendMessage(player,"messages.error.channelNotFound");
+                return;
+            }
+            if (channel.isDisabled()) {
+                channel.setDisabled(false);
+                Mandatory.sendMessage(player,"messages.admin.chat.disabled", "%channel%", channelName);
+                return;
+            }
+            channel.setDisabled(true);
+            Mandatory.sendMessage(player,"messages.admin.chat.enabled", "%channel%", channelName);
+        }
+
+        @Subcommand("override")
+        @CommandCompletion("@players")
+        public void onOverride(Player player, @Optional OnlinePlayer target) {
+            if (!player.hasPermission("mandatory.command.admin.chat.override")) {
+                Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                return;
+            }
+            if (target == null) {
+                if (Mandatory.chatOverride.contains(player)) {
+                    Mandatory.chatOverride.remove(player);
+                    Mandatory.sendMessage(player, "messages.admin.chat.override.disabled.self");
+                } else {
+                    Mandatory.chatOverride.add(player);
+                    Mandatory.sendMessage(player, "messages.admin.chat.override.enabled.self");
+                }
+            } else {
+                if (Mandatory.chatOverride.contains(target.getPlayer())) {
+                    Mandatory.chatOverride.remove(target.getPlayer());
+                    Mandatory.sendMessage(player, "messages.admin.chat.override.disabled.others", "%player%", target.getPlayer().getName());
+                } else {
+                    Mandatory.chatOverride.add(target.getPlayer());
+                    Mandatory.sendMessage(player, "messages.admin.chat.override.enabled.others", "%player%", target.getPlayer().getName());
+                }
+            }
+        }
     }
 }

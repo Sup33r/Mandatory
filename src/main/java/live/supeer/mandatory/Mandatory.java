@@ -38,6 +38,7 @@ public final class Mandatory extends JavaPlugin {
     public static List<Player> kickedPlayers = new ArrayList<>();
     public static List<Player> bannedPlayers = new ArrayList<>();
     public static List<Player> mapOverride = new ArrayList<>();
+    public static List<Player> chatOverride = new ArrayList<>();
     public static HashMap<UUID, Long> startTime = new HashMap<>();
     public static HashMap<UUID, Channel> activeChannel = new HashMap<>();
     public static HashMap<UUID, List<Channel>> playerChannels = new HashMap<>();
@@ -78,6 +79,8 @@ public final class Mandatory extends JavaPlugin {
         manager.registerCommand(new CommandMe());
         manager.registerCommand(new CommandMessage());
         manager.registerCommand(new CommandModchat());
+        manager.registerCommand(new CommandNear());
+        manager.registerCommand(new CommandOnline());
         manager.registerCommand(new CommandPay());
         manager.registerCommand(new CommandPayall());
         manager.registerCommand(new CommandPlayer());
@@ -182,5 +185,10 @@ public final class Mandatory extends JavaPlugin {
         });
         manager.getCommandCompletions().registerAsyncCompletion("go1", c -> ImmutableList.of("set", "give", "toggle", "whitelist"));
         manager.getCommandCompletions().registerAsyncCompletion("shopTypes", c -> ImmutableList.of("maxuses", "maxdailyuses", "maxdailyplayeruses", "maxplayeruses"));
+        manager.getCommandCompletions().registerAsyncCompletion("adminToggleable", c -> ImmutableList.of("chatcolor", "extprefix"));
+        manager.getCommandCompletions().registerAsyncCompletion("adminSettable", c -> ImmutableList.of("afk", "spawn", "firstspawn"));
+        manager.getCommandCompletions().registerCompletion("playerChannels", c -> ChannelManager.getPlayerChannels(c.getPlayer()));
+        manager.getCommandCompletions().registerCompletion("channels", c -> ChannelManager.getChannelNames());
+        manager.getCommandCompletions().registerCompletion("channelTypes", c -> ImmutableList.of("CITY", "GLOBAL", "MOD", "OTHER"));
     }
 }

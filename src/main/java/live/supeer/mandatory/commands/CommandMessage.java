@@ -5,6 +5,8 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
+import live.supeer.apied.MPlayer;
+import live.supeer.apied.MPlayerManager;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.MandatoryChat;
 import org.bukkit.entity.Player;
@@ -21,6 +23,16 @@ public class CommandMessage extends BaseCommand {
         }
         if (target == null) {
             Mandatory.sendMessage(player, "messages.error.playerNotFound");
+            return;
+        }
+        MPlayer mTarget = MPlayerManager.getPlayerFromPlayer(target.getPlayer());
+        MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+        if (mTarget.getIgnores().contains(player.getUniqueId())) {
+            Mandatory.sendMessage(player, "messages.error.ignored");
+            return;
+        }
+        if (mPlayer.getIgnores().contains(mTarget.getUuid())) {
+            Mandatory.sendMessage(player, "messages.error.ignoring");
             return;
         }
         MandatoryChat.sendPrivateMessage(player, target.getPlayer(), message);
