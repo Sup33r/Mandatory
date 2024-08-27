@@ -64,19 +64,24 @@ messages:
       multipleRequests: "<red>Du har flera teleporteringsförfrågningar. Använd <dark_red>/tpdeny <italic>spelare</italic><red> för att neka en specifik förfrågan, eller <dark_red>/tpdeny!</dark_red> för att neka alla.</red>"
 
   teleport:
+    backOther: "<green>Du har teleporterat %player% tillbaka till deras tidigare position.</green>"
     failed: "<red>Den pågående teleporteringen avbröts.</red>"
     hasTeleport: "<red>Du har redan en pågående teleportering.</red>"
     started: "<red>Stå still!</red> <aqua>Du kommer att teleporteras om %cooldown% sekunder, men endast om du inte rör dig och inte tar skada.</aqua>"
     success: "<green>Teleporterar dig till</green> <dark_green>%name%</dark_green><green>...</green>"
   error:
+    nearTooLarge: "<red>Det angivna avståndet är för stort. Det maximala avståndet är 3000 block.</red>"
     permissionDenied: "<red>Åtkomst nekad.</red>"
     noSpawnSet: "<red>Ingen startpunkt är satt</red>"
     noAFKSet: "<red>Det finns inget definerat afk-rum på den här servern.</red>"
     noBackLocation: "<red>Du har ingen tillbakaposition.</red>"
+    noBackLocationOther: "<red>%player% har ingen tillbakaposition.</red>"
     playerNotFound: "<red>Spelaren hittades inte.</red>"
     noReply: "<red>Det finns ingen att svara på.</red>"
 
   message:
+    ignored: "<red>Spelaren i fråga ignorerar dig.</red>"
+    ignoring: "<red>Du ignorerar spelaren i fråga.</red>"
     received: "<dark_red>[<red>%sender% -> dig<dark_red>] <white>%message%</white>"
     receivedAfk: "<dark_red>[<red>%time%<dark_red>] [<red>%sender% -> dig<dark_red>] <white>%message%</white>"
     sent: "<dark_red>[<red>du -> %receiver%<dark_red>] <white>%message%</white>"
@@ -331,6 +336,12 @@ messages:
 
   admin:
     chat:
+      disabled: "<green>Chattkanalen #%channel% har nu inaktiverats.</green>"
+      enabled: "<green>Chattkanalen #%channel% har nu återaktiverats.</green>"
+      delete:
+        success: "<green>Chattkanalen #%channel% har tagits bort.</green>"
+      force:
+        success: "<green>%player% har nu forcerats in i kanalen #%channel%.</green>"
       new:
         success: "<green>En ny chattkanal har skapats med namnet #%channel%."
     toggle:
@@ -366,6 +377,7 @@ messages:
         city: "<green>Din primära chattkanal är nu #%channel%.</green>"
 
   chat:
+    channelDisabled: "<red>Chattkanalen är tillfälligt inaktiverad.</red>"
     prefix:
       tab:
         mod: "<dark_aqua>[</dark_aqua><aqua>M</aqua><dark_aqua>]</dark_aqua> %player%"

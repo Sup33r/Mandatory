@@ -12,10 +12,12 @@ public class Channel {
     private final String name;
     private final ChannelType type;
     private final Set<UUID> members;
+    private boolean disabled;
 
     public Channel(DbRow data) {
         this.name = data.getString("channelName");
         this.type = ChannelType.getByName(data.getString("channelType"));
+        this.disabled = data.get("disabled");
         this.members = new HashSet<>();
         try {
             List<DbRow> rows = DB.getResults("SELECT playerUUID FROM md_channelmembers WHERE channelName = ?", name);
@@ -48,6 +50,11 @@ public class Channel {
         members.remove(playerUUID);
         Mandatory.playerChannels.get(playerUUID).remove(this);
         DB.executeUpdateAsync("DELETE FROM md_channelmembers WHERE channelName = ? AND playerUUID = ?", name, playerUUID.toString());
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
+        DB.executeUpdateAsync("UPDATE md_channels SET disabled = ? WHERE channelName = ?", disabled, name);
     }
 
 }

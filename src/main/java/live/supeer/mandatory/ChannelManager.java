@@ -127,6 +127,25 @@ public class ChannelManager {
         return channelNames;
     }
 
+    public static List<String> getChannelNames() {
+        List<String> channelNames = new ArrayList<>();
+        for (Channel channel : channels.values()) {
+            channelNames.add(channel.getName());
+        }
+        return channelNames;
+    }
+
+    public static List<String> getPlayerChannels(Player player) {
+        List<String> channelNames = new ArrayList<>();
+        List<Channel> playerChannels = Mandatory.playerChannels.get(player.getUniqueId());
+        if (playerChannels != null) {
+            for (Channel channel : playerChannels) {
+                channelNames.add(channel.getName());
+            }
+        }
+        return channelNames;
+    }
+
     public static String parseCityChannelName(String channelName) {
         String parsedName = channelName.replace("#", "");
         parsedName = parsedName.replace(" ", "_");

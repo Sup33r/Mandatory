@@ -182,5 +182,10 @@ public final class Mandatory extends JavaPlugin {
         });
         manager.getCommandCompletions().registerAsyncCompletion("go1", c -> ImmutableList.of("set", "give", "toggle", "whitelist"));
         manager.getCommandCompletions().registerAsyncCompletion("shopTypes", c -> ImmutableList.of("maxuses", "maxdailyuses", "maxdailyplayeruses", "maxplayeruses"));
+        manager.getCommandCompletions().registerAsyncCompletion("adminToggleable", c -> ImmutableList.of("chatcolor", "extprefix"));
+        manager.getCommandCompletions().registerAsyncCompletion("adminSettable", c -> ImmutableList.of("afk", "spawn", "firstspawn"));
+        manager.getCommandCompletions().registerCompletion("playerChannels", c -> ChannelManager.getPlayerChannels(c.getPlayer()));
+        manager.getCommandCompletions().registerCompletion("channels", c -> ChannelManager.getChannelNames());
+        manager.getCommandCompletions().registerCompletion("channelTypes", c -> ImmutableList.of("CITY", "GLOBAL", "MOD", "OTHER"));
     }
 }
