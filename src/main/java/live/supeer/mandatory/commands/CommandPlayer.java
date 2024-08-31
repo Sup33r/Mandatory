@@ -197,5 +197,23 @@ public class CommandPlayer extends BaseCommand {
                 Mandatory.sendMessage(player, "messages.player.toggle.teleport.on");
             }
         }
+
+        @Subcommand("invites")
+        public void onInvites(Player player) {
+            if (!player.hasPermission("mandatory.command.player.toggle.invites")) {
+                Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                return;
+            }
+
+            MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+            assert mPlayer != null;
+            if (mPlayer.hasFlag('v')) {
+                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("v", ""));
+                Mandatory.sendMessage(player, "messages.player.toggle.invites.off");
+            } else {
+                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "v");
+                Mandatory.sendMessage(player, "messages.player.toggle.invites.on");
+            }
+        }
     }
 }

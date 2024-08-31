@@ -92,6 +92,10 @@ public class CommandBalance extends BaseCommand {
             int amount = Integer.parseInt(args[1].substring(1));
             mPlayer.addBalance(amount, "{ \"type\": \"reimbursement\", \"reason\": \"" + reason + "\"}");
             Mandatory.sendMessage(player, "messages.balance.reimburse", "%player%", mPlayer.getName(), "%amount%", Utilities.formattedMoney(amount), "%reason%", reason.toString());
+            Player targetPlayer = player.getServer().getPlayer(mPlayer.getUuid());
+            if (targetPlayer != null) {
+                Mandatory.sendMessage(targetPlayer, "messages.balance.received", "%amount%", Utilities.formattedMoney(amount), "%reason%", reason.toString());
+            }
         }
     }
 }

@@ -38,11 +38,11 @@ public class CommandShop extends BaseCommand {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
-        if (uses < 0) {
+        if (uses < 0 || count < 0) {
             Mandatory.sendMessage(player, "messages.shop.error.invalidAmount");
             return;
         }
-        if (uses > 100000) {
+        if (uses > 100000 || count > 100000) {
             Mandatory.sendMessage(player, "messages.shop.error.tooHigh");
             return;
         }
@@ -58,6 +58,27 @@ public class CommandShop extends BaseCommand {
         } else if (type.equalsIgnoreCase("maxplayeruses")) {
             ShopManager.startShopEventCount(player, "maxplayeruses", uses, count);
             Mandatory.sendMessage(player, "messages.shop.set.maxplayeruses");
+        }
+    }
+
+    @Subcommand("toggle")
+    @CommandCompletion("@shopToggles")
+    public void onToggle(Player player, String toggle, int count) {
+        if (!player.hasPermission("mandatory.command.shop.toggle")) {
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
+            return;
+        }
+        if (count < 0) {
+            Mandatory.sendMessage(player, "messages.shop.error.invalidAmount");
+            return;
+        }
+        if (count > 100000) {
+            Mandatory.sendMessage(player, "messages.shop.error.tooHigh");
+            return;
+        }
+        if (toggle.equalsIgnoreCase("admin")) {
+            ShopManager.startShopEventCount(player, "admin", 0, count);
+            Mandatory.sendMessage(player, "messages.shop.toggle.admin");
         }
     }
 }

@@ -3,6 +3,7 @@ package live.supeer.mandatory;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import live.supeer.apied.*;
 import live.supeer.mandatory.utils.DateUtil;
+import live.supeer.mandatory.utils.Utilities;
 import live.supeer.metropolis.MetropolisAPI;
 import live.supeer.metropolis.event.CityCreationEvent;
 import live.supeer.metropolis.event.CityDeletionEvent;
@@ -231,7 +232,7 @@ public class MandatoryListerner implements Listener {
             ShopManager.handleSignRemoval(block.getLocation());
             return;
         }
-        if (block.getType().equals(Material.CHEST) || block.getType().equals(Material.TRAPPED_CHEST) || block.getType().equals(Material.BARREL) || block.getType().equals(Material.SHULKER_BOX)) {
+        if (Utilities.isBlockContainer(block.getType())) {
             live.supeer.apied.Chest chest1;
             MPlayer mPlayer = ApiedAPI.getPlayer(player);
             if (mPlayer == null) {
@@ -331,7 +332,7 @@ public class MandatoryListerner implements Listener {
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
         Block block = event.getBlock();
         Player player = event.getPlayer();
-        if (block.getType().equals(Material.CHEST) || block.getType().equals(Material.TRAPPED_CHEST) || block.getType().equals(Material.BARREL) || block.getType().equals(Material.SHULKER_BOX)) {
+        if (Utilities.isBlockContainer(block.getType())) {
             MPlayer mPlayer = ApiedAPI.getPlayer(player);
             if (mPlayer == null) {
                 return;

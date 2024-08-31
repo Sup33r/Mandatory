@@ -199,6 +199,7 @@ messages:
       list: "<dark_green>--- <green>Teleporteringspunkter (sida <click:run_command:/go %previous%><bold>%start%</bold></click> av <click:run_command:/go %next%><bold>%end%</bold></click>)</green> <dark_green>---"
 
   balance:
+    received: "<dark_aqua>--- <aqua>Mottagen transferrering</aqua> ---\nFrån: <aqua><italic>staten</italic>/aqua>\nBelopp: <aqua>%amount% encoins</aqua>\nAnledning: <aqua>%reason%</aqua>"
     modify:
       syntax: "<gray>Syntax: /balance <underlined>namn</underlined> <bold>-mängd</bold>/<bold>+mängd</bold>/<bold>all</bold> <underlined>anledning</underlined>"
     reimburse: "<aqua>Du har betalat %amount% encoins till %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
@@ -283,6 +284,9 @@ messages:
       latestPosition: "<dark_green>Senaste position: <green>%location%"
       wallet: "<dark_green>Plånbok: <green>%amount% encoins"
     toggle:
+      invites:
+        on: "<green>Du tillåter nu städer att bjuda in dig.</green>"
+        off: "<green>Du tillåter inte längre städer att bjuda in dig.</green>"
       chestmessages:
         on: "<green>Du kommer nu få meddelanden när du öppnar dina kistor.</green>"
         off: "<green>Du kommer nu inte längre få några meddelanden när du öppnar dina kistor.</green>"
@@ -489,6 +493,8 @@ messages:
       disabled: "<green>Du kan inte längre kopiera kopieringsskyddade kartor.</green>"
 
   shop:
+    toggle:
+      admin: "<green>Justeringen av statsaffärer har påbörjats! Klicka med en rödstensbit på den/de skyltaffär som du vill göra oändlig.</green>"
     set:
       maxuses: "<green>Justeringen av maxantalet transaktioner hos en affär har påbörjats! Klicka med en rödstensbit på den skyltaffär som du vill modifiera.</green>"
       maxdailyuses: "<green>Justeringen av maxantalet dagliga transaktioner hos en affär har påbörjats! Klicka med en rödstensbit på den skyltaffär som du vill modifiera.</green>"
