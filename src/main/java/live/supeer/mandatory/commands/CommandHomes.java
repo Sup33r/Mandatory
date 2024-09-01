@@ -33,7 +33,7 @@ public class CommandHomes extends BaseCommand {
                 Mandatory.sendMessage(player,"messages.homes.none");
                 return;
             }
-            String names = Utilities.formatStringList(homes.stream().map(Home::getName).toList());
+            String names = Utilities.formatHomeList(homes);
             String max;
             if (player.hasPermission("mandatory.command.homes.extra")) {
                 max = String.valueOf(Mandatory.configuration.getMaxHomesExtra());

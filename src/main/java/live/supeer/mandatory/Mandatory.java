@@ -4,6 +4,9 @@ import co.aikar.commands.PaperCommandManager;
 import co.aikar.idb.DB;
 import com.google.common.collect.ImmutableList;
 import de.tr7zw.changeme.nbtapi.NBT;
+import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.Home;
+import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.commands.*;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -189,8 +192,20 @@ public final class Mandatory extends JavaPlugin {
         manager.getCommandCompletions().registerAsyncCompletion("shopToggles", c -> ImmutableList.of("admin"));
         manager.getCommandCompletions().registerAsyncCompletion("adminToggleable", c -> ImmutableList.of("chatcolor", "extprefix"));
         manager.getCommandCompletions().registerAsyncCompletion("adminSettable", c -> ImmutableList.of("afk", "spawn", "firstspawn"));
-        manager.getCommandCompletions().registerCompletion("playerChannels", c -> ChannelManager.getPlayerChannels(c.getPlayer()));
-        manager.getCommandCompletions().registerCompletion("channels", c -> ChannelManager.getChannelNames());
-        manager.getCommandCompletions().registerCompletion("channelTypes", c -> ImmutableList.of("CITY", "GLOBAL", "MOD", "OTHER"));
+        manager.getCommandCompletions().registerAsyncCompletion("playerChannels", c -> ChannelManager.getPlayerChannels(c.getPlayer()));
+        manager.getCommandCompletions().registerAsyncCompletion("channels", c -> ChannelManager.getChannelNames());
+        manager.getCommandCompletions().registerAsyncCompletion("channelTypes", c -> ImmutableList.of("CITY", "GLOBAL", "MOD", "OTHER"));
+        manager.getCommandCompletions().registerAsyncCompletion("home2", c -> ImmutableList.of("set", "delete"));
+        manager.getCommandCompletions().registerAsyncCompletion("home1", c -> {
+            MPlayer mPlayer = ApiedAPI.getPlayer(c.getPlayer());
+            if (mPlayer == null || mPlayer.getHomes().isEmpty() || mPlayer.getHomes() == null) {
+                return ImmutableList.of("set, delete");
+            }
+            ImmutableList.Builder<String> builder = ImmutableList.builder();
+            mPlayer.getHomes().stream().map(Home::getName).forEach(builder::add);
+            builder.add("set");
+            builder.add("delete");
+            return builder.build();
+        });
     }
 }

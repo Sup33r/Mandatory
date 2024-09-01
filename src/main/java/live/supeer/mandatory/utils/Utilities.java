@@ -1,5 +1,6 @@
 package live.supeer.mandatory.utils;
 
+import live.supeer.apied.Home;
 import org.bukkit.Material;
 
 import java.text.NumberFormat;
@@ -63,6 +64,35 @@ public class Utilities {
         return result.toString();
     }
 
+    public static String formatHomeList(List<Home> homes) {
+        if (homes == null || homes.isEmpty()) {
+            return "";
+        }
+
+        int size = homes.size();
+
+        if (size == 1) {
+            return String.format("<click:run_command:/home %s>%s</click>", homes.get(0).getName(), homes.get(0).getName());
+        }
+
+        if (size == 2) {
+            return String.format("<click:run_command:/home %s>%s</click> & <click:run_command:/home %s>%s</click>",
+                    homes.get(0).getName(), homes.get(0).getName(), homes.get(1).getName(), homes.get(1).getName());
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < size - 1; i++) {
+            result.append(String.format("<click:run_command:/home %s>%s</click>", homes.get(i).getName(), homes.get(i).getName()));
+            if (i < size - 2) {
+                result.append(", ");
+            } else {
+                result.append(" & ");
+            }
+        }
+        result.append(String.format("<click:run_command:/home %s>%s</click>", homes.get(size - 1).getName(), homes.get(size - 1).getName()));
+
+        return result.toString();
+    }
     public static boolean isBlockContainer(Material material) {
         return material == Material.CHEST
                 || material == Material.TRAPPED_CHEST
