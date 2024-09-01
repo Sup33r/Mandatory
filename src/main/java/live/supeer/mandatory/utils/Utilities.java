@@ -13,12 +13,6 @@ public class Utilities {
         return formatter.format(money).replace(",", " ");
     }
 
-    public static String formattedDouble(Double money) {
-        NumberFormat formatter = NumberFormat.getInstance(Locale.US);
-        formatter.setGroupingUsed(true);
-        return formatter.format(money).replace(",", " ");
-    }
-
     public static List<UUID> stringToUUIDList(String playerString) {
         List<UUID> players = new ArrayList<>();
         if (playerString == null || playerString.isEmpty()) {

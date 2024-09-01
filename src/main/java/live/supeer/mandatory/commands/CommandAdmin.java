@@ -9,6 +9,7 @@ import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.*;
 import org.bukkit.entity.Player;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 @CommandAlias("admin|ad")
@@ -79,7 +80,7 @@ public class CommandAdmin extends BaseCommand {
     }
 
     @Subcommand("disable")
-    public void onDisable(Player player, String name) {
+    public void onDisable(Player player, String name) throws SQLException {
         if (!player.hasPermission("mandatory.command.admin.disable")) {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
@@ -100,7 +101,7 @@ public class CommandAdmin extends BaseCommand {
 
     @Subcommand("toggle")
     @CommandCompletion("@players @toggleable")
-    public void onToggle(Player player, String target, String action) {
+    public void onToggle(Player player, String target, String action) throws SQLException {
         if (!player.hasPermission("mandatory.command.admin.toggle")) {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
@@ -111,22 +112,29 @@ public class CommandAdmin extends BaseCommand {
             return;
         }
         if (action.equalsIgnoreCase("chatcolor")) {
+            String currentFlags = new String(mPlayer.getFlags());
             if (mPlayer.hasFlag('c')) {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("c", ""));
-                Mandatory.sendMessage(player,"messages.admin.toggle.chatcolor.removed", "%player%", mPlayer.getName());
+                currentFlags = currentFlags.replace("c", "");
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.admin.toggle.chatcolor.removed", "%player%", mPlayer.getName());
             } else {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "c");
-                Mandatory.sendMessage(player,"messages.admin.toggle.chatcolor.added", "%player%", mPlayer.getName());
+                currentFlags += "c";
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.chestmessages.added", "%player%", mPlayer.getName());
             }
             return;
         }
         if (action.equalsIgnoreCase("extprefix")) {
+            String currentFlags = new String(mPlayer.getFlags());
+
             if (mPlayer.hasFlag('e')) {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("e", ""));
-                Mandatory.sendMessage(player,"messages.admin.toggle.externalprefix.removed", "%player%", mPlayer.getName());
+                currentFlags = currentFlags.replace("e", "");
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.admin.toggle.externalprefix.removed", "%player%", mPlayer.getName());
             } else {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "e");
-                Mandatory.sendMessage(player,"messages.admin.toggle.externalprefix.added", "%player%", mPlayer.getName());
+                currentFlags += "e";
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.admin.toggle.externalprefix.added", "%player%", mPlayer.getName());
             }
         }
     }
@@ -180,7 +188,17 @@ public class CommandAdmin extends BaseCommand {
                     Mandatory.sendMessage(player, "messages.error.permissionDenied");
                     return;
                 }
-                mPlayer.setChatprefix(args[2]);
+                if (args[1].equalsIgnoreCase("-")) {
+                    mPlayer.removeChatprefix();
+                    Mandatory.sendMessage(player,"messages.admin.set.chatprefix.removed", "%player%", mPlayer.getName());
+                    return;
+                }
+                //make a string of all the args after the first one
+                StringBuilder prefix = new StringBuilder();
+                for (int i = 2; i < args.length; i++) {
+                    prefix.append(args[i]).append(" ");
+                }
+                mPlayer.setChatprefix(prefix.toString());
                 Mandatory.sendMessage(player,"messages.admin.set.chatprefix.success", "%player%", mPlayer.getName());
             }
         }

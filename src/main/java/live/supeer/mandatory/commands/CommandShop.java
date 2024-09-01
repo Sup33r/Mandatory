@@ -1,10 +1,7 @@
 package live.supeer.mandatory.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import live.supeer.apied.ShopManager;
 import live.supeer.mandatory.Mandatory;
 import org.bukkit.entity.Player;
@@ -32,11 +29,14 @@ public class CommandShop extends BaseCommand {
     }
 
     @Subcommand("set")
-    @CommandCompletion("@shopTypes @nothing")
-    public void onSet(Player player, String type, int uses, int count) {
+    @CommandCompletion("@shopTypes @nothing användningar antal")
+    public void onSet(Player player, String type, int uses, @Optional Integer count) {
         if (!player.hasPermission("mandatory.command.shop.set")) {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
+        }
+        if (count == null) {
+            count = 1;
         }
         if (uses < 0 || count < 0) {
             Mandatory.sendMessage(player, "messages.shop.error.invalidAmount");
@@ -47,26 +47,29 @@ public class CommandShop extends BaseCommand {
             return;
         }
         if (type.equalsIgnoreCase("maxuses")) {
-            ShopManager.startShopEventCount(player, "maxuses", uses, count);
+            ShopManager.startShopEventCount(player, "maxUses", uses, count);
             Mandatory.sendMessage(player, "messages.shop.set.maxuses");
         } else if (type.equalsIgnoreCase("maxdailyuses")) {
-            ShopManager.startShopEventCount(player, "maxdailyuses", uses, count);
+            ShopManager.startShopEventCount(player, "maxDailyUses", uses, count);
             Mandatory.sendMessage(player, "messages.shop.set.maxdailyuses");
-        } else if (type.equalsIgnoreCase("maxdailyplayeruses")) {
+        } else if (type.equalsIgnoreCase("maxDailyPlayerUses")) {
             ShopManager.startShopEventCount(player, "maxdailyplayeruses", uses, count);
             Mandatory.sendMessage(player, "messages.shop.set.maxdailyplayeruses");
-        } else if (type.equalsIgnoreCase("maxplayeruses")) {
-            ShopManager.startShopEventCount(player, "maxplayeruses", uses, count);
+        } else if (type.equalsIgnoreCase("maxPlayerUses")) {
+            ShopManager.startShopEventCount(player, "maxPlayerUses", uses, count);
             Mandatory.sendMessage(player, "messages.shop.set.maxplayeruses");
         }
     }
 
     @Subcommand("toggle")
-    @CommandCompletion("@shopToggles")
-    public void onToggle(Player player, String toggle, int count) {
+    @CommandCompletion("@shopToggles antal")
+    public void onToggle(Player player, String toggle, @Optional Integer count) {
         if (!player.hasPermission("mandatory.command.shop.toggle")) {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
+        }
+        if (count == null) {
+            count = 1;
         }
         if (count < 0) {
             Mandatory.sendMessage(player, "messages.shop.error.invalidAmount");

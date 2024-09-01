@@ -85,33 +85,37 @@ public class MandatoryChat {
         if (mPlayer == null) {
             return "";
         }
-        boolean externalPrefix = mPlayer.hasFlag('e');
-        boolean isVip = player.hasPermission("mandatory.vip");
-        boolean isMod = player.hasPermission("mandatory.mod");
-        StringBuilder prefix = new StringBuilder();
-        City city = MetropolisAPI.getHomeCity(player);
-        if (!(city == null) && !externalPrefix) {
-            prefix.append(Mandatory.getRawMessage("messages.chat.prefix.city.name", "%cityname%", city.getCityName()));
-            if (city.getCityMember(player.getUniqueId().toString()) != null) {
-                Member member = city.getCityMember(player.getUniqueId().toString());
-                if (member.getCityRole().equals(Role.INVITER)) {
-                    prefix.append(Mandatory.getRawMessage("messages.chat.prefix.city.role.inviter"));
-                } else if (member.getCityRole().equals(Role.ASSISTANT)) {
-                    prefix.append(Mandatory.getRawMessage("messages.chat.prefix.city.role.assistant"));
-                } else if (member.getCityRole().equals(Role.VICE_MAYOR)) {
-                    prefix.append(Mandatory.getRawMessage("messages.chat.prefix.city.role.vicemayor"));
-                } else if (member.getCityRole().equals(Role.MAYOR)) {
-                    prefix.append(Mandatory.getRawMessage("messages.chat.prefix.city.role.mayor"));
+        if (mPlayer.getChatprefix() != null) {
+            return mPlayer.getChatprefix();
+        } else {
+            boolean externalPrefix = mPlayer.hasFlag('e');
+            boolean isVip = player.hasPermission("mandatory.vip");
+            boolean isMod = player.hasPermission("mandatory.mod");
+            StringBuilder prefix = new StringBuilder();
+            City city = MetropolisAPI.getHomeCity(player);
+            if (!(city == null) && !externalPrefix) {
+                prefix.append(Mandatory.getRawMessage("messages.chat.prefix.city.name", "%cityname%", city.getCityName()));
+                if (city.getCityMember(player.getUniqueId().toString()) != null) {
+                    Member member = city.getCityMember(player.getUniqueId().toString());
+                    if (member.getCityRole().equals(Role.INVITER)) {
+                        prefix.append(Mandatory.getRawMessage("messages.chat.prefix.city.role.inviter"));
+                    } else if (member.getCityRole().equals(Role.ASSISTANT)) {
+                        prefix.append(Mandatory.getRawMessage("messages.chat.prefix.city.role.assistant"));
+                    } else if (member.getCityRole().equals(Role.VICE_MAYOR)) {
+                        prefix.append(Mandatory.getRawMessage("messages.chat.prefix.city.role.vicemayor"));
+                    } else if (member.getCityRole().equals(Role.MAYOR)) {
+                        prefix.append(Mandatory.getRawMessage("messages.chat.prefix.city.role.mayor"));
+                    }
                 }
             }
+            if (isVip && !externalPrefix) {
+                prefix.append(Mandatory.getRawMessage("messages.chat.prefix.vip"));
+            }
+            if (isMod) {
+                prefix.append(Mandatory.getRawMessage("messages.chat.prefix.mod"));
+            }
+            return prefix.toString();
         }
-        if (isVip && !externalPrefix) {
-            prefix.append(Mandatory.getRawMessage("messages.chat.prefix.vip"));
-        }
-        if (isMod) {
-            prefix.append(Mandatory.getRawMessage("messages.chat.prefix.mod"));
-        }
-        return prefix.toString();
     }
 
     public static Component getTABPrefix(Player player) {
@@ -120,7 +124,7 @@ public class MandatoryChat {
             return null;
         }
         if (mPlayer.getChatprefix() != null && !mPlayer.getChatprefix().isEmpty()) {
-            return Mandatory.stringToMiniMessage(mPlayer.getChatprefix() + player.getName());
+            return Mandatory.stringToMiniMessage(mPlayer.getChatprefix() + " " + player.getName());
         }
         if (player.hasPermission("mandatory.mod")) {
             return Mandatory.getMessageComponent("messages.chat.prefix.tab.mod", "%player%", player.getName());

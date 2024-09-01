@@ -285,31 +285,31 @@ messages:
       wallet: "<dark_green>Plånbok: <green>%amount% encoins"
     toggle:
       invites:
-        on: "<green>Du tillåter nu städer att bjuda in dig.</green>"
-        off: "<green>Du tillåter inte längre städer att bjuda in dig.</green>"
+        ion: "<green>Du tillåter nu städer att bjuda in dig.</green>"
+        ioff: "<green>Du tillåter inte längre städer att bjuda in dig.</green>"
       chestmessages:
-        on: "<green>Du kommer nu få meddelanden när du öppnar dina kistor.</green>"
-        off: "<green>Du kommer nu inte längre få några meddelanden när du öppnar dina kistor.</green>"
+        ion: "<green>Du kommer nu få meddelanden när du öppnar dina kistor.</green>"
+        ioff: "<green>Du kommer nu inte längre få några meddelanden när du öppnar dina kistor.</green>"
       chatcolor:
-        on: "<green>Du har nu aktiverat färg på dina chattmeddelanden.</green>"
-        off: "<green>Du har nu avaktiverat färg på dina chattmeddelanden.</green>"
+        ion: "<green>Du har nu aktiverat färg på dina chattmeddelanden.</green>"
+        ioff: "<green>Du har nu avaktiverat färg på dina chattmeddelanden.</green>"
       externalprefixes:
-        on: "<green>Du har nu aktiverat externa prefixar i chatten.</green>"
-        off: "<green>Du har nu avaktiverat externa prefixar i chatten.</green>"
+        ion: "<green>Du har nu aktiverat externa prefixar i chatten.</green>"
+        ioff: "<green>Du har nu avaktiverat externa prefixar i chatten.</green>"
       greeting:
-        on: "<green>Du har nu aktiverat välkomstmeddelandet.</green>"
-        off: "<green>Du har nu avaktiverat välkostmeddelandet.</green>"
+        ion: "<green>Du har nu aktiverat välkomstmeddelandet.</green>"
+        ioff: "<green>Du har nu avaktiverat välkostmeddelandet.</green>"
       insecureconnections:
-        on: "<green>Du har nu aktiverat osäkra anslutningar.</green>"
-        off: "<green>Du har nu avaktiverat osäkra anslutningar.</green>"
+        ion: "<green>Du har nu aktiverat osäkra anslutningar.</green>"
+        ioff: "<green>Du har nu avaktiverat osäkra anslutningar.</green>"
       joinleaves:
-        on: "<green>In- och utloggningar kommer nu att visas</green>"
-        off: "<green>In- och utloggningar kommer nu att döljas</green>"
+        ion: "<green>In- och utloggningar kommer nu att visas</green>"
+        ioff: "<green>In- och utloggningar kommer nu att döljas</green>"
       payments:
-        on: "<green>Betalningar är nu påslagna.</green>"
-        off: "<green>Betalningar är nu avstängda.</green>"
+        ion: "<green>Betalningar är nu påslagna.</green>"
+        ioff: "<green>Betalningar är nu avstängda.</green>"
       teleport:
-        on: "<green>Du tillåter nu spelare att skicka teleporteringsförfrågningar.</green>"
+        ion: "<green>Du tillåter nu spelare att skicka teleporteringsförfrågningar.</green>"
         off: "<green>Du tillåter inte längre spelare att skicka teleporteringsförfrågningar.</green>"
 
   home:
@@ -329,6 +329,7 @@ messages:
     updated: "<green>Din hemposition har uppdaterats.</green>"
     doesntExist: "<red>Du har ingen hemposition med det namnet.</red>"
   homes:
+    none: "<red>Du har inga sparade hempositioner.</red>"
     own: "<dark_green>--- <green>Dina hempositioner (%count%/%max%)</green> ---\n<dark_green>%list%</dark_green>"
     others: "<dark_green>--- <green>Hempositioner för %player% (%count%/%max%)</green> ---\n<dark_green>%list%</dark_green>"
 
@@ -366,6 +367,7 @@ messages:
       success: "<green>Namnet %name% har nu blockerats från servern.</green>"
     set:
       chatprefix:
+        removed: "<green>Chattprefixen för %player% har tagits bort.</green>"
         success: "<green>Chattprefixen för %player% har uppdaterats.</green>"
       firstspawn: "<green>Punkten för nyanlända spelare har sparats.</green>"
       spawn: "<green>Punkten för rutinerade spelare har sparats.</green>"

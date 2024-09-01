@@ -14,6 +14,7 @@ import live.supeer.mandatory.utils.LocationUtil;
 import live.supeer.mandatory.utils.Utilities;
 import org.bukkit.entity.Player;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 @CommandAlias("player|p")
@@ -63,12 +64,17 @@ public class CommandPlayer extends BaseCommand {
             }
             MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
             assert mPlayer != null;
+
+            String currentFlags = new String(mPlayer.getFlags());
+
             if (mPlayer.hasFlag('m')) {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("m", ""));
-                Mandatory.sendMessage(player, "messages.player.toggle.chestmessages.off");
+                currentFlags = currentFlags.replace("m", "");
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.chestmessages.ioff");
             } else {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "m");
-                Mandatory.sendMessage(player, "messages.player.toggle.chestmessages.on");
+                currentFlags += "m";
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.chestmessages.ion");
             }
         }
 
@@ -81,14 +87,20 @@ public class CommandPlayer extends BaseCommand {
 
             MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
             assert mPlayer != null;
+
+            String currentFlags = new String(mPlayer.getFlags());
+
             if (mPlayer.hasFlag('c')) {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("c", ""));
-                Mandatory.sendMessage(player, "messages.player.toggle.chatcolor.off");
+                currentFlags = currentFlags.replace("c", "");
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.chatcolor.ioff");
             } else {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "c");
-                Mandatory.sendMessage(player, "messages.player.toggle.chatcolor.on");
+                currentFlags += "c";
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.chatcolor.ion");
             }
         }
+
 
         @Subcommand("externalprefixes")
         public void onExternalPrefixes(Player player) {
@@ -99,12 +111,17 @@ public class CommandPlayer extends BaseCommand {
 
             MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
             assert mPlayer != null;
+
+            String currentFlags = new String(mPlayer.getFlags());
+
             if (mPlayer.hasFlag('e')) {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("e", ""));
-                Mandatory.sendMessage(player, "messages.player.toggle.externalprefixes.off");
+                currentFlags = currentFlags.replace("e", "");
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.externalprefixes.ioff");
             } else {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "e");
-                Mandatory.sendMessage(player, "messages.player.toggle.externalprefixes.on");
+                currentFlags += "e";
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.externalprefixes.ion");
             }
         }
 
@@ -117,12 +134,16 @@ public class CommandPlayer extends BaseCommand {
 
             MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
             assert mPlayer != null;
+
+            String currentFlags = new String(mPlayer.getFlags());
             if (mPlayer.hasFlag('g')) {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("g", ""));
-                Mandatory.sendMessage(player, "messages.player.toggle.greeting.off");
+                currentFlags = currentFlags.replace("g", "");
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.greeting.ioff");
             } else {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "g");
-                Mandatory.sendMessage(player, "messages.player.toggle.greeting.on");
+                currentFlags += "g";
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.greeting.ion");
             }
         }
 
@@ -132,15 +153,16 @@ public class CommandPlayer extends BaseCommand {
                 Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
-
             MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
-            assert mPlayer != null;
+            String currentFlags = new String(mPlayer.getFlags());
             if (mPlayer.hasFlag('i')) {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("i", ""));
-                Mandatory.sendMessage(player, "messages.player.toggle.insecureconnections.off");
+                currentFlags = currentFlags.replace("i", "");
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.insecureconnections.ioff");
             } else {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "i");
-                Mandatory.sendMessage(player, "messages.player.toggle.insecureconnections.on");
+                currentFlags += "i";
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.insecureconnections.ion");
             }
         }
 
@@ -150,15 +172,17 @@ public class CommandPlayer extends BaseCommand {
                 Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
-
             MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
             assert mPlayer != null;
+            String currentFlags = new String(mPlayer.getFlags());
             if (mPlayer.hasFlag('j')) {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("j", ""));
-                Mandatory.sendMessage(player, "messages.player.toggle.joinleaves.off");
+                currentFlags = currentFlags.replace("j", "");
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.joinleaves.ioff");
             } else {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "j");
-                Mandatory.sendMessage(player, "messages.player.toggle.joinleaves.on");
+                currentFlags += "j";
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.joinleaves.ion");
             }
         }
 
@@ -168,15 +192,17 @@ public class CommandPlayer extends BaseCommand {
                 Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
-
             MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
             assert mPlayer != null;
+            String currentFlags = new String(mPlayer.getFlags());
             if (mPlayer.hasFlag('p')) {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("p", ""));
-                Mandatory.sendMessage(player, "messages.player.toggle.payments.off");
+                currentFlags = currentFlags.replace("p", "");
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.payments.ioff");
             } else {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "p");
-                Mandatory.sendMessage(player, "messages.player.toggle.payments.on");
+                currentFlags += "p";
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.payments.ion");
             }
         }
 
@@ -186,15 +212,17 @@ public class CommandPlayer extends BaseCommand {
                 Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
-
             MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
             assert mPlayer != null;
+            String currentFlags = new String(mPlayer.getFlags());
             if (mPlayer.hasFlag('t')) {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("t", ""));
-                Mandatory.sendMessage(player, "messages.player.toggle.teleport.off");
+                currentFlags = currentFlags.replace("t", "");
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.teleport.ioff");
             } else {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "t");
-                Mandatory.sendMessage(player, "messages.player.toggle.teleport.on");
+                currentFlags += "t";
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.teleport.ion");
             }
         }
 
@@ -204,15 +232,17 @@ public class CommandPlayer extends BaseCommand {
                 Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
-
             MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
             assert mPlayer != null;
+            String currentFlags = new String(mPlayer.getFlags());
             if (mPlayer.hasFlag('v')) {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()).replace("v", ""));
-                Mandatory.sendMessage(player, "messages.player.toggle.invites.off");
+                currentFlags = currentFlags.replace("v", "");
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.invites.ioff");
             } else {
-                mPlayer.setFlags(Arrays.toString(mPlayer.getFlags()) + "v");
-                Mandatory.sendMessage(player, "messages.player.toggle.invites.on");
+                currentFlags += "v";
+                mPlayer.setFlags(currentFlags);
+                Mandatory.sendMessage(player, "messages.player.toggle.invites.ion");
             }
         }
     }
