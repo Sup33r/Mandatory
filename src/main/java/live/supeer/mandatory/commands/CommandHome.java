@@ -8,7 +8,7 @@ import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.Home;
 import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.Mandatory;
-import live.supeer.mandatory.utils.TeleportUtil;
+import live.supeer.metropolis.utils.TeleportUtil;
 import org.bukkit.entity.Player;
 
 @CommandAlias("home")

@@ -10,6 +10,8 @@ import live.supeer.mandatory.*;
 import live.supeer.mandatory.utils.DateUtil;
 import live.supeer.mandatory.utils.TeleportUtil;
 import live.supeer.mandatory.utils.Utilities;
+import live.supeer.metropolis.Metropolis;
+import live.supeer.metropolis.MetropolisAPI;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -44,6 +46,10 @@ public class CommandGo extends BaseCommand {
                         Mandatory.sendMessage(player, "messages.go.locationNotSet");
                         return;
                     }
+                    if (!MetropolisAPI.playerHasLocationPermissionFlags(player.getUniqueId(), go.getLocation().toBlockLocation(), 'g') && !Metropolis.overrides.contains(player)) {
+                        Mandatory.sendMessage(player, "messages.go.cityNotAllowed", "%name%", go.getName());
+                        return;
+                    }
                     TeleportUtil.teleportGo(player, go, false, true);
                     return;
                 }
@@ -55,6 +61,10 @@ public class CommandGo extends BaseCommand {
                 assert go != null;
                 if (go.getLocation() == null) {
                     Mandatory.sendMessage(player, "messages.go.locationNotSet");
+                    return;
+                }
+                if (!MetropolisAPI.playerHasLocationPermissionFlags(player.getUniqueId(), go.getLocation().toBlockLocation(), 'g') && !Metropolis.overrides.contains(player)) {
+                    Mandatory.sendMessage(player, "messages.go.cityNotAllowed", "%name%", go.getName());
                     return;
                 }
                 TeleportUtil.teleportGo(player, go, false, false);

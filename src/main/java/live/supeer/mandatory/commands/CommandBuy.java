@@ -11,6 +11,8 @@ import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.*;
 import live.supeer.mandatory.utils.PlayerHeadUtil;
 import live.supeer.mandatory.utils.Utilities;
+import live.supeer.metropolis.Metropolis;
+import live.supeer.metropolis.MetropolisAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
@@ -64,6 +66,10 @@ public class CommandBuy extends BaseCommand {
             Mandatory.sendMessage(player, "messages.buy.go.alreadyExists");
             return;
         }
+        if (!MetropolisAPI.playerHasLocationPermissionFlags(player.getUniqueId(), player.getLocation().toBlockLocation(), 'b') && !Metropolis.overrides.contains(player)) {
+            Mandatory.sendMessage(player, "messages.buy.go.cityNotAllowed");
+            return;
+        }
         MPlayer mPlayer = ApiedAPI.getPlayer(player);
         assert mPlayer != null;
         if (mPlayer.getBalance() < Mandatory.configuration.getGoPrice()) {
@@ -72,7 +78,6 @@ public class CommandBuy extends BaseCommand {
         }
         mPlayer.removeBalance(Mandatory.configuration.getGoPrice(),"{ \"type\": \"buy\", \"subtype\": \"go\", \"goName\": \"" + goName + "\"}");
         Go go = GoManager.createGo(goName, player);
-        assert go != null;
         Mandatory.sendMessage(player, "messages.buy.go.success","%name%", go.getName(), "%price%", Utilities.formattedMoney(Mandatory.configuration.getGoPrice()));
     }
 

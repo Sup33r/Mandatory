@@ -14,7 +14,6 @@ public class MandatoryConfiguration {
     private final String sqlUsername;
     private final String sqlPassword;
 
-    private final int teleportCooldown;
     private final int loveCooldown;
 
     private Location spawnLocation;
@@ -34,8 +33,6 @@ public class MandatoryConfiguration {
     private final int headPrice;
     private final int copyrightPrice;
 
-    private final int startingBalance;
-
     private final List<String> disabledNames;
 
     private final List<String> allowedCommands;
@@ -50,7 +47,6 @@ public class MandatoryConfiguration {
         sqlUsername = plugin.getConfig().getString("sql.username");
         sqlPassword = plugin.getConfig().getString("sql.password");
 
-        teleportCooldown = plugin.getConfig().getInt("settings.teleportcooldown");
         loveCooldown = plugin.getConfig().getInt("settings.limits.lovecooldown");
 
         spawnLocation = plugin.getConfig().getLocation("settings.locations.spawnlocation");
@@ -72,9 +68,6 @@ public class MandatoryConfiguration {
         copyrightPrice = plugin.getConfig().getInt("settings.price.copyright");
 
         disabledNames = plugin.getConfig().getStringList("settings.disablednames");
-
-        startingBalance = plugin.getConfig().getInt("settings.startingbalance");
-
     }
 
     public void setFirstSpawnLocation(Location location) {

@@ -7,6 +7,8 @@ import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.Mandatory;
+import live.supeer.metropolis.Metropolis;
+import live.supeer.metropolis.MetropolisAPI;
 import org.bukkit.entity.Player;
 
 @CommandAlias("teleportask|tpask|tpa")
@@ -24,6 +26,10 @@ public class CommandTeleportAsk extends BaseCommand {
         }
         if (target.getPlayer() == player) {
             Mandatory.sendMessage(player, "messages.teleportRequests.self");
+            return;
+        }
+        if (!MetropolisAPI.playerHasLocationPermissionFlags(player.getUniqueId(), target.getPlayer().getLocation().toBlockLocation(), 't') && !Metropolis.overrides.contains(player)) {
+            Mandatory.sendMessage(player, "messages.teleportRequests.cityNotAllowed", "%target%", target.getPlayer().getName());
             return;
         }
         MPlayer mPlayerTarget = ApiedAPI.getPlayer(target.getPlayer());

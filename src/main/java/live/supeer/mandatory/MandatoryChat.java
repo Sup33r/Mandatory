@@ -2,6 +2,7 @@ package live.supeer.mandatory;
 
 import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.MPlayer;
+import live.supeer.metropolis.Metropolis;
 import live.supeer.metropolis.MetropolisAPI;
 import live.supeer.metropolis.city.City;
 import live.supeer.metropolis.city.Member;
@@ -211,12 +212,12 @@ public class MandatoryChat {
     }
 
     public static void sendPrivateMessage(Player player, Player target, String message) {
-        boolean isAfk = Mandatory.afkPlayers.containsKey(target.getUniqueId());
+        boolean isAfk = Metropolis.afkPlayers.containsKey(target.getUniqueId());
         if (isAfk) {
             Date now = new Date();
             SimpleDateFormat format = new SimpleDateFormat("HH:mm");
             Component recipientMessage = Mandatory.getMessageComponent("messages.message.receivedAfk","%time%", format.format(now), "%sender%", player.getName(), "%message%", message);
-            Mandatory.afkPlayers.get(target.getUniqueId()).add(recipientMessage);
+            Metropolis.afkPlayers.get(target.getUniqueId()).add(recipientMessage);
             Mandatory.sendMessage(player, "messages.message.sentAfk", "%receiver%", target.getName(), "%message%", message);
             Mandatory.sendMessage(target,"messages.message.received", "%sender%", player.getName(), "%message%", message);
         } else {

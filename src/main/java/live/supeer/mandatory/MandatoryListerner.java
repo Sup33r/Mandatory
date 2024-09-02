@@ -4,6 +4,7 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import live.supeer.apied.*;
 import live.supeer.mandatory.utils.DateUtil;
 import live.supeer.mandatory.utils.Utilities;
+import live.supeer.metropolis.Metropolis;
 import live.supeer.metropolis.MetropolisAPI;
 import live.supeer.metropolis.event.CityCreationEvent;
 import live.supeer.metropolis.event.CityDeletionEvent;
@@ -62,7 +63,7 @@ public class MandatoryListerner implements Listener {
         assert mPlayer != null;
         mPlayer.setLatestJoin(DateUtil.getTimestamp());
         if (mPlayer.getBackLocation() != null) {
-            Mandatory.backLocations.put(event.getPlayer(), mPlayer.getBackLocation());
+            Metropolis.backLocations.put(event.getPlayer(), mPlayer.getBackLocation());
         }
         if (!mPlayer.hasFlag('g')) {
             event.getPlayer().sendTitlePart(TitlePart.TITLE, Objects.requireNonNull(Mandatory.getMessageComponent("messages.chat.greeting.title", "%player%", event.getPlayer().getName())));
@@ -92,8 +93,8 @@ public class MandatoryListerner implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         MPlayer mPlayer = ApiedAPI.getPlayer(event.getPlayer());
         assert mPlayer != null;
-        if (Mandatory.backLocations.containsKey(event.getPlayer())) {
-            mPlayer.setBackLocation(Mandatory.backLocations.get(event.getPlayer()));
+        if (Metropolis.backLocations.containsKey(event.getPlayer())) {
+            mPlayer.setBackLocation(Metropolis.backLocations.get(event.getPlayer()));
         }
         if (!mPlayer.isBanned()) {
             mPlayer.setLastLocation(event.getPlayer().getLocation());
@@ -116,9 +117,9 @@ public class MandatoryListerner implements Listener {
         }
         Mandatory.firstTimePlayer.remove(event.getPlayer());
         Mandatory.promptedPayment.remove(event.getPlayer());
-        Mandatory.afkPlayers.remove(event.getPlayer().getUniqueId());
+        Metropolis.afkPlayers.remove(event.getPlayer().getUniqueId());
         Mandatory.replyPlayers.remove(event.getPlayer());
-        Mandatory.backLocations.remove(event.getPlayer());
+        Metropolis.backLocations.remove(event.getPlayer());
         Mandatory.startTime.remove(mPlayer.getUuid());
         Mandatory.activeChannel.remove(mPlayer.getUuid());
         Mandatory.playerChannels.remove(mPlayer.getUuid());
@@ -153,12 +154,12 @@ public class MandatoryListerner implements Listener {
 
     @EventHandler
     public void onCityLeaveEvent(CityLeaveEvent event) {
-        MPlayer player = ApiedAPI.getPlayer(event.getPlayer());
-        assert player != null;
         Channel cityChannel = ChannelManager.getChannel(ChannelManager.parseCityChannelName(event.getCity().getCityName()));
         if (cityChannel != null) {
-            cityChannel.removeMember(player.getUuid());
-            ChannelManager.setActiveChannelToOther(event.getPlayer());
+            cityChannel.removeMember(event.getMPlayer().getUuid());
+            Player player = Bukkit.getPlayer(event.getMPlayer().getUuid());
+            assert player != null;
+            ChannelManager.setActiveChannelToOther(player);
         }
     }
 

@@ -43,6 +43,7 @@ messages:
     sent: "<green>Ditt meddelande har skickats till våra moderatorer, och de kontaktar dig så fort det finns tid och möjlighet. Du kan alltid komma i kontakt med oss genom att skapa ett ärende på hemsidan: <underlined>https://enserver.se/support/new</underlined>"
 
   teleportRequests:
+    cityNotAllowed: "<red>Du har inte teleporteringsrättigheter där %target% befinner sig.</red>"
     teleportsNotAllowed: "<red>%target% tillåter inte spelare att teleportera till sig.</red>"
     self: "<red>Du kan inte teleportera till dig själv.</red>"
     cancelledSelf: "<green>Avbröt teleporteringsförfrågan till %target%."
@@ -64,6 +65,7 @@ messages:
       multipleRequests: "<red>Du har flera teleporteringsförfrågningar. Använd <dark_red>/tpdeny <italic>spelare</italic><red> för att neka en specifik förfrågan, eller <dark_red>/tpdeny!</dark_red> för att neka alla.</red>"
 
   teleport:
+    cityNotAllowed: "<red>Du har inte teleporteringsrättigheter dit du försöker teleportera.</red>"
     backOther: "<green>Du har teleporterat %player% tillbaka till deras tidigare position.</green>"
     failed: "<red>Den pågående teleporteringen avbröts.</red>"
     hasTeleport: "<red>Du har redan en pågående teleportering.</red>"
@@ -152,6 +154,7 @@ messages:
     notRepairable: "<red>Föremålet i din hand kan inte repareras.</red>"
 
   go:
+    cityNotAllowed: "<red>Du har inte go-rättigheter där %name% befinner sig.</red>"
     set:
       chargeamount:
         removed: "<green>Kostnaden för teleportering till <dark_green>%name%</dark_green> har tagits bort.</green>"
@@ -192,6 +195,7 @@ messages:
     charged: "<green>Du har betalat %charge% encoins för att teleportera till teleporteringspunkten.</green>"
     charges: "<green>Teleporteringspunkten kostar <dark_green>%charge% encoins<green> att använda. Skriv kommandot igen om du godkänner kostnaden."
     notFound: "<red>Det finns ingen teleporteringspunkt med detta namn.</red>"
+    notInCity: "<red>Teleporteringspunkten är belagd i naturen, och där är <bold>PVP påslaget</bold>.\nSkriv <dark_red>/go %name%!<red> för att teleportera dit.</red>"
     notOpen: "<red>Denna teleporteringspunkt är inte öppen för allmänheten.</red>"
     list:
       notEnoughPages: "<red>Det finns inte så många sidor att visa.</red>"
@@ -237,6 +241,7 @@ messages:
       success: "<green>Du har köpt ett exemplar av ditt huvud för %price% encoins.</green>"
       noSpace: "<red>Ditt inventory saknar plats.</red>"
     go:
+      cityNotAllowed: "<red>Du kan inte köpa en teleporteringspunkt på ett ställe där du inte har byggrättigheter.</red>"
       alreadyExists: "<red>En teleporteringspunkt med detta namn finns redan.</red>"
       syntax: "<gray>Syntax: /buy go <underlined>namn</underlined>"
       notEnoughMoney: "<red>Du har inte råd med %price% encoins, som en teleporteringspunkt kostar.</red>"

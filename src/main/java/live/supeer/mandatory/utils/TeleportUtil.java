@@ -3,6 +3,8 @@ package live.supeer.mandatory.utils;
 import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.*;
+import live.supeer.metropolis.Metropolis;
+import live.supeer.metropolis.MetropolisAPI;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -10,43 +12,9 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+import static live.supeer.metropolis.utils.TeleportUtil.teleportingPlayers;
+
 public class TeleportUtil {
-    public static List<Player> teleportingPlayers = new ArrayList<>();
-    
-
-    public static void teleport(Player player, Location location, String name, boolean bypassCooldown) {
-        if (player.isInsideVehicle()) {
-            Mandatory.sendMessage(player, "messages.error.teleport.failed");
-            return;
-        }
-        if (player.hasPermission("mandatory.teleport.nowait") || bypassCooldown) {
-            Mandatory.backLocations.put(player, player.getLocation());
-            player.teleport(location);
-            sendAfkMessages(player);
-            Mandatory.sendMessage(player, "messages.teleport.success","%name%", name);
-            return;
-        }
-        if (teleportingPlayers.contains(player)) {
-            Mandatory.sendMessage(player, "messages.teleport.hasTeleport");
-            return;
-        }
-        teleportingPlayers.add(player);
-        int cooldown = Mandatory.configuration.getTeleportCooldown();
-        Mandatory.sendMessage(player, "messages.teleport.started", "%cooldown%", String.valueOf(cooldown));
-        Mandatory.getInstance().getServer().getScheduler().runTaskLater(Mandatory.getInstance(), () -> {
-            if (!teleportingPlayers.contains(player)) {
-                sendAfkMessages(player);
-                Mandatory.sendMessage(player, "messages.teleport.failed");
-                return;
-            }
-            sendAfkMessages(player);
-            Mandatory.backLocations.put(player, player.getLocation());
-            player.teleport(location);
-            Mandatory.sendMessage(player, "messages.teleport.success", "%name%", name);
-            teleportingPlayers.remove(player);
-        }, 20L * cooldown);
-    }
-
     public static void teleportAfk(Player player, boolean bypassCooldown) {
         if (player.isInsideVehicle()) {
             Mandatory.sendMessage(player, "messages.error.teleport.failed");
@@ -58,9 +26,9 @@ public class TeleportUtil {
             return;
         }
         if (player.hasPermission("mandatory.teleport.nowait") || bypassCooldown) {
-            Mandatory.backLocations.put(player, player.getLocation());
+            Metropolis.backLocations.put(player, player.getLocation());
             player.teleport(afkLocation);
-            Mandatory.afkPlayers.put(player.getUniqueId(), new ArrayList<>());
+            Metropolis.afkPlayers.put(player.getUniqueId(), new ArrayList<>());
             Mandatory.sendMessage(player, "messages.teleport.success","%name%", Mandatory.getMessage("messages.names.afk"));
             return;
         }
@@ -69,7 +37,7 @@ public class TeleportUtil {
             return;
         }
         teleportingPlayers.add(player);
-        int cooldown = Mandatory.configuration.getTeleportCooldown();
+        int cooldown = Metropolis.configuration.getTeleportCooldown();
         Mandatory.sendMessage(player, "messages.teleport.started", "%cooldown%", String.valueOf(cooldown));
         Mandatory.getInstance().getServer().getScheduler().runTaskLater(Mandatory.getInstance(), () -> {
             if (!teleportingPlayers.contains(player)) {
@@ -78,9 +46,9 @@ public class TeleportUtil {
                 return;
             }
             sendAfkMessages(player);
-            Mandatory.backLocations.put(player, player.getLocation());
+            Metropolis.backLocations.put(player, player.getLocation());
             player.teleport(afkLocation);
-            Mandatory.afkPlayers.put(player.getUniqueId(), new ArrayList<>());
+            Metropolis.afkPlayers.put(player.getUniqueId(), new ArrayList<>());
             Mandatory.sendMessage(player, "messages.teleport.success", "%name%", Mandatory.getMessage("messages.names.afk"));
             teleportingPlayers.remove(player);
         }, 20L * cooldown);
@@ -93,6 +61,10 @@ public class TeleportUtil {
         }
         if (go == null) {
             Mandatory.sendMessage(player, "messages.go.notFound");
+            return;
+        }
+        if (!MetropolisAPI.isInCity(go.getLocation().toBlockLocation()) && !allowNature) {
+            Mandatory.sendMessage(player, "messages.go.notInCity", "%name%", go.getName());
             return;
         }
         if (!go.isOpen() && player.hasPermission("mandatory.go.override") || !go.isOpen() && go.isWhitelisted(player.getUniqueId()) || !go.isOpen() && go.getOwnerUUID().equals(player.getUniqueId()) || go.isOpen()) {
@@ -111,21 +83,7 @@ public class TeleportUtil {
                 return;
             }
             if (player.hasPermission("mandatory.teleport.nowait") || bypassCooldown) {
-                sendAfkMessages(player);
-                Mandatory.backLocations.put(player, player.getLocation());
-                player.teleport(go.getLocation());
-                Mandatory.sendMessage(player, "messages.teleport.success", "%name%", goName);
-                GoManager.logGoUsage(player.getUniqueId(), go);
-                if (go.getChargeAmount() > 0) {
-                    if (go.isWhitelistcharge() || !go.isWhitelisted(player.getUniqueId())) {
-                        Mandatory.promptedPayment.remove(player);
-                        Mandatory.sendMessage(player, "messages.go.charged", "%charge%", String.valueOf(go.getChargeAmount()));
-                        MPlayer mPlayer = ApiedAPI.getPlayer(player);
-                        if (mPlayer != null) {
-                            mPlayer.removeBalance(go.getChargeAmount(), "{ \"type\": \"go\", \"subtype\": \"teleport\", \"goName\": \"" + go.getName() + "}");
-                        }
-                    }
-                }
+                teleportMethod(player, go, goName);
                 return;
             }
             if (teleportingPlayers.contains(player)) {
@@ -133,43 +91,46 @@ public class TeleportUtil {
                 return;
             }
             teleportingPlayers.add(player);
-            int cooldown = Mandatory.configuration.getTeleportCooldown();
+            int cooldown = Metropolis.configuration.getTeleportCooldown();
             Mandatory.getInstance().getServer().getScheduler().runTaskLater(Mandatory.getInstance(), () -> {
                 if (!teleportingPlayers.contains(player)) {
                     sendAfkMessages(player);
                     Mandatory.sendMessage(player, "messages.teleport.failed");
                     return;
                 }
-                sendAfkMessages(player);
-                Mandatory.backLocations.put(player, player.getLocation());
-                player.teleport(go.getLocation());
-                Mandatory.sendMessage(player, "messages.teleport.success", "%name%", goName);
-                GoManager.logGoUsage(player.getUniqueId(), go);
-                if (go.getChargeAmount() > 0) {
-                    if (go.isWhitelistcharge() || !go.isWhitelisted(player.getUniqueId())) {
-                        Mandatory.promptedPayment.remove(player);
-                        Mandatory.sendMessage(player, "messages.go.charged", "%charge%", String.valueOf(go.getChargeAmount()));
-                        MPlayer mPlayer = ApiedAPI.getPlayer(player);
-                        if (mPlayer != null) {
-                            mPlayer.removeBalance(go.getChargeAmount(), "{ \"type\": \"go\", \"subtype\": \"teleport\", \"goName\": \"" + go.getName() + "}");
-                        }
-                    }
-                }
+                teleportMethod(player, go, goName);
                 teleportingPlayers.remove(player);
             }, 20L * cooldown);
         } else {
             Mandatory.sendMessage(player, "messages.go.notOpen");
-            return;
+        }
+    }
+
+    private static void teleportMethod(Player player, Go go, String goName) {
+        sendAfkMessages(player);
+        Metropolis.backLocations.put(player, player.getLocation());
+        player.teleport(go.getLocation());
+        Mandatory.sendMessage(player, "messages.teleport.success", "%name%", goName);
+        GoManager.logGoUsage(player.getUniqueId(), go);
+        if (go.getChargeAmount() > 0) {
+            if (go.isWhitelistcharge() || !go.isWhitelisted(player.getUniqueId())) {
+                Mandatory.promptedPayment.remove(player);
+                Mandatory.sendMessage(player, "messages.go.charged", "%charge%", String.valueOf(go.getChargeAmount()));
+                MPlayer mPlayer = ApiedAPI.getPlayer(player);
+                if (mPlayer != null) {
+                    mPlayer.removeBalance(go.getChargeAmount(), "{ \"type\": \"go\", \"subtype\": \"teleport\", \"goName\": \"" + go.getName() + "}");
+                }
+            }
         }
     }
 
     public static void sendAfkMessages(Player player) {
-        if (Mandatory.afkPlayers.containsKey(player.getUniqueId())) {
-            List<Component> messages = Mandatory.afkPlayers.get(player.getUniqueId());
+        if (Metropolis.afkPlayers.containsKey(player.getUniqueId())) {
+            List<Component> messages = Metropolis.afkPlayers.get(player.getUniqueId());
             for (Component message : messages) {
                 player.sendMessage(message);
             }
-            Mandatory.afkPlayers.remove(player.getUniqueId());
+            Metropolis.afkPlayers.remove(player.getUniqueId());
         }
     }
 }

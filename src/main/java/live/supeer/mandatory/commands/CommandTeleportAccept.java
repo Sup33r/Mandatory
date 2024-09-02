@@ -7,7 +7,7 @@ import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.annotation.Private;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import live.supeer.mandatory.Mandatory;
-import live.supeer.mandatory.utils.TeleportUtil;
+import live.supeer.metropolis.utils.TeleportUtil;
 import org.bukkit.entity.Player;
 
 import java.util.List;

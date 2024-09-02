@@ -11,7 +11,6 @@ import live.supeer.mandatory.commands.*;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,8 +30,6 @@ public final class Mandatory extends JavaPlugin {
     private static Mandatory plugin;
     private static LanguageManager languageManager;
 
-    public static HashMap<Player, Location> backLocations = new HashMap<>();
-    public static HashMap<UUID, List<Component>> afkPlayers = new HashMap<>();
     public static List<Player> loveCooldown = new ArrayList<>();
     public static HashMap<Player, Player> replyPlayers = new HashMap<>();
     public static HashMap<Player, Player> teleportRequests = new HashMap<>();
@@ -199,7 +196,7 @@ public final class Mandatory extends JavaPlugin {
         manager.getCommandCompletions().registerAsyncCompletion("home1", c -> {
             MPlayer mPlayer = ApiedAPI.getPlayer(c.getPlayer());
             if (mPlayer == null || mPlayer.getHomes().isEmpty() || mPlayer.getHomes() == null) {
-                return ImmutableList.of("set, delete");
+                return ImmutableList.of("set", "delete");
             }
             ImmutableList.Builder<String> builder = ImmutableList.builder();
             mPlayer.getHomes().stream().map(Home::getName).forEach(builder::add);

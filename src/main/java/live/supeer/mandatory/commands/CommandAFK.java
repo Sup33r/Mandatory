@@ -8,6 +8,7 @@ import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.TeleportUtil;
+import live.supeer.metropolis.Metropolis;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -24,7 +25,7 @@ public class CommandAFK extends BaseCommand {
                 Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
-            if (Mandatory.afkPlayers.containsKey(player.getUniqueId())) {
+            if (Metropolis.afkPlayers.containsKey(player.getUniqueId())) {
                 Mandatory.sendMessage(player, "messages.afk.alreadyAfk");
                 return;
             }
@@ -34,7 +35,7 @@ public class CommandAFK extends BaseCommand {
                 Mandatory.sendMessage(player, "messages.error.permissionDenied");
                 return;
             }
-            if (Mandatory.afkPlayers.containsKey(target.getPlayer().getUniqueId())) {
+            if (Metropolis.afkPlayers.containsKey(target.getPlayer().getUniqueId())) {
                 Mandatory.sendMessage(player, "messages.afk.alreadyAfkOther", "%player%", target.getPlayer().getName());
                 return;
             }
