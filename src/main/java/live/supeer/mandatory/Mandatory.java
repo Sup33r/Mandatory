@@ -2,8 +2,10 @@ package live.supeer.mandatory;
 
 import co.aikar.commands.PaperCommandManager;
 import co.aikar.idb.DB;
+import com.github.retrooper.packetevents.PacketEvents;
 import com.google.common.collect.ImmutableList;
 import de.tr7zw.changeme.nbtapi.NBT;
+import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.Home;
 import live.supeer.apied.MPlayer;
@@ -36,6 +38,7 @@ public final class Mandatory extends JavaPlugin {
     public static HashMap<Player, Go> promptedPayment = new HashMap<>();
     public static List<Player> firstTimePlayer = new ArrayList<>();
     public static List<Player> kickedPlayers = new ArrayList<>();
+    public static List<Player> vanishedPlayers = new ArrayList<>();
     public static List<Player> bannedPlayers = new ArrayList<>();
     public static List<Player> mapOverride = new ArrayList<>();
     public static List<Player> chatOverride = new ArrayList<>();
@@ -46,6 +49,15 @@ public final class Mandatory extends JavaPlugin {
     public static Mandatory getInstance() {
         return plugin;
     }
+
+    @Override
+    public void onLoad() {
+        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
+        PacketEvents.getAPI().getSettings().checkForUpdates(true)
+                .reEncodeByDefault(false);
+        PacketEvents.getAPI().load();
+    }
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -105,7 +117,6 @@ public final class Mandatory extends JavaPlugin {
         }
         Database.initialize();
         ChannelManager.loadChannels();
-
         if (getServer().getPluginManager().getPlugin("Metropolis") != null) {
             getLogger().info("Metropolis found!");
         } else {
@@ -119,10 +130,13 @@ public final class Mandatory extends JavaPlugin {
             getLogger().warning("Apied not found. disabling plugin");
             getServer().getPluginManager().disablePlugin(this);
         }
+
+        PacketEvents.getAPI().init();
     }
 
     @Override
     public void onDisable() {
+        PacketEvents.getAPI().terminate();
         DB.close();
     }
     public static void sendMessage(

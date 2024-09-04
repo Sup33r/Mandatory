@@ -52,6 +52,11 @@
       <option name="url" value="file:///C:\Users\vikto/.m2/repository" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="codemc-releases" />
+      <option name="name" value="codemc-releases" />
+      <option name="url" value="https://repo.codemc.io/repository/maven-releases/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="aikar" />
       <option name="name" value="aikar" />
       <option name="url" value="https://repo.aikar.co/content/groups/aikar/" />

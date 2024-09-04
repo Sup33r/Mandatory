@@ -518,3 +518,9 @@ messages:
     noPlayers: "<red>Inga spelare i närheten.</red>"
     header: "<dark_green>--- <green>Spelare i närheten <dark_green>(<green>%radius%<dark_green>)<green> <dark_green>---"
     players: "<green>%players%"
+
+  vanish:
+    selfOff: "<aqua>Du är inte längre osynlig för andra spelare.</aqua>"
+    self: "<aqua>Du är nu osynlig för andra spelare.</aqua>"
+    otherOff: "<aqua>%player% är inte längre osynlig för andra spelare.</aqua>"
+    other: "<aqua>%player% är nu osynlig för andra spelare.</aqua>"

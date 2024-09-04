@@ -14,7 +14,7 @@ public class InfractionManager {
         Mandatory.kickedPlayers.add(player);
         player.kick(component);
         try {
-            DB.executeUpdate("INSERT INTO md_kicks (playerUUID, placerUUID, reason, dateTime) VALUES (?, ?, ?, ?)", player.getUniqueId().toString(), placer.getUniqueId().toString(), Database.sqlString(reason), DateUtil.getTimestamp());
+            DB.executeUpdate("INSERT INTO md_kicks (playerUUID, placerUUID, reason, dateTime) VALUES (?, ?, ?, ?)", player.getUniqueId().toString(), placer.getUniqueId().toString(), reason, DateUtil.getTimestamp());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

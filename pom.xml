@@ -73,6 +73,10 @@
                             <pattern>co.aikar.taskchain</pattern>
                             <shadedPattern>live.supeer.mandatory.taskchain</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>com.github.retrooper.packetevents</pattern>
+                            <shadedPattern>live.supeer.mandatory.packetevents</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
             </plugin>
@@ -106,6 +110,10 @@
             <id>codemc-repo</id>
             <url>https://repo.codemc.io/repository/maven-public/</url>
             <layout>default</layout>
+        </repository>
+        <repository>
+            <id>codemc-releases</id>
+            <url>https://repo.codemc.io/repository/maven-releases/</url>
         </repository>
     </repositories>
 
@@ -166,6 +174,12 @@
             <version>1.0-SNAPSHOT</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/../Apied/target/Apied-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.github.retrooper</groupId>
+            <artifactId>packetevents-spigot</artifactId>
+            <version>2.4.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

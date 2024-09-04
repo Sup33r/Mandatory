@@ -3,6 +3,8 @@ package live.supeer.mandatory;
 import co.aikar.idb.BukkitDB;
 import co.aikar.idb.DB;
 import live.supeer.mandatory.utils.DateUtil;
+import live.supeer.mandatory.utils.LocationUtil;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -117,6 +119,15 @@ public class Database {
                                 `charge` int(25) DEFAULT '0',
                                 PRIMARY KEY (`playerUUID`, `dateTime`, `goName`)
                               ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
+            DB.executeUpdate(
+                    """
+                              CREATE TABLE IF NOT EXISTS `md_deaths` (
+                                `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                `dateTime` bigint(30) DEFAULT NULL,
+                                `location` varchar(255) COLLATE utf8mb4_unicode_ci,
+                                `comment` text COLLATE utf8mb4_unicode_ci,
+                                PRIMARY KEY (`uuid`, `dateTime`)
+                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;""");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -130,7 +141,15 @@ public class Database {
             Mandatory.sendMessage(to, "messages.love.received.reason", "%player%", from.getName(), "%reason%", reason);
         }
         try {
-            DB.executeUpdate("INSERT INTO md_loves (playerUUID, senderUUID, reason, dateTime) VALUES (?, ?, ?, ?)", from.getUniqueId().toString(), to.getUniqueId().toString(), Database.sqlString(reason), DateUtil.getTimestamp());
+            DB.executeUpdate("INSERT INTO md_loves (playerUUID, senderUUID, reason, dateTime) VALUES (?, ?, ?, ?)", to.getUniqueId().toString(), from.getUniqueId().toString(), Database.sqlString(reason), DateUtil.getTimestamp());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void handleDeath(Player player, Location location, String comment) {
+        try {
+            DB.executeUpdate("INSERT INTO md_deaths (uuid, dateTime, location, comment) VALUES (?, ?, ?, ?)", player.getUniqueId().toString(), DateUtil.getTimestamp(), LocationUtil.formatLocation(location), comment);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
