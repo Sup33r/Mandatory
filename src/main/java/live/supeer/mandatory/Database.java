@@ -39,10 +39,6 @@ public class Database {
 //        }
 //    }
 
-    public static String sqlString(String string) {
-        return string == null ? "NULL" : "'" + string.replace("\\", "\\\\").replace("'", "\\'") + "'";
-    }
-
     public static void createTables() {
         try {
             DB.executeUpdate(
@@ -141,7 +137,7 @@ public class Database {
             Mandatory.sendMessage(to, "messages.love.received.reason", "%player%", from.getName(), "%reason%", reason);
         }
         try {
-            DB.executeUpdate("INSERT INTO md_loves (playerUUID, senderUUID, reason, dateTime) VALUES (?, ?, ?, ?)", to.getUniqueId().toString(), from.getUniqueId().toString(), Database.sqlString(reason), DateUtil.getTimestamp());
+            DB.executeUpdate("INSERT INTO md_loves (playerUUID, senderUUID, reason, dateTime) VALUES (?, ?, ?, ?)", to.getUniqueId().toString(), from.getUniqueId().toString(), reason, DateUtil.getTimestamp());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
