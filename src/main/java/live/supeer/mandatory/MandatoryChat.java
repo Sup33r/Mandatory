@@ -213,6 +213,7 @@ public class MandatoryChat {
 
     public static void sendPrivateMessage(Player player, Player target, String message) {
         boolean isAfk = Metropolis.afkPlayers.containsKey(target.getUniqueId());
+        target.playSound(target.getLocation(), "minecraft:entity.experience_orb.pickup", 1, 1);
         if (isAfk) {
             Date now = new Date();
             SimpleDateFormat format = new SimpleDateFormat("HH:mm");
