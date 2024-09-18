@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 @CommandAlias("admin|ad")
+@CommandPermission("mandatory.command.admin")
 public class CommandAdmin extends BaseCommand {
 
     @Default
@@ -80,7 +81,7 @@ public class CommandAdmin extends BaseCommand {
     }
 
     @Subcommand("disable")
-    public void onDisable(Player player, String name) throws SQLException {
+    public void onDisable(Player player, String name) {
         if (!player.hasPermission("mandatory.command.admin.disable")) {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
@@ -100,8 +101,8 @@ public class CommandAdmin extends BaseCommand {
     // c = chatcolor, d = deathmessage, e = externalprefix, g = greeting, i = insecureconnections, j = joinleaves, m = chestmessages, p = payments, t = teleport, v = vipprefi, s = stadsprefix | [GRÅ[Anka] GRÖN[B]] GUL[VIP] BLÅ[ADMIN]
 
     @Subcommand("toggle")
-    @CommandCompletion("@players @toggleable")
-    public void onToggle(Player player, String target, String action) throws SQLException {
+    @CommandCompletion("@players @adminToggleable")
+    public void onToggle(Player player, String target, String action) {
         if (!player.hasPermission("mandatory.command.admin.toggle")) {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
@@ -295,6 +296,48 @@ public class CommandAdmin extends BaseCommand {
                     Mandatory.sendMessage(player, "messages.admin.chat.override.enabled.others", "%player%", target.getPlayer().getName());
                 }
             }
+        }
+    }
+
+    @Subcommand("bannedwords")
+    public void onBannedWords(Player player) {
+        if (!player.hasPermission("mandatory.command.admin.bannedwords.list")) {
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
+            return;
+        }
+        Mandatory.sendMessage(player,"messages.admin.bannedwords.list", "%words%", String.join(", ", Mandatory.configuration.getBannedWords()));
+    }
+
+    @Subcommand("bannedwords")
+    public class BannedWords extends BaseCommand {
+        @Subcommand("add")
+        public void onAdd(Player player, String word) {
+            if (!player.hasPermission("mandatory.command.admin.bannedwords.add")) {
+                Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                return;
+            }
+            Mandatory.configuration.addBannedWord(word);
+            Mandatory.sendMessage(player,"messages.admin.bannedwords.added", "%word%", word);
+        }
+
+        @Subcommand("remove")
+        @CommandCompletion("@bannedwords")
+        public void onRemove(Player player, String word) {
+            if (!player.hasPermission("mandatory.command.admin.bannedwords.remove")) {
+                Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                return;
+            }
+            Mandatory.configuration.removeBannedWord(word);
+            Mandatory.sendMessage(player,"messages.admin.bannedwords.removed", "%word%", word);
+        }
+
+        @Subcommand("list")
+        public void onList(Player player) {
+            if (!player.hasPermission("mandatory.command.admin.bannedwords.list")) {
+                Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                return;
+            }
+            Mandatory.sendMessage(player,"messages.admin.bannedwords.list", "%words%", String.join(", ", Mandatory.configuration.getBannedWords()));
         }
     }
 }

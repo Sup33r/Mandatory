@@ -103,6 +103,12 @@ public class MandatoryConfiguration {
         save();
     }
 
+    public void removeBannedWord(String word) {
+        bannedWords.remove(word);
+        Mandatory.getInstance().getConfig().set("settings.bannedwords", bannedWords);
+        save();
+    }
+
     public void save() {
         Mandatory.getInstance().saveConfig();
     }

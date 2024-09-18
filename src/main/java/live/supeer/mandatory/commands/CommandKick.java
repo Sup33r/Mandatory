@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 @CommandAlias("kick")
 public class CommandKick extends BaseCommand {
     @Default
-    @CommandCompletion("@players @nothing")
+    @CommandCompletion("@players @reasons")
     public static void onKick(Player player, OnlinePlayer target, String reason) {
         if (!player.hasPermission("mandatory.command.kick")) {
             Mandatory.sendMessage(player,"messages.error.permissionDenied");
@@ -24,6 +24,10 @@ public class CommandKick extends BaseCommand {
         assert reason != null;
         if (reason.equals("language")) {
             reason = Mandatory.getMessage("messages.kick.reasons.language");
+        }
+        assert reason != null;
+        if (reason.equals("advertising")) {
+            reason = Mandatory.getMessage("messages.kick.reasons.advertising");
         }
         InfractionManager.kickPlayer(target.getPlayer(), player, reason);
         Mandatory.sendMessage(player, "messages.kick.successful", "%player%", target.getPlayer().getName(), "%reason%", reason);

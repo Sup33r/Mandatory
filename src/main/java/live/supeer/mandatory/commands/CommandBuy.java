@@ -47,6 +47,10 @@ public class CommandBuy extends BaseCommand {
             Mandatory.sendMessage(player, "messages.buy.broadcast.notEnoughMoney", "%price%", Utilities.formattedMoney(Mandatory.configuration.getBroadcastPrice()));
             return;
         }
+        if (MandatoryChat.isFilteredMessage(message, player)) {
+            MandatoryChat.handleFilteredMessage(message, player);
+            return;
+        }
         mPlayer.removeBalance(Mandatory.configuration.getBroadcastPrice(),"{ \"type\": \"buy\", \"subtype\": \"broadcast\", \"message\": \"" + message + "\"}");
         Mandatory.sendMessage(player, "messages.buy.broadcast.success", "%price%", Utilities.formattedMoney(Mandatory.configuration.getBroadcastPrice()));
         MandatoryChat.sendPublicBroadcast(player, message);

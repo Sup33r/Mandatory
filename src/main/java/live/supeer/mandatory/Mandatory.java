@@ -217,6 +217,13 @@ public final class Mandatory extends JavaPlugin {
             Player player = c.getPlayer();
             return new ArrayList<>(GoManager.getGoList(player).stream().map(Go::getName).toList());
         });
+        manager.getCommandCompletions().registerAsyncCompletion("bannedwords", c -> {
+            ImmutableList.Builder<String> builder = ImmutableList.builder();
+            for (String word : configuration.getBannedWords()) {
+                builder.add(word);
+            }
+            return builder.build();
+        });
         manager.getCommandCompletions().registerAsyncCompletion("go1", c -> ImmutableList.of("set", "give", "toggle", "whitelist"));
         manager.getCommandCompletions().registerAsyncCompletion("shopTypes", c -> ImmutableList.of("maxuses", "maxdailyuses", "maxdailyplayeruses", "maxplayeruses"));
         manager.getCommandCompletions().registerAsyncCompletion("shopToggles", c -> ImmutableList.of("admin"));
@@ -226,6 +233,7 @@ public final class Mandatory extends JavaPlugin {
         manager.getCommandCompletions().registerAsyncCompletion("channels", c -> ChannelManager.getChannelNames());
         manager.getCommandCompletions().registerAsyncCompletion("channelTypes", c -> ImmutableList.of("CITY", "GLOBAL", "MOD", "OTHER"));
         manager.getCommandCompletions().registerAsyncCompletion("home2", c -> ImmutableList.of("set", "delete"));
+        manager.getCommandCompletions().registerAsyncCompletion("reasons", c -> ImmutableList.of("language", "spam", "advertising"));
         manager.getCommandCompletions().registerAsyncCompletion("home1", c -> {
             MPlayer mPlayer = ApiedAPI.getPlayer(c.getPlayer());
             if (mPlayer == null || mPlayer.getHomes().isEmpty() || mPlayer.getHomes() == null) {

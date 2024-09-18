@@ -13,9 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class MandatoryChat {
 
@@ -71,12 +69,14 @@ public class MandatoryChat {
 
     public static void sendPublicBroadcast(Player player, String message) {
         for (Player onlinePlayer : Mandatory.getInstance().getServer().getOnlinePlayers()) {
+            onlinePlayer.playSound(onlinePlayer.getLocation(), "minecraft:entity.experience_orb.pickup", 1, 1);
             Mandatory.sendMessage(onlinePlayer, "messages.broadcast.public", "%player%", player.getName(), "%message%", Mandatory.cleanedMessage(message));
         }
     }
 
     public static void sendBroadcast(String message) {
         for (Player onlinePlayer : Mandatory.getInstance().getServer().getOnlinePlayers()) {
+            onlinePlayer.playSound(onlinePlayer.getLocation(), "minecraft:entity.experience_orb.pickup", 1, 1);
             Mandatory.sendMessage(onlinePlayer, "messages.broadcast.admin", "%message%", message);
         }
     }
@@ -129,6 +129,83 @@ public class MandatoryChat {
         return false;
     }
 
+    public static boolean isFilteredMessage(String message, Player player) {
+        if (player.hasPermission("mandatory.bypass.filter")) {
+            return false;
+        }
+        List<String> bannedWords = Mandatory.configuration.getBannedWords();
+        String lowerCaseMessage = message.toLowerCase();
+
+        Map<Character, Character> replacements = new HashMap<>();
+        replacements.put('a', '4');
+        replacements.put('e', '3');
+        replacements.put('i', '1');
+        replacements.put('o', '0');
+        replacements.put('s', '5');
+        replacements.put('t', '7');
+
+        for (String bannedWord : bannedWords) {
+            String lowerCaseBannedWord = bannedWord.toLowerCase();
+            if (lowerCaseMessage.contains(lowerCaseBannedWord)) {
+                return true;
+            }
+
+            StringBuilder regexBuilder = new StringBuilder();
+            for (char c : lowerCaseBannedWord.toCharArray()) {
+                if (replacements.containsKey(c)) {
+                    regexBuilder.append("[").append(c).append(replacements.get(c)).append("]");
+                } else {
+                    regexBuilder.append(c);
+                }
+            }
+            String regex = regexBuilder.toString();
+            if (lowerCaseMessage.matches(".*" + regex + ".*")) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static String outlinedBannedWords(String message) {
+        List<String> bannedWords = Mandatory.configuration.getBannedWords();
+        String lowerCaseMessage = message.toLowerCase();
+
+        Map<Character, Character> replacements = new HashMap<>();
+        replacements.put('a', '4');
+        replacements.put('e', '3');
+        replacements.put('i', '1');
+        replacements.put('o', '0');
+        replacements.put('s', '5');
+        replacements.put('t', '7');
+
+        for (String bannedWord : bannedWords) {
+            String lowerCaseBannedWord = bannedWord.toLowerCase();
+
+            // Replace exact match
+            message = message.replaceAll("(?i)" + lowerCaseBannedWord, "<#FF8D8D>" + bannedWord + "</#FF8D8D>");
+
+            // Replace variations with number replacements
+            StringBuilder regexBuilder = new StringBuilder();
+            for (char c : lowerCaseBannedWord.toCharArray()) {
+                if (replacements.containsKey(c)) {
+                    regexBuilder.append("[").append(c).append(replacements.get(c)).append("]");
+                } else {
+                    regexBuilder.append(c);
+                }
+            }
+            String regex = regexBuilder.toString();
+            message = message.replaceAll("(?i)" + regex, "<#FF8D8D>" + bannedWord + "</#FF8D8D>");
+        }
+
+        return message;
+    }
+
+    public static void handleFilteredMessage(String message, Player player) {
+        modChatAnnouncement(player.getName() + " försökte skicka ett meddelande som innehöll blockerade ord: <white>" + outlinedBannedWords(message));
+        Mandatory.sendMessage(player, "messages.chat.filtered");
+    }
+
     public static Component getTABPrefix(Player player) {
         MPlayer mPlayer = ApiedAPI.getPlayer(player);
         if (mPlayer == null) {
@@ -149,10 +226,6 @@ public class MandatoryChat {
         if (mPlayer == null) {
             return;
         }
-        if (isDuplicateMessage(player, message)) {
-            Mandatory.sendMessage(player, "messages.chat.duplicate");
-            return;
-        }
         if (mPlayer.hasFlag('c')) {
             message = "<aqua>" + message + "</aqua>";
         }
@@ -164,10 +237,6 @@ public class MandatoryChat {
         String message = component.content();
         MPlayer mPlayer = ApiedAPI.getPlayer(player);
         if (mPlayer == null) {
-            return;
-        }
-        if (isDuplicateMessage(player, message)) {
-            Mandatory.sendMessage(player, "messages.chat.duplicate");
             return;
         }
         if (mPlayer.hasFlag('c')) {
@@ -184,6 +253,10 @@ public class MandatoryChat {
         }
         if (isDuplicateMessage(player, message)) {
             Mandatory.sendMessage(player, "messages.chat.duplicate");
+            return;
+        }
+        if (MandatoryChat.isFilteredMessage(message, player)) {
+            MandatoryChat.handleFilteredMessage(message, player);
             return;
         }
         for (Player onlinePlayer : playerList) {
@@ -204,38 +277,55 @@ public class MandatoryChat {
             if (!mPlayer.isModzoneAccess()) {
                 message = Mandatory.cleanedMessage(message);
             }
-            if (isDuplicateMessage(player, message)) {
+            if (isDuplicateMessage(player, message) && !mPlayer.isModzoneAccess()) {
                 Mandatory.sendMessage(player, "messages.chat.duplicate");
                 return;
             }
+            if (MandatoryChat.isFilteredMessage(message, player)) {
+                MandatoryChat.handleFilteredMessage(message, player);
+                return;
+            }
+
+            // Check for mentions and highlight them
+            Map<Player, String> personalizedMessages = new HashMap<>();
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                String username = onlinePlayer.getName();
+                if (message.toLowerCase().contains(username.toLowerCase())) {
+                    onlinePlayer.playSound(onlinePlayer.getLocation(), "minecraft:entity.experience_orb.pickup", 1, 1);
+                    String personalizedMessage = message.replaceAll("(?i)" + username, "<#FFDE9F>" + username + "</#FFDE9F>");
+                    personalizedMessages.put(onlinePlayer, personalizedMessage);
+                }
+            }
+
             for (UUID memberUUID : channel.getMembers()) {
                 Player member = Bukkit.getPlayer(memberUUID);
                 if (member != null) {
+                    String finalMessage = personalizedMessages.getOrDefault(member, message);
                     if (channel.getType().equals(ChannelType.CITY)) {
                         String cityname = MetropolisAPI.getCityByName(channel.getName()).getCityName();
-                        Mandatory.sendMessage(member, "messages.chat.city", "%player%", player.getName(), "%message%", message, "%cityname%", cityname);
+                        Mandatory.sendMessage(member, "messages.chat.city", "%player%", player.getName(), "%message%", finalMessage, "%cityname%", cityname);
                         if (!memberUUID.equals(player.getUniqueId())) {
-                            Mandatory.getInstance().logger.info("[CITYCHAT] [" + cityname + "] " + player.getName() + ": " + message);
+                            Mandatory.getInstance().logger.info("[CITYCHAT] [" + cityname + "] " + player.getName() + ": " + finalMessage);
                         }
                         continue;
                     }
                     if (channel.getType().equals(ChannelType.MOD)) {
-                        Mandatory.sendMessage(member, "messages.chat.mod", "%player%", player.getName(), "%message%", message);
+                        Mandatory.sendMessage(member, "messages.chat.mod", "%player%", player.getName(), "%message%", finalMessage);
                         if (!memberUUID.equals(player.getUniqueId())) {
-                            Mandatory.getInstance().logger.info("[MODCHAT] " + player.getName() + ": " + message);
+                            Mandatory.getInstance().logger.info("[MODCHAT] " + player.getName() + ": " + finalMessage);
                         }
                         continue;
                     }
                     if (channel.getType().equals(ChannelType.GLOBAL)) {
-                        Mandatory.sendMessage(member, "messages.chat.global", "%player%", player.getName(), "%message%", message, "%prefixes%", getPrefix(player));
+                        Mandatory.sendMessage(member, "messages.chat.global", "%player%", player.getName(), "%message%", finalMessage, "%prefixes%", getPrefix(player));
                         if (!memberUUID.equals(player.getUniqueId())) {
-                            Mandatory.getInstance().logger.info("[GLOBAL] " + player.getName() + ": " + message);
+                            Mandatory.getInstance().logger.info("[GLOBAL] " + player.getName() + ": " + finalMessage);
                         }
                         continue;
                     }
-                    Mandatory.sendMessage(member, "messages.chat.other", "%player%", player.getName(), "%message%", message, "%channel%", channel.getName().toLowerCase());
+                    Mandatory.sendMessage(member, "messages.chat.other", "%player%", player.getName(), "%message%", finalMessage, "%channel%", channel.getName().toLowerCase());
                     if (!memberUUID.equals(player.getUniqueId())) {
-                        Mandatory.getInstance().logger.info("[CHANNEL] " + player.getName() + " -> " + channel.getName() + ": " + message);
+                        Mandatory.getInstance().logger.info("[CHANNEL] " + player.getName() + " -> " + channel.getName() + ": " + finalMessage);
                     }
                 }
             }
@@ -245,6 +335,10 @@ public class MandatoryChat {
     }
 
     public static void sendPrivateMessage(Player player, Player target, String message) {
+        if (MandatoryChat.isFilteredMessage(message, player)) {
+            MandatoryChat.handleFilteredMessage(message, player);
+            return;
+        }
         message = Mandatory.cleanedMessage(message);
         boolean isAfk = Metropolis.afkPlayers.containsKey(target.getUniqueId());
         target.playSound(target.getLocation(), "minecraft:entity.experience_orb.pickup", 1, 1);
@@ -270,6 +364,10 @@ public class MandatoryChat {
         message = Mandatory.cleanedMessage(message);
         if (isDuplicateMessage(player, message)) {
             Mandatory.sendMessage(player, "messages.chat.duplicate");
+            return;
+        }
+        if (MandatoryChat.isFilteredMessage(message, player)) {
+            MandatoryChat.handleFilteredMessage(message, player);
             return;
         }
         for (Player onlinePlayer : Mandatory.getInstance().getServer().getOnlinePlayers()) {

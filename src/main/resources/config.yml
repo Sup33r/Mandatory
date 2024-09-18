@@ -6,6 +6,7 @@ sql:
   password:
 
 settings:
+  bannedwords:
   disablednames:
   price:
     broadcast: 1500

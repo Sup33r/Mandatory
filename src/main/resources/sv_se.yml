@@ -221,8 +221,9 @@ messages:
     message: "<red>Du har fått en varning:</red>\n%reason%"
     successful: "<aqua>Du har varnat %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
     reasons:
+      advertising: "Vänligen gör ej reklam för andra servrar. Tack!"
       spam: "Vänligen spamma ej i chatten. Tack!"
-      language: "Ditt språkbruk uppskattas inte på EnServer. Vänligen tänk på det. Tack!"
+      language: "Vänligen tänk på ditt språkbruk och ton i chatten. Tack!"
 
   love:
     self: "<red>Du kan inte skicka kärlekshälsningar till dig själv...</red>"
@@ -347,6 +348,10 @@ messages:
   copyrighted: "<red>Föremålet du försöker kopiera är kopieringsskyddat.</red>"
 
   admin:
+    bannedwords:
+      added: "<green>Ordet %word% har lagts till i listan över blockerade ord.</green>"
+      removed: "<green>Ordet %word% har tagits bort från listan över blockerade ord.</green>"
+      list: "<dark_green>--- <green>Blockerade ord <dark_green>---\n<green>%words%</green>"
     chat:
       override:
         enabled:
@@ -406,6 +411,7 @@ messages:
     answered: "<aqua><click:open_url:%link%>Ditt supportärende med ID #%id% har besvarats.</click></aqua>"
 
   chat:
+    filtered: "<red>Ditt meddelande kunde inte skickas.</red>"
     duplicate: "<red>Du kan inte skicka samma meddelande två gånger i rad.</red>"
     tablist:
       header: "<white><bold>EnServer</bold></white>"
