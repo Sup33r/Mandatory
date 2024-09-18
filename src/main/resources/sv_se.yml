@@ -411,6 +411,10 @@ messages:
     answered: "<aqua><click:open_url:%link%>Ditt supportärende med ID #%id% har besvarats.</click></aqua>"
 
   chat:
+    groupedJoin: "<dark_green>[<green>+</green>] <gold>%players%</gold></dark_green>"
+    groupedJoinMany: "<dark_green>[<green>+</green>] <gold>Väldigt många (%count%!) spelare</gold></dark_green>"
+    groupedQuit: "<dark_red>[<red>-</red>] <gold>%players%</gold></dark_red>"
+    groupedQuitMany: "<dark_red>[<red>-</red>] <gold>Väldigt många (%count%) spelare</gold></dark_red>"
     filtered: "<red>Ditt meddelande kunde inte skickas.</red>"
     duplicate: "<red>Du kan inte skicka samma meddelande två gånger i rad.</red>"
     tablist:

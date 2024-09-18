@@ -394,4 +394,14 @@ public class MandatoryChat {
             onlinePlayer.sendMessage(message);
         }
     }
+
+    public static void sendJoinLeaveMessage(String message) {
+        for (Player onlinePlayer : Mandatory.getInstance().getServer().getOnlinePlayers()) {
+            MPlayer mPlayer = ApiedAPI.getPlayer(onlinePlayer);
+            if (mPlayer == null || mPlayer.hasFlag('j')) {
+                continue;
+            }
+            onlinePlayer.sendMessage(message);
+        }
+    }
 }

@@ -14,7 +14,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.title.TitlePart;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.*;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
@@ -32,10 +31,51 @@ import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 public class MandatoryListerner implements Listener {
+
+    private final List<String> joinMessages = new ArrayList<>();
+    private final List<String> quitMessages = new ArrayList<>();
+
+    public MandatoryListerner() {
+        startMessageBroadcastTask();
+    }
+
+    private void startMessageBroadcastTask() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                broadcastGroupedMessages();
+            }
+        }.runTaskTimer(Mandatory.getInstance(), 0, 100); // Adjust the delay and period as needed
+    }
+
+    private void broadcastGroupedMessages() {
+        if (!joinMessages.isEmpty()) {
+            String joinMessage;
+            if (joinMessages.size() > 30) {
+                joinMessage = Mandatory.getMessage("messages.chat.groupedJoinMany", "%count%", Integer.toString(joinMessages.size()));
+            } else {
+                joinMessage = Mandatory.getMessage("messages.chat.groupedJoin", "%players%", String.join(", ", joinMessages));
+            }
+            MandatoryChat.sendJoinLeaveMessage(joinMessage);
+            joinMessages.clear();
+        }
+        if (!quitMessages.isEmpty()) {
+            String quitMessage;
+            if (quitMessages.size() > 30) {
+                quitMessage = Mandatory.getMessage("messages.chat.groupedQuitMany", "%count%", Integer.toString(quitMessages.size()));
+            } else {
+                quitMessage = Mandatory.getMessage("messages.chat.groupedQuit", "%players%", String.join(", ", quitMessages));
+            }
+            MandatoryChat.sendJoinLeaveMessage(quitMessage);
+            quitMessages.clear();
+        }
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerLogin(PlayerLoginEvent event) {
@@ -72,16 +112,19 @@ public class MandatoryListerner implements Listener {
         }
         if (!event.getPlayer().hasPermission("mandatory.hide.join")) {
             if (Mandatory.firstTimePlayer.contains(event.getPlayer())) {
-                event.joinMessage(Mandatory.getMessageComponent("messages.chat.joinFirstTime", "%player%", event.getPlayer().getName()));
+                event.joinMessage(null);
+                MandatoryChat.sendJoinLeaveMessage(Mandatory.getMessage("messages.chat.joinFirstTime", "%player%", event.getPlayer().getName()));
                 Mandatory.firstTimePlayer.remove(event.getPlayer());
             } else if (!Objects.equals(mPlayer.getName(), event.getPlayer().getName())) {
-                event.joinMessage(Mandatory.getMessageComponent("messages.chat.joinNameChange", "%name%", event.getPlayer().getName(), "%oldname%", mPlayer.getName()));
+                event.joinMessage(null);
+                MandatoryChat.sendJoinLeaveMessage(Mandatory.getMessage("messages.chat.joinNameChange", "%name%", event.getPlayer().getName(), "%oldname%", mPlayer.getName()));
                 mPlayer.changeName(event.getPlayer().getName());
             } else {
-                event.joinMessage(Mandatory.getMessageComponent("messages.chat.join", "%player%", event.getPlayer().getName()));
+                joinMessages.add(event.getPlayer().getName());
+                event.joinMessage(null);
             }
         } else {
-            event.joinMessage(Mandatory.getMessageComponent("messages.chat.hidden"));
+            event.joinMessage(null);
             // TODO: Logga till console att saker händer!
         }
         Component prefix = MandatoryChat.getTABPrefix(event.getPlayer());
@@ -110,16 +153,19 @@ public class MandatoryListerner implements Listener {
         ApiedAPI.removePlayer(mPlayer);
         if (!event.getPlayer().hasPermission("mandatory.hide.quit")) {
             if (Mandatory.kickedPlayers.contains(event.getPlayer())) {
-                event.quitMessage(Mandatory.getMessageComponent("messages.chat.kicked", "%player%", event.getPlayer().getName()));
+                event.quitMessage(null);
+                MandatoryChat.sendJoinLeaveMessage(Mandatory.getMessage("messages.chat.kicked", "%player%", event.getPlayer().getName()));
                 Mandatory.kickedPlayers.remove(event.getPlayer());
             } else if (Mandatory.bannedPlayers.contains(event.getPlayer())) {
-                event.quitMessage(Mandatory.getMessageComponent("messages.chat.banned", "%player%", event.getPlayer().getName()));
+                event.quitMessage(null);
+                MandatoryChat.sendJoinLeaveMessage(Mandatory.getMessage("messages.chat.banned", "%player%", event.getPlayer().getName()));
                 Mandatory.bannedPlayers.remove(event.getPlayer());
             } else {
-                event.quitMessage(Mandatory.getMessageComponent("messages.chat.quit", "%player%", event.getPlayer().getName()));
+                quitMessages.add(event.getPlayer().getName());
+                event.quitMessage(null);
             }
         } else {
-            event.quitMessage(Mandatory.getMessageComponent("messages.chat.hidden"));
+            event.quitMessage(null);
         }
         Mandatory.firstTimePlayer.remove(event.getPlayer());
         Mandatory.promptedPayment.remove(event.getPlayer());
