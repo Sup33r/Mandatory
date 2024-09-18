@@ -27,12 +27,16 @@ public class CommandMessage extends BaseCommand {
         }
         MPlayer mTarget = MPlayerManager.getPlayerFromPlayer(target.getPlayer());
         MPlayer mPlayer = MPlayerManager.getPlayerFromPlayer(player);
+        if (mPlayer.getUuid().equals(mTarget.getUuid())) {
+            Mandatory.sendMessage(player, "messages.message.cantMessageSelf");
+            return;
+        }
         if (mTarget.getIgnores().contains(player.getUniqueId())) {
-            Mandatory.sendMessage(player, "messages.error.ignored");
+            Mandatory.sendMessage(player, "messages.message.ignored");
             return;
         }
         if (mPlayer.getIgnores().contains(mTarget.getUuid())) {
-            Mandatory.sendMessage(player, "messages.error.ignoring");
+            Mandatory.sendMessage(player, "messages.message.ignoring");
             return;
         }
         MandatoryChat.sendPrivateMessage(player, target.getPlayer(), message);

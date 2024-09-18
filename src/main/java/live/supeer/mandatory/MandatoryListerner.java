@@ -88,6 +88,11 @@ public class MandatoryListerner implements Listener {
         if (prefix != null) {
             event.getPlayer().playerListName(prefix);
         }
+        final Component header = Mandatory.getMessageComponent("messages.chat.tablist.header");
+        final Component footer = Mandatory.getMessageComponent("messages.chat.tablist.footer");
+        assert header != null;
+        assert footer != null;
+        event.getPlayer().sendPlayerListHeaderAndFooter(header, footer);
     }
 
     @EventHandler

@@ -1,8 +1,11 @@
 package live.supeer.mandatory.commands;
 
+import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
+import live.supeer.mandatory.Ban;
 import live.supeer.mandatory.Mandatory;
+import live.supeer.metropolis.Metropolis;
 import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
 import java.io.OutputStream;
@@ -14,7 +17,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 @CommandAlias("login")
-public class CommandLogin {
+public class CommandLogin extends BaseCommand {
 
     private static final long COOLDOWN_TIME = 5000;
     private static final Map<UUID, Long> lastUsage = new HashMap<>();
@@ -25,7 +28,7 @@ public class CommandLogin {
         long currentTime = System.currentTimeMillis();
 
         if (lastUsage.containsKey(playerUUID) && (currentTime - lastUsage.get(playerUUID)) < COOLDOWN_TIME) {
-            player.sendMessage("messages.error.cooldown");
+            Metropolis.sendMessage(player, "messages.error.cooldown");
             return;
         }
 
@@ -63,13 +66,13 @@ public class CommandLogin {
 
                 String responseLink = response.toString();
                 Bukkit.getScheduler().runTask(Mandatory.getInstance(), () -> {
-                    player.sendMessage(responseLink);
+                    Mandatory.sendMessage(player, "messages.login.successful", "%link%", responseLink);
                 });
 
             } catch (Exception e) {
                 e.printStackTrace();
                 Bukkit.getScheduler().runTask(Mandatory.getInstance(), () -> {
-                    player.sendMessage("Ett fel uppstod när du försökte logga in. Försök igen senare.");
+                    Mandatory.sendMessage(player, "messages.login.error");
                 });
             }
         });

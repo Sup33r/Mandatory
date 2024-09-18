@@ -45,7 +45,7 @@ public class LanguageManager {
             } catch (IOException e) {
                 plugin
                         .getLogger()
-                        .log(Level.WARNING, "[Metropolis] Unable to load resource " + locale + ".yml", e);
+                        .log(Level.WARNING, "Unable to load resource " + locale + ".yml", e);
                 localeConfigDefaults = new YamlConfiguration();
             }
         }
@@ -60,7 +60,7 @@ public class LanguageManager {
             } catch (IOException e) {
                 plugin
                         .getLogger()
-                        .log(Level.WARNING, "[Metropolis] Unable to save resource " + locale + ".yml", e);
+                        .log(Level.WARNING, "Unable to save resource " + locale + ".yml", e);
             }
         } else {
             localeConfig = YamlConfiguration.loadConfiguration(file);
@@ -83,13 +83,13 @@ public class LanguageManager {
             if (!newKeys.isEmpty()) {
                 plugin
                         .getLogger()
-                        .info("[Metropolis] Added new language keys: " + String.join(", ", newKeys));
+                        .info("Added new language keys: " + String.join(", ", newKeys));
                 try {
                     localeConfig.save(file);
                 } catch (IOException e) {
                     plugin
                             .getLogger()
-                            .log(Level.WARNING, "[Metropolis] Unable to save resource " + locale + ".yml", e);
+                            .log(Level.WARNING, "Unable to save resource " + locale + ".yml", e);
                 }
             }
         }
@@ -112,13 +112,7 @@ public class LanguageManager {
             }
 
             if (!newKeys.isEmpty()) {
-                plugin
-                        .getLogger()
-                        .info(
-                                "[Metropolis] Missing translations from "
-                                        + locale
-                                        + ".yml: "
-                                        + String.join(", ", newKeys));
+                //plugin.getLogger().info("Missing translations from " + locale + ".yml: " + String.join(", ", newKeys));
             }
 
             // Fall through to default locale

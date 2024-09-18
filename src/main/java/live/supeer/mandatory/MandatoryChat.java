@@ -58,7 +58,7 @@ public class MandatoryChat {
                         continue;
                     }
                     recieved = true;
-                    Mandatory.sendMessage(onlinePlayer, "messages.helpop.message", "%player%", player.getName(), "%message%", message);
+                    Mandatory.sendMessage(onlinePlayer, "messages.helpop.message", "%player%", player.getName(), "%message%", Mandatory.cleanedMessage(message));
                 }
             }
         }
@@ -71,7 +71,7 @@ public class MandatoryChat {
 
     public static void sendPublicBroadcast(Player player, String message) {
         for (Player onlinePlayer : Mandatory.getInstance().getServer().getOnlinePlayers()) {
-            Mandatory.sendMessage(onlinePlayer, "messages.broadcast.public", "%player%", player.getName(), "%message%", message);
+            Mandatory.sendMessage(onlinePlayer, "messages.broadcast.public", "%player%", player.getName(), "%message%", Mandatory.cleanedMessage(message));
         }
     }
 
@@ -119,6 +119,16 @@ public class MandatoryChat {
         }
     }
 
+    public static boolean isDuplicateMessage(Player player, String message) {
+        if (Mandatory.lastMessage.containsKey(player)) {
+            if (Mandatory.lastMessage.get(player).equals(message)) {
+                return true;
+            }
+        }
+        Mandatory.lastMessage.put(player, message);
+        return false;
+    }
+
     public static Component getTABPrefix(Player player) {
         MPlayer mPlayer = ApiedAPI.getPlayer(player);
         if (mPlayer == null) {
@@ -139,6 +149,10 @@ public class MandatoryChat {
         if (mPlayer == null) {
             return;
         }
+        if (isDuplicateMessage(player, message)) {
+            Mandatory.sendMessage(player, "messages.chat.duplicate");
+            return;
+        }
         if (mPlayer.hasFlag('c')) {
             message = "<aqua>" + message + "</aqua>";
         }
@@ -150,6 +164,10 @@ public class MandatoryChat {
         String message = component.content();
         MPlayer mPlayer = ApiedAPI.getPlayer(player);
         if (mPlayer == null) {
+            return;
+        }
+        if (isDuplicateMessage(player, message)) {
+            Mandatory.sendMessage(player, "messages.chat.duplicate");
             return;
         }
         if (mPlayer.hasFlag('c')) {
@@ -164,6 +182,10 @@ public class MandatoryChat {
         if (playerList == null) {
             return;
         }
+        if (isDuplicateMessage(player, message)) {
+            Mandatory.sendMessage(player, "messages.chat.duplicate");
+            return;
+        }
         for (Player onlinePlayer : playerList) {
             Mandatory.sendMessage(onlinePlayer, "messages.chat.meeting", "%player%", player.getName(), "%message%", message);
         }
@@ -173,6 +195,17 @@ public class MandatoryChat {
         if (channel != null) {
             if (channel.isDisabled() && !Mandatory.chatOverride.contains(player)) {
                 Mandatory.sendMessage(player, "messages.chat.channelDisabled");
+                return;
+            }
+            MPlayer mPlayer = ApiedAPI.getPlayer(player);
+            if (mPlayer == null) {
+                return;
+            }
+            if (!mPlayer.isModzoneAccess()) {
+                message = Mandatory.cleanedMessage(message);
+            }
+            if (isDuplicateMessage(player, message)) {
+                Mandatory.sendMessage(player, "messages.chat.duplicate");
                 return;
             }
             for (UUID memberUUID : channel.getMembers()) {
@@ -212,6 +245,7 @@ public class MandatoryChat {
     }
 
     public static void sendPrivateMessage(Player player, Player target, String message) {
+        message = Mandatory.cleanedMessage(message);
         boolean isAfk = Metropolis.afkPlayers.containsKey(target.getUniqueId());
         target.playSound(target.getLocation(), "minecraft:entity.experience_orb.pickup", 1, 1);
         if (isAfk) {
@@ -233,6 +267,11 @@ public class MandatoryChat {
     }
 
     public static void sendMeMessage(Player player, String message) {
+        message = Mandatory.cleanedMessage(message);
+        if (isDuplicateMessage(player, message)) {
+            Mandatory.sendMessage(player, "messages.chat.duplicate");
+            return;
+        }
         for (Player onlinePlayer : Mandatory.getInstance().getServer().getOnlinePlayers()) {
             Mandatory.sendMessage(onlinePlayer, "messages.me", "%player%", player.getName(), "%message%", message);
         }

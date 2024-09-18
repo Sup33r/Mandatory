@@ -83,6 +83,7 @@ messages:
     noReply: "<red>Det finns ingen att svara på.</red>"
 
   message:
+    cantMessageSelf: "<red>Du kan inte skicka meddelanden till dig själv...</red>"
     ignored: "<red>Spelaren i fråga ignorerar dig.</red>"
     ignoring: "<red>Du ignorerar spelaren i fråga.</red>"
     received: "<dark_red>[<red>%sender% -> dig<dark_red>] <white>%message%</white>"
@@ -395,7 +396,20 @@ messages:
         global: "<green>Din primära chattkanal är nu #global.</green>"
         city: "<green>Din primära chattkanal är nu #%channel%.</green>"
 
+  login:
+    successful: "<aqua><click:open_url:%link%>Klicka här för att logga in...</click></aqua>"
+    error: "Ett fel uppstod när du försökte logga in. Försök igen senare."
+
+  ticket:
+    modzoneNew: "<click:open_url:%link%>Ett nytt supportärende har skapats av %player%. Klicka här för att ta del av det.</click>"
+    new: "<aqua><click:open_url:%link%>Ett supportärende har skapats åt dig. Klicka här för att ta del av det.</click></aqua>"
+    answered: "<aqua><click:open_url:%link%>Ditt supportärende med ID #%id% har besvarats.</click></aqua>"
+
   chat:
+    duplicate: "<red>Du kan inte skicka samma meddelande två gånger i rad.</red>"
+    tablist:
+      header: "<white><bold>EnServer</bold></white>"
+      footer: "<white><bold>IP:</bold> enserver.se</white>"
     noActiveChannel: "<red>Du har ingen aktiv chattkanal.</red>"
     channelDisabled: "<red>Chattkanalen är tillfälligt inaktiverad.</red>"
     prefix:

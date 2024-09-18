@@ -27,7 +27,7 @@ public class CommandModchat extends BaseCommand {
             Mandatory.sendMessage(player, "messages.modchat.doesNotExist");
             return;
         }
-        if (!ChannelManager.getChannels(player).contains("modzone")) {
+        if (!ChannelManager.getPlayerChannels(player).contains("modzone")) {
             Mandatory.sendMessage(player, "messages.modchat.missing.channel");
             return;
         }

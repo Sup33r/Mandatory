@@ -3,6 +3,7 @@ package live.supeer.mandatory;
 import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
 import live.supeer.metropolis.MetropolisAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -25,7 +26,7 @@ public class ChannelManager {
 
     public static void initiatePlayer(Player player) {
         try {
-            DbRow playerRow = DB.getFirstRow("SELECT * FROM md_players WHERE uuid = ?", player.getUniqueId());
+            DbRow playerRow = DB.getFirstRow("SELECT * FROM md_players WHERE uuid = ?", player.getUniqueId().toString());
             if (playerRow != null) {
                 Channel activeChannel = getChannel(playerRow.getString("chatChannel"));
                 if (activeChannel != null) {
@@ -33,8 +34,8 @@ public class ChannelManager {
                 }
             }
             List<Channel> playerChannels = new ArrayList<>();
-            List<DbRow> rows = DB.getResults("SELECT * FROM md_channelmembers WHERE playerUUID = ?", player.getUniqueId());
-            if (rows.isEmpty()) {
+            var dbRows = DB.getResults("SELECT * FROM md_channelmembers WHERE playerUUID = ?", player.getUniqueId().toString());
+            if (dbRows.isEmpty()) {
                 for (Channel channel : channels.values()) {
                     if (channel.getType().equals(ChannelType.GLOBAL)) {
                         if (!player.hasPermission("mandatory.chat."+channel.getName().toLowerCase())) {
@@ -47,7 +48,7 @@ public class ChannelManager {
                     }
                 }
             } else {
-                for (DbRow row : rows) {
+                for (DbRow row : dbRows) {
                     String channelName = row.getString("channelName");
                     Channel channel = getChannel(channelName);
                     if (channel != null) {

@@ -9,10 +9,7 @@ import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.TeleportUtil;
 import live.supeer.metropolis.Metropolis;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
 
 @CommandAlias("afk")
 public class CommandAFK extends BaseCommand {

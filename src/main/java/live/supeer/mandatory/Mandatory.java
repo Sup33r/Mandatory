@@ -17,6 +17,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,9 +47,18 @@ public final class Mandatory extends JavaPlugin {
     public static HashMap<UUID, Long> startTime = new HashMap<>();
     public static HashMap<UUID, Channel> activeChannel = new HashMap<>();
     public static HashMap<UUID, List<Channel>> playerChannels = new HashMap<>();
+    public static HashMap<Player, String> lastMessage = new HashMap<>();
 
     public static Mandatory getInstance() {
         return plugin;
+    }
+
+    public static JSONObject parseJSON(String requestBody) {
+        try {
+            return (JSONObject) new JSONParser().parse(requestBody);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -88,6 +99,7 @@ public final class Mandatory extends JavaPlugin {
         manager.registerCommand(new CommandHomes());
         manager.registerCommand(new CommandIgnore());
         manager.registerCommand(new CommandKick());
+        manager.registerCommand(new CommandLogin());
         manager.registerCommand(new CommandLove());
         manager.registerCommand(new CommandMe());
         manager.registerCommand(new CommandMessage());
@@ -117,6 +129,9 @@ public final class Mandatory extends JavaPlugin {
         }
         Database.initialize();
         ChannelManager.loadChannels();
+
+        WebsiteConnection.startServer();
+
         if (getServer().getPluginManager().getPlugin("Metropolis") != null) {
             getLogger().info("Metropolis found!");
         } else {
@@ -190,6 +205,10 @@ public final class Mandatory extends JavaPlugin {
         } else {
             return getInstance().getConfig().getString("settings.locale", "sv_se");
         }
+    }
+
+    public static String cleanedMessage(String message) {
+        return message.replaceAll("<[^>]*>", "");
     }
 
     public static void registerCompletions(PaperCommandManager manager) {

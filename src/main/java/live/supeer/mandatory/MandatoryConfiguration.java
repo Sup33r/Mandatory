@@ -37,6 +37,8 @@ public class MandatoryConfiguration {
 
     private final List<String> allowedCommands;
 
+    private final List<String> bannedWords;
+
     MandatoryConfiguration(Mandatory plugin) {
         plugin.saveDefaultConfig();
         plugin.reloadConfig();
@@ -68,6 +70,7 @@ public class MandatoryConfiguration {
         copyrightPrice = plugin.getConfig().getInt("settings.price.copyright");
 
         disabledNames = plugin.getConfig().getStringList("settings.disablednames");
+        bannedWords = plugin.getConfig().getStringList("settings.bannedwords");
     }
 
     public void setFirstSpawnLocation(Location location) {
@@ -91,6 +94,12 @@ public class MandatoryConfiguration {
     public void addDisabledName(String name) {
         disabledNames.add(name);
         Mandatory.getInstance().getConfig().set("settings.disablednames", disabledNames);
+        save();
+    }
+
+    public void addBannedWord(String word) {
+        bannedWords.add(word);
+        Mandatory.getInstance().getConfig().set("settings.bannedwords", bannedWords);
         save();
     }
 
