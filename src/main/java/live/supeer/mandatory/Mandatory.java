@@ -90,6 +90,7 @@ public final class Mandatory extends JavaPlugin {
         manager.registerCommand(new CommandChat());
         manager.registerCommand(new CommandChest());
         manager.registerCommand(new CommandCityChat());
+        manager.registerCommand(new CommandDiscord());
         manager.registerCommand(new CommandFeed());
         manager.registerCommand(new CommandFly());
         manager.registerCommand(new CommandGamemode());
@@ -131,6 +132,13 @@ public final class Mandatory extends JavaPlugin {
         ChannelManager.loadChannels();
 
         WebsiteConnection.startServer();
+
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "proxie:proxie");
+        if (getServer().getMessenger().isOutgoingChannelRegistered(this, "proxie:proxie")) {
+            getLogger().info("Channel registered successfully");
+        } else {
+            getLogger().severe("Channel failed to register!");
+        }
 
         if (getServer().getPluginManager().getPlugin("Metropolis") != null) {
             getLogger().info("Metropolis found!");

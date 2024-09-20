@@ -8,6 +8,7 @@ import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.metropolis.MetropolisAPI;
+import live.supeer.metropolis.acf.annotation.CommandPermission;
 import live.supeer.metropolis.utils.TeleportUtil;
 import live.supeer.metropolis.Metropolis;
 import org.bukkit.Location;
@@ -21,12 +22,9 @@ public class CommandBack extends BaseCommand {
 
     @Default
     @CommandCompletion("@players")
+    @CommandPermission("mandatory.command.back")
     public void onBack(Player player, @Optional OnlinePlayer target) {
         if (target == null) {
-            if (!player.hasPermission("mandatory.command.back")) {
-                Mandatory.sendMessage(player, "messages.error.permissionDenied");
-                return;
-            }
             if (!Metropolis.backLocations.containsKey(player)) {
                 Mandatory.sendMessage(player, "messages.error.noBackLocation");
                 return;

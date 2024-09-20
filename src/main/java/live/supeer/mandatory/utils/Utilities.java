@@ -1,7 +1,10 @@
 package live.supeer.mandatory.utils;
 
+import live.supeer.apied.Apied;
 import live.supeer.apied.Home;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.text.NumberFormat;
 import java.util.*;
@@ -114,5 +117,14 @@ public class Utilities {
                 || material == Material.RED_SHULKER_BOX
                 || material == Material.WHITE_SHULKER_BOX
                 || material == Material.YELLOW_SHULKER_BOX;
+    }
+
+    public static String getHoverInfo(ItemStack item) {
+        String itemId = item.getType().getKey().toString().toLowerCase();
+        if (Apied.configuration.getBannedPreviewItems().contains(itemId)) {
+            return "<hover:show_item:'" + itemId + "':" + 1 + ">";
+        }
+        String hoverString = Apied.componentToMiniMessage(Component.text().hoverEvent(item).asComponent());
+        return hoverString.replaceAll(":(\\d+):", ":1:");
     }
 }

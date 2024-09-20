@@ -2,10 +2,9 @@ package live.supeer.mandatory.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Subcommand;
-import de.tr7zw.changeme.nbtapi.NBT;
-import de.tr7zw.changeme.nbtapi.iface.ReadWriteNBT;
 import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.*;
@@ -13,17 +12,12 @@ import live.supeer.mandatory.utils.PlayerHeadUtil;
 import live.supeer.mandatory.utils.Utilities;
 import live.supeer.metropolis.Metropolis;
 import live.supeer.metropolis.MetropolisAPI;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.Objects;
 
 @CommandAlias("buy")
+@CommandPermission("mandatory.command.buy")
 public class CommandBuy extends BaseCommand {
 
     @Default

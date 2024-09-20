@@ -1,10 +1,7 @@
 package live.supeer.mandatory.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Optional;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import live.supeer.mandatory.ChannelManager;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.Utilities;
@@ -13,6 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 @CommandAlias("chat")
+@CommandPermission("mandatory.command.chat")
 public class CommandChat extends BaseCommand {
 
     @Default

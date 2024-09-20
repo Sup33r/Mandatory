@@ -14,6 +14,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.title.TitlePart;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.*;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
@@ -23,6 +25,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.CrafterCraftEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -114,6 +117,10 @@ public class MandatoryListerner implements Listener {
             if (Mandatory.firstTimePlayer.contains(event.getPlayer())) {
                 event.joinMessage(null);
                 MandatoryChat.sendJoinLeaveMessage(Mandatory.getMessage("messages.chat.joinFirstTime", "%player%", event.getPlayer().getName()));
+                Location firstSpawn = Mandatory.configuration.getFirstSpawnLocation();
+                if (firstSpawn != null) {
+                    event.getPlayer().teleport(firstSpawn);
+                }
                 Mandatory.firstTimePlayer.remove(event.getPlayer());
             } else if (!Objects.equals(mPlayer.getName(), event.getPlayer().getName())) {
                 event.joinMessage(null);
@@ -452,8 +459,110 @@ public class MandatoryListerner implements Listener {
         }
     }
 
+
+
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
+        EntityDamageEvent.DamageCause cause = event.getEntity().getLastDamageCause().getCause();
+        if (cause.equals(EntityDamageEvent.DamageCause.VOID)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.void", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.CAMPFIRE)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.fire", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.explosion", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.FALL)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.fall", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.FIRE)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.fire", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.FIRE_TICK)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.fire", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.LAVA)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.lava", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.DROWNING)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.drowning", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.LIGHTNING)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.lightning", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.MAGIC)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.magic", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.POISON)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.poison", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.WITHER)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.common", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.SUFFOCATION)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.suffocation", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.STARVATION)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.starvation", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.CONTACT)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.contact", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.CRAMMING)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.cramming", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.CUSTOM)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.common", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.DRAGON_BREATH)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.dragon_breath", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.DRYOUT)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.dryout", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.FALLING_BLOCK)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.falling_block", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.FLY_INTO_WALL)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.fly_into_wall", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.FREEZE)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.freeze", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.HOT_FLOOR)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.hot_floor", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.MELTING)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.melting", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.SONIC_BOOM)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.sonic_boom", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.SUICIDE)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.common", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.THORNS)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.thorns", "%player%", event.getPlayer().getName()));
+        } else if (cause.equals(EntityDamageEvent.DamageCause.WORLD_BORDER)) {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.world_border", "%player%", event.getPlayer().getName()));
+        }
+
+        if (event.getEntity().getKiller() != null) {
+            if (event.getEntity().getKiller().getInventory().getItemInMainHand().clone().isEmpty()) {
+                event.deathMessage(Mandatory.getMessageComponent("messages.death.kill", "%player%", event.getPlayer().getName(), "%killer%", event.getEntity().getName()));
+            } else {
+                ItemStack itemStack = event.getEntity().getKiller().getInventory().getItemInMainHand().clone();
+                String weaponName = "";
+                if (itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName()) {
+                    TextComponent displayName = (TextComponent) itemStack.getItemMeta().displayName();
+                    assert displayName != null;
+                    weaponName = displayName.content();
+                } else {
+                    weaponName = itemStack.getType().isBlock()
+                            ? "<lang:block.minecraft." + itemStack.getType().getKey().getKey() + ">"
+                            : "<lang:item.minecraft." + itemStack.getType().getKey().getKey() + ">";
+                }
+                if (itemStack.getType() != Material.WRITTEN_BOOK || itemStack.getType() != Material.WRITABLE_BOOK) {
+                    event.deathMessage(Mandatory.getMessageComponent("messages.death.killWeapon", "%player%", event.getPlayer().getName(), "%killer%", event.getEntity().getName(), "%weaponName%", weaponName, "%weapon%", Utilities.getHoverInfo(itemStack)));
+                } else {
+                event.deathMessage(Mandatory.getMessageComponent("messages.death.kill", "%player%", event.getPlayer().getName(), "%killer%", event.getEntity().getName()));
+                }
+            }
+        } else {
+            event.deathMessage(Mandatory.getMessageComponent("messages.death.common", "%player%", event.getPlayer().getName()));
+        }
         Database.handleDeath(event.getPlayer(), event.getPlayer().getLocation().toBlockLocation(), event.getDeathMessage());
+    }
+
+    @EventHandler
+    public void onKick(PlayerKickEvent e) {
+        if (e.getCause().equals(PlayerKickEvent.Cause.FLYING_PLAYER) || e.getCause().equals(PlayerKickEvent.Cause.FLYING_VEHICLE)) {
+            MandatoryChat.modChatAnnouncement(Mandatory.getRawMessage("messages.modchat.messages.flying", "%player%", e.getPlayer().getName()));
+        }
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent e) {
+        Location location = Mandatory.configuration.getSpawnLocation();
+        if (!e.isAnchorSpawn() || !e.isBedSpawn()) {
+            if (location != null) {
+                e.setRespawnLocation(location);
+            }
+        }
     }
 }

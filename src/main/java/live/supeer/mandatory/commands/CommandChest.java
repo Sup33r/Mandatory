@@ -8,7 +8,6 @@ import co.aikar.commands.annotation.Subcommand;
 import live.supeer.apied.*;
 import live.supeer.mandatory.Mandatory;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 
 @CommandAlias("chest")
 public class CommandChest extends BaseCommand {

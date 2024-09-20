@@ -9,18 +9,16 @@ import live.supeer.apied.MPlayer;
 import live.supeer.apied.MPlayerManager;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.MandatoryChat;
+import live.supeer.metropolis.acf.annotation.CommandPermission;
 import org.bukkit.entity.Player;
 
-@CommandAlias("message|msg")
+@CommandAlias("message|msg|tell|whisper|w")
 public class CommandMessage extends BaseCommand {
 
     @Default
     @CommandCompletion("@players")
+    @CommandPermission("mandatory.command.message")
     public void onMessage(Player player, OnlinePlayer target, String message) {
-        if (!player.hasPermission("mandatory.command.message")) {
-            Mandatory.sendMessage(player, "messages.error.permissionDenied");
-            return;
-        }
         if (target == null) {
             Mandatory.sendMessage(player, "messages.error.playerNotFound");
             return;

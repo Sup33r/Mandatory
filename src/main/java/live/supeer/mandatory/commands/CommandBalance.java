@@ -8,6 +8,7 @@ import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.Utilities;
+import live.supeer.metropolis.acf.annotation.CommandPermission;
 import org.bukkit.entity.Player;
 
 @CommandAlias("balance|b|bal")
@@ -15,13 +16,10 @@ public class CommandBalance extends BaseCommand {
 
     @Default
     @CommandCompletion("@players")
+    @CommandPermission("mandatory.command.balance")
     public void onBalance(Player player, String[] args) {
 
         if (args.length == 0) {
-            if (!player.hasPermission("mandatory.command.balance")) {
-                Mandatory.sendMessage(player,"messages.error.permissionDenied");
-                return;
-            }
             MPlayer mPlayer = ApiedAPI.getPlayer(player);
             assert mPlayer != null;
             Mandatory.sendMessage(player, "messages.balance.own", "%balance%", Utilities.formattedMoney(mPlayer.getBalance()));

@@ -9,6 +9,7 @@ import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.TeleportUtil;
 import live.supeer.metropolis.Metropolis;
+import live.supeer.metropolis.acf.annotation.CommandPermission;
 import org.bukkit.entity.Player;
 
 @CommandAlias("afk")
@@ -16,12 +17,9 @@ public class CommandAFK extends BaseCommand {
 
     @Default
     @CommandCompletion("@players")
+    @CommandPermission("mandatory.command.afk")
     public static void onAFK(Player player, @Optional OnlinePlayer target) {
         if (target == null) {
-            if (!player.hasPermission("mandatory.command.afk")) {
-                Mandatory.sendMessage(player, "messages.error.permissionDenied");
-                return;
-            }
             if (Metropolis.afkPlayers.containsKey(player.getUniqueId())) {
                 Mandatory.sendMessage(player, "messages.afk.alreadyAfk");
                 return;
