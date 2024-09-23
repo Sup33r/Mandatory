@@ -379,6 +379,7 @@ messages:
     disablename:
       success: "<green>Namnet %name% har nu blockerats från servern.</green>"
     set:
+      syntax: "<gray>Syntax: /admin set <underlined>namn</underlined> chatprefix <underlined>prefix</underlined>\nSyntax: /admin set afk\nSyntax: /admin set spawn\nSyntax: /admin set firstspawn"
       chatprefix:
         removed: "<green>Chattprefixen för %player% har tagits bort.</green>"
         success: "<green>Chattprefixen för %player% har uppdaterats.</green>"

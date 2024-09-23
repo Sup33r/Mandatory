@@ -7,6 +7,7 @@ import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.ChestManager;
 import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.*;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -141,7 +142,7 @@ public class CommandAdmin extends BaseCommand {
     }
 
     @Subcommand("set")
-    @CommandCompletion("@adminSettable")
+    @CommandCompletion("@adminSettable @players @nothing")
     public void onSet(Player player, String[] args) {
         if (!player.hasPermission("mandatory.command.admin.set")) {
             Mandatory.sendMessage(player, "messages.error.permissionDenied");
@@ -200,6 +201,10 @@ public class CommandAdmin extends BaseCommand {
                     prefix.append(args[i]).append(" ");
                 }
                 mPlayer.setChatprefix(prefix.toString());
+                Player target = Bukkit.getPlayer(mPlayer.getUuid());
+                if (target != null) {
+                    target.playerListName(MandatoryChat.getTABPrefix(target));
+                }
                 Mandatory.sendMessage(player,"messages.admin.set.chatprefix.success", "%player%", mPlayer.getName());
             }
         }

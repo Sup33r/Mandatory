@@ -35,7 +35,7 @@ public class CommandLogin extends BaseCommand {
         lastUsage.put(playerUUID, currentTime);
 
         if (!player.hasPermission("mandatory.command.login")) {
-            player.sendMessage("messages.error.permissionDenied");
+            Mandatory.sendMessage(player,"messages.error.permissionDenied");
             return;
         }
 

@@ -3,12 +3,12 @@ package live.supeer.mandatory.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
 import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.MPlayer;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.Utilities;
-import live.supeer.metropolis.acf.annotation.CommandPermission;
 import org.bukkit.entity.Player;
 
 @CommandAlias("balance|b|bal")

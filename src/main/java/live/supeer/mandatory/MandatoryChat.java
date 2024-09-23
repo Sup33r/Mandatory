@@ -212,7 +212,7 @@ public class MandatoryChat {
             return null;
         }
         if (mPlayer.getChatprefix() != null && !mPlayer.getChatprefix().isEmpty()) {
-            return Mandatory.stringToMiniMessage(mPlayer.getChatprefix() + " " + player.getName());
+            return Mandatory.stringToMiniMessage(mPlayer.getChatprefix() + player.getName());
         }
         if (player.hasPermission("mandatory.mod")) {
             return Mandatory.getMessageComponent("messages.chat.prefix.tab.mod", "%player%", player.getName());

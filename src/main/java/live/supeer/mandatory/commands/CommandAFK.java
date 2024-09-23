@@ -5,11 +5,11 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Optional;
+import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import live.supeer.mandatory.Mandatory;
 import live.supeer.mandatory.utils.TeleportUtil;
 import live.supeer.metropolis.Metropolis;
-import live.supeer.metropolis.acf.annotation.CommandPermission;
 import org.bukkit.entity.Player;
 
 @CommandAlias("afk")

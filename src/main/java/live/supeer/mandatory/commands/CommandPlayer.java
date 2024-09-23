@@ -31,7 +31,7 @@ public class CommandPlayer extends BaseCommand {
             return;
         }
         Mandatory.sendMessage(player, "messages.player.info.header", "%name%", mPlayer.getName());
-        Mandatory.sendMessage(player, "messages.player.info.playedSince", "%date%", DateUtil.formatDate(mPlayer.getFirstJoin()));
+        Mandatory.sendMessage(player, "messages.player.info.playedSince", "%time%", DateUtil.formatDate(mPlayer.getFirstJoin()));
         if (MPlayerManager.getPlayers().contains(mPlayer)) {
             Mandatory.sendMessage(player, "messages.player.info.status.online", "%playedSince%", DateUtil.formatDateDiff(mPlayer.getLatestJoin()));
         } else {
