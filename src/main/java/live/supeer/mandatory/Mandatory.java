@@ -114,6 +114,7 @@ public final class Mandatory extends JavaPlugin {
         manager.registerCommand(new CommandRepair());
         manager.registerCommand(new CommandReply());
         manager.registerCommand(new CommandShop());
+        manager.registerCommand(new CommandSign());
         manager.registerCommand(new CommandSpawn());
         manager.registerCommand(new CommandSpeed());
         manager.registerCommand(new CommandTeleportAccept());

@@ -598,3 +598,9 @@ messages:
   lagg:
     lagging: "<red>Servern verkar lagga för tillfället.</red>"
     notLagging: "<green>Servern laggar inte för tillfället.</green>"
+
+  sign:
+    cancel: "<green>Redigeringen av skylten har avbrutits.</green>"
+    syntax: "<gray>Syntax: /sign <underlined>rad</underlined>"
+    invalidRow: "<red>Ogiltig rad. Vänligen använd rad 1-4.</red>"
+    editing: "<green>Redigeringen av skyltrad %row% har påbörjats. Klicka på en skylt med en pinne för att fullfölja.</green>"
