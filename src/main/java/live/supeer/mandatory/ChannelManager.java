@@ -168,8 +168,19 @@ public class ChannelManager {
     public static void deleteChannel(String name) {
         name = name.replace("#", "");
         try {
-            DB.executeUpdate("DELETE FROM md_channels WHERE channelName = ?", name.toLowerCase());
-            channels.remove(name);
+            Channel channel = channels.get(name.toLowerCase());
+            if (channel != null) {
+                // Update all members to the global channel
+                for (UUID memberUUID : channel.getMembers()) {
+                    Player player = Bukkit.getPlayer(memberUUID);
+                    if (player != null) {
+                        setActiveChannel(player, "global");
+                    }
+                }
+                // Remove the channel from the database and the map
+                DB.executeUpdate("DELETE FROM md_channels WHERE channelName = ?", name.toLowerCase());
+                channels.remove(name.toLowerCase());
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

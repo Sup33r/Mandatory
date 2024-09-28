@@ -134,7 +134,7 @@ public class MandatoryListerner implements Listener {
             event.joinMessage(null);
             // TODO: Logga till console att saker händer!
         }
-        Component prefix = MandatoryChat.getTABPrefix(event.getPlayer());
+        Component prefix = ApiedAPI.getTABPrefix(event.getPlayer(), false);
         if (prefix != null) {
             event.getPlayer().playerListName(prefix);
         }
@@ -182,6 +182,7 @@ public class MandatoryListerner implements Listener {
         Mandatory.startTime.remove(mPlayer.getUuid());
         Mandatory.activeChannel.remove(mPlayer.getUuid());
         Mandatory.playerChannels.remove(mPlayer.getUuid());
+        Apied.goSigns.remove(event.getPlayer());
     }
 
     @EventHandler

@@ -100,6 +100,7 @@ public final class Mandatory extends JavaPlugin {
         manager.registerCommand(new CommandHomes());
         manager.registerCommand(new CommandIgnore());
         manager.registerCommand(new CommandKick());
+        manager.registerCommand(new CommandLagg());
         manager.registerCommand(new CommandLogin());
         manager.registerCommand(new CommandLove());
         manager.registerCommand(new CommandMe());
@@ -232,7 +233,7 @@ public final class Mandatory extends JavaPlugin {
             }
             return builder.build();
         });
-        manager.getCommandCompletions().registerAsyncCompletion("go1", c -> ImmutableList.of("set", "give", "toggle", "whitelist"));
+        manager.getCommandCompletions().registerAsyncCompletion("go1", c -> ImmutableList.of("set", "give", "toggle", "whitelist", "sign"));
         manager.getCommandCompletions().registerAsyncCompletion("shopTypes", c -> ImmutableList.of("maxuses", "maxdailyuses", "maxdailyplayeruses", "maxplayeruses"));
         manager.getCommandCompletions().registerAsyncCompletion("shopToggles", c -> ImmutableList.of("admin"));
         manager.getCommandCompletions().registerAsyncCompletion("adminToggleable", c -> ImmutableList.of("chatcolor", "extprefix"));

@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static live.supeer.metropolis.utils.TeleportUtil.teleportingPlayers;
 
@@ -29,6 +30,7 @@ public class TeleportUtil {
             Metropolis.backLocations.put(player, player.getLocation());
             player.teleport(afkLocation);
             Metropolis.afkPlayers.put(player.getUniqueId(), new ArrayList<>());
+            Objects.requireNonNull(player.getPlayer()).playerListName(ApiedAPI.getTABPrefix(player.getPlayer(), true));
             Mandatory.sendMessage(player, "messages.teleport.success","%name%", Mandatory.getMessage("messages.names.afk"));
             return;
         }
@@ -49,6 +51,7 @@ public class TeleportUtil {
             Metropolis.backLocations.put(player, player.getLocation());
             player.teleport(afkLocation);
             Metropolis.afkPlayers.put(player.getUniqueId(), new ArrayList<>());
+            Objects.requireNonNull(player.getPlayer()).playerListName(ApiedAPI.getTABPrefix(player.getPlayer(), true));
             Mandatory.sendMessage(player, "messages.teleport.success", "%name%", Mandatory.getMessage("messages.names.afk"));
             teleportingPlayers.remove(player);
         }, 20L * cooldown);
@@ -130,6 +133,7 @@ public class TeleportUtil {
             for (Component message : messages) {
                 player.sendMessage(message);
             }
+            Objects.requireNonNull(player.getPlayer()).playerListName(ApiedAPI.getTABPrefix(player.getPlayer(), false));
             Metropolis.afkPlayers.remove(player.getUniqueId());
         }
     }

@@ -203,7 +203,7 @@ public class CommandAdmin extends BaseCommand {
                 mPlayer.setChatprefix(prefix.toString());
                 Player target = Bukkit.getPlayer(mPlayer.getUuid());
                 if (target != null) {
-                    target.playerListName(MandatoryChat.getTABPrefix(target));
+                    target.playerListName(ApiedAPI.getTABPrefix(target, false));
                 }
                 Mandatory.sendMessage(player,"messages.admin.set.chatprefix.success", "%player%", mPlayer.getName());
             }

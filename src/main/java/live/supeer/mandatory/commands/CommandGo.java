@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Default;
+import live.supeer.apied.Apied;
 import live.supeer.apied.MPlayer;
 import live.supeer.apied.MPlayerManager;
 import live.supeer.mandatory.*;
@@ -114,6 +115,15 @@ public class CommandGo extends BaseCommand {
                     Mandatory.sendMessage(player, "messages.go.info.latestUse", "%latestUse%", DateUtil.formatDate(GoManager.getLatestUse(go)));
                     String price = go.getChargeAmount() == 0 ? Mandatory.getMessage("messages.free") : go.getChargeAmount() + " encoins";
                     Mandatory.sendMessage(player, "messages.go.info.price", "%price%", price);
+                    return;
+                }
+                case "sign" -> {
+                    if (!player.hasPermission("mandatory.command.go.sign") || !go.getOwnerUUID().equals(player.getUniqueId()) && !player.hasPermission("mandatory.command.go.sign.others")) {
+                        Mandatory.sendMessage(player, "messages.error.permissionDenied");
+                        return;
+                    }
+                    Apied.goSigns.put(player, go.getName());
+                    Mandatory.sendMessage(player, "messages.go.sign.started", "%name%", go.getName());
                     return;
                 }
             }

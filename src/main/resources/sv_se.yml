@@ -157,6 +157,8 @@ messages:
     notRepairable: "<red>Föremålet i din hand kan inte repareras.</red>"
 
   go:
+    sign:
+      started: "<green>Du har påbörjat bindningen av teleporteringspunkten %name% till en skylt.\nKlicka på skylten som du vill binda den till, med en pinne.</green>"
     cityNotAllowed: "<red>Du har inte go-rättigheter där %name% befinner sig.</red>"
     set:
       chargeamount:
@@ -184,7 +186,7 @@ messages:
       removed: "<green>%player% har tagits bort från vitlistan för <dark_green>%name%</dark_green>.</green>"
       alreadyAdded: "<red>%player% är redan med på vitlistan för <dark_red>%name%</dark_red>.</red>"
       alreadyRemoved: "<red>%player% är inte med på vitlistan för <dark_red>%name%</dark_red>.</red>"
-    syntax: "<gray>Syntax: /go <underlined>namn</underlined>\n/go <underlined>namn</underlined> give <underlined>spelare</underlined>\n/go <underlined>namn</underlined> set displayname <underlined>visningsnamn</underlined>\n/go <underlined>namn</underlined> set displayname -\n/go <underlined>namn</underlined> set price <underlined>pris</underlined>\n/go <underlined>namn</underlined> set price -\n/go <underlined>namn</underlined> toggle open\n/go <underlined>namn</underlined> toggle whitelistcharge\n/go <underlined>namn</underlined> whitelist\n/go <underlined>namn</underlined> whitelist +<underlined>spelare</underlined>\n/go <underlined>namn</underlined> whitelist -<underlined>spelare</underlined>"
+    syntax: "<gray>Syntax: /go <underlined>namn</underlined>\n/go <underlined>namn</underlined> sign\n/go <underlined>namn</underlined> give <underlined>spelare</underlined>\n/go <underlined>namn</underlined> set displayname <underlined>visningsnamn</underlined>\n/go <underlined>namn</underlined> set displayname -\n/go <underlined>namn</underlined> set price <underlined>pris</underlined>\n/go <underlined>namn</underlined> set price -\n/go <underlined>namn</underlined> toggle open\n/go <underlined>namn</underlined> toggle whitelistcharge\n/go <underlined>namn</underlined> whitelist\n/go <underlined>namn</underlined> whitelist +<underlined>spelare</underlined>\n/go <underlined>namn</underlined> whitelist -<underlined>spelare</underlined>"
     deleted: "<green>Teleporteringspunkten %name% har tagits bort.</green>"
     info:
       header: "<dark_green>--- <green>Teleporteringspunkt: %name% <dark_green>---"
@@ -399,9 +401,9 @@ messages:
     missing:
       city: "<red>Du är inte medlem i någon stad.</red>"
       channel: "<red>Du är inte medlem i någon chattkanal.</red>"
-      switched:
-        global: "<green>Din primära chattkanal är nu #global.</green>"
-        city: "<green>Din primära chattkanal är nu #%channel%.</green>"
+    switched:
+      global: "<green>Din primära chattkanal är nu #global.</green>"
+      city: "<green>Din primära chattkanal är nu #%channel%.</green>"
 
   login:
     successful: "<aqua><click:open_url:%link%>Klicka här för att logga in...</click></aqua>"
@@ -428,7 +430,7 @@ messages:
       tab:
         mod: "<dark_aqua>[</dark_aqua><aqua>M</aqua><dark_aqua>]</dark_aqua> %player%"
       vip: "<hover:show_text:'<green>VIP-medlem</green>'><dark_green>[</dark_green><green>VIP</green><dark_green>]</dark_green></hover> "
-      mod: "<hover:show_text:'<aqua>Moderator</aqua>'><dark_aqua>[</dark_aqua><aqua>MOD</aqua><dark_aqua>]</dark_aqua></hover> "
+      mod: "<hover:show_text:'<aqua>Moderator</aqua>'><dark_aqua>[</dark_aqua><aqua>M</aqua><dark_aqua>]</dark_aqua></hover> "
       city:
         name: "<dark_gray>[</dark_gray><gray>%cityname%</gray><dark_gray>]</dark_gray> "
         role:
@@ -581,3 +583,18 @@ messages:
     killWeapon: "<gray>%player% dödades av %killer% med %weapon%%weaponName%</hover></gray>"
 
   discord: "<aqua><click:open_url:https://enserver.se/discord>Klicka här för att ansluta dig till vår Discord-server.</click></aqua>"
+
+  online:
+    header: "<dark_green>--- <green>Spelare online <dark_green>(%count%)<green> <dark_green>---"
+    admin:
+      header: "<dark_green>Administratörer:</dark_green>"
+    mod:
+      header: "<dark_green>Moderatorer:</dark_green>"
+    player:
+      header: "<dark_green>Spelare:</dark_green>"
+    list: "<green>%list%"
+    empty: "<green></green>"
+
+  lagg:
+    lagging: "<red>Servern verkar lagga för tillfället.</red>"
+    notLagging: "<green>Servern laggar inte för tillfället.</green>"

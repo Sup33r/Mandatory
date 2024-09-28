@@ -206,20 +206,6 @@ public class MandatoryChat {
         Mandatory.sendMessage(player, "messages.chat.filtered");
     }
 
-    public static Component getTABPrefix(Player player) {
-        MPlayer mPlayer = ApiedAPI.getPlayer(player);
-        if (mPlayer == null) {
-            return null;
-        }
-        if (mPlayer.getChatprefix() != null && !mPlayer.getChatprefix().isEmpty()) {
-            return Mandatory.stringToMiniMessage(mPlayer.getChatprefix() + player.getName());
-        }
-        if (player.hasPermission("mandatory.mod")) {
-            return Mandatory.getMessageComponent("messages.chat.prefix.tab.mod", "%player%", player.getName());
-        }
-        return null;
-    }
-
     public static void sendMessage(Player player, TextComponent component) {
         String message = component.content();
         MPlayer mPlayer = ApiedAPI.getPlayer(player);

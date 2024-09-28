@@ -58,10 +58,6 @@
                             <shadedPattern>live.supeer.mandatory.nbtapi</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>co.aikar.commands</pattern>
-                            <shadedPattern>live.supeer.mandatory.acf</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>co.aikar.locales</pattern>
                             <shadedPattern>live.supeer.mandatory.locales</shadedPattern>
                         </relocation>
