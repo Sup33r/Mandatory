@@ -19,7 +19,10 @@ import java.util.UUID;
 public class CopyrightManager {
 
     public static boolean hasCopyright(ItemStack itemStack) {
-       return NBT.get(itemStack, nbt -> nbt.getString("copyrighter") != null);
+        return NBT.get(itemStack, nbt -> {
+            String copyrighter = nbt.getString("copyrighter");
+            return copyrighter != null && !copyrighter.isEmpty();
+        });
     }
 
     public static UUID getCopyrighter(ItemStack itemStack) {

@@ -10,7 +10,6 @@ import live.supeer.mandatory.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 
 @CommandAlias("admin|ad")
@@ -190,22 +189,22 @@ public class CommandAdmin extends BaseCommand {
                     Mandatory.sendMessage(player, "messages.error.permissionDenied");
                     return;
                 }
-                if (args[1].equalsIgnoreCase("-")) {
+                if (args[2].equalsIgnoreCase("-")) {
                     mPlayer.removeChatprefix();
-                    Mandatory.sendMessage(player,"messages.admin.set.chatprefix.removed", "%player%", mPlayer.getName());
+                    Mandatory.sendMessage(player, "messages.admin.set.chatprefix.removed", "%player%", mPlayer.getName());
                     return;
                 }
-                //make a string of all the args after the first one
+                //make a string of all the args after the first two
                 StringBuilder prefix = new StringBuilder();
                 for (int i = 2; i < args.length; i++) {
                     prefix.append(args[i]).append(" ");
                 }
-                mPlayer.setChatprefix(prefix.toString());
+                mPlayer.setChatprefix(prefix.toString().trim());
                 Player target = Bukkit.getPlayer(mPlayer.getUuid());
                 if (target != null) {
-                    target.playerListName(ApiedAPI.getTABPrefix(target, false));
+                    target.playerListName(Mandatory.stringToMiniMessage(mPlayer.getChatprefix() + target.getName()));
                 }
-                Mandatory.sendMessage(player,"messages.admin.set.chatprefix.success", "%player%", mPlayer.getName());
+                Mandatory.sendMessage(player, "messages.admin.set.chatprefix.success", "%player%", mPlayer.getName());
             }
         }
     }

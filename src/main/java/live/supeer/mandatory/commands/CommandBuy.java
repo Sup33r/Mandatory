@@ -103,7 +103,7 @@ public class CommandBuy extends BaseCommand {
     @Subcommand("copyright")
     public void onCopyright(Player player) {
         if (!player.hasPermission("mandatory.command.buy.copyright")) {
-            Mandatory.sendMessage(player,"messages.error.permissionDenied");
+            Mandatory.sendMessage(player, "messages.error.permissionDenied");
             return;
         }
         MPlayer mPlayer = ApiedAPI.getPlayer(player);
@@ -122,10 +122,15 @@ public class CommandBuy extends BaseCommand {
             Mandatory.sendMessage(player, "messages.buy.copyright.notCopyrightable");
             return;
         }
+        if (CopyrightManager.hasCopyright(item)) {
+            Mandatory.sendMessage(player, "messages.buy.copyright.alreadyCopyrighted");
+            return;
+        }
         ItemStack itemStack = CopyrightManager.createCopyright(player, item);
-        //player.getInventory().getItemInMainHand().setAmount(0);
+        assert itemStack != null;
+        player.getInventory().setItemInMainHand(null);
         player.getInventory().addItem(itemStack);
-        mPlayer.removeBalance(Mandatory.configuration.getCopyrightPrice(),"{ \"type\": \"buy\", \"subtype\": \"copyright\"}");
+        mPlayer.removeBalance(Mandatory.configuration.getCopyrightPrice(), "{ \"type\": \"buy\", \"subtype\": \"copyright\"}");
         Mandatory.sendMessage(player, "messages.buy.copyright.success", "%price%", Utilities.formattedMoney(Mandatory.configuration.getCopyrightPrice()));
     }
 }

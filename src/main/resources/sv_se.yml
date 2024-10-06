@@ -49,7 +49,7 @@ messages:
     cancelledSelf: "<green>Avbröt teleporteringsförfrågan till %target%."
     cancelledOther: "<aqua>%player% avbröt teleporteringsförfrågan till dig."
     sentSelf: "<green>Förgrågan om teleportering har skickats till %target%."
-    sentOther: "<aqua>%player% vill teleportera till dig.\nSvara med <dark_aqua>/tpyes<aqua> eller <dark_aqua>/tpno<aqua>."
+    sentOther: "<aqua>%player% vill teleportera till dig.\nSvara med <dark_aqua><click:run_command:/tpyes>/tpyes</click><aqua> eller <dark_aqua><click:run_command:/tpno>/tpno<aqua></click>."
     noRequest: "<red>Du har inga teleporteringsförfrågningar att acceptera/neka.</red>"
     accept:
       noRequestPlayer: "<red>%player% har inte skickat någon teleporteringsförfrågan.</red>"
@@ -242,6 +242,7 @@ messages:
       notCopyrightable: "<red>Föremålet du håller i handen kan inte kopieringsskyddas.</red>"
       noItemInHand: "<red>Vänligen håll det du vill kopieringsskydda i handen.</red>"
       notEnoughMoney: "<red>Du har inte råd med %price% encoins, som ett kopieringsskydd kostar.</red>"
+      alreadyCopyrighted: "<red>Föremålet du håller i handen är redan kopieringsskyddat.</red>"
     head:
       notEnoughMoney: "<red>Du har inte råd med %price% encoins, som ett exemplar av ditt huvud kostar.</red>"
       success: "<green>Du har köpt ett exemplar av ditt huvud för %price% encoins.</green>"
@@ -394,7 +395,7 @@ messages:
     enable:
       alreadyEnabled: "<red>Spelaren i fråga är redan aktiverad.</red>"
       success: "<green>Du har aktiverat spelaren %player%.</green>"
-    syntax: "<gray>Syntax: /admin disable <underlined>namn</underlined>\nSyntax: /admin enable <underlined>namn</underlined>\nSyntax: /admin toggle chatcolor <underlined>namn</underlined>\nSyntax: /admin toggle extprefix <underlined>namn</underlined>\nSyntax: /admin set <underlined>namn</underlined> chatprefix <underlined>prefix</underlined>\nSyntax: /admin set afk\nSyntax: /admin set spawn\nSyntax: /admin set firstspawn"
+    syntax: "<gray>Syntax: /admin disable <underlined>namn</underlined>\nSyntax: /admin enable <underlined>namn</underlined>\nSyntax: /admin toggle chatcolor <underlined>namn</underlined>\nSyntax: /admin toggle extprefix <underlined>namn</underlined>\nSyntax: /admin set chatprefix <underlined>namn</underlined> <underlined>prefix</underlined>\nSyntax: /admin set afk\nSyntax: /admin set spawn\nSyntax: /admin set firstspawn"
 
 
   citychat:
@@ -428,9 +429,9 @@ messages:
     channelDisabled: "<red>Chattkanalen är tillfälligt inaktiverad.</red>"
     prefix:
       tab:
-        mod: "<dark_aqua>[</dark_aqua><aqua>M</aqua><dark_aqua>]</dark_aqua> %player%"
+        mod: "<#FF3561> %player%"
       vip: "<hover:show_text:'<green>VIP-medlem</green>'><dark_green>[</dark_green><green>VIP</green><dark_green>]</dark_green></hover> "
-      mod: "<hover:show_text:'<aqua>Moderator</aqua>'><dark_aqua>[</dark_aqua><aqua>M</aqua><dark_aqua>]</dark_aqua></hover> "
+      mod: "<hover:show_text:'<#FF3561>Moderator</#FF3561>'><#FF3561>ᴍᴏᴅ</hover> "
       city:
         name: "<dark_gray>[</dark_gray><gray>%cityname%</gray><dark_gray>]</dark_gray> "
         role:
@@ -582,7 +583,7 @@ messages:
     kill: "<gray>%player% dödades av %killer%.</gray>"
     killWeapon: "<gray>%player% dödades av %killer% med %weapon%%weaponName%</hover></gray>"
 
-  discord: "<aqua><click:open_url:https://enserver.se/discord>Klicka här för att ansluta dig till vår Discord-server.</click></aqua>"
+  discord: "<#5865F2><click:open_url:https://enserver.se/discord>Klicka här för att ansluta dig till vår Discord-server.</click></#5865F2>"
 
   online:
     header: "<dark_green>--- <green>Spelare online <dark_green>(%count%)<green> <dark_green>---"
