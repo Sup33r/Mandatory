@@ -16,22 +16,34 @@ import net.kyori.adventure.title.TitlePart;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.*;
 import org.bukkit.block.Chest;
+import org.bukkit.block.data.Bisected;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.type.Slab;
+import org.bukkit.block.data.type.Stairs;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.CrafterCraftEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDismountEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.DoubleChestInventory;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -174,6 +186,19 @@ public class MandatoryListerner implements Listener {
         } else {
             event.quitMessage(null);
         }
+
+        if (event.getPlayer().isInsideVehicle() && event.getPlayer().getVehicle() instanceof ArmorStand) {
+            Entity vehicle = event.getPlayer().getVehicle();
+            if (vehicle.hasMetadata("stair")) {
+                vehicle.remove();
+            }
+            Location loc = Mandatory.sitLocations.get(event.getPlayer());
+            if (loc != null) {
+                event.getPlayer().teleport(loc);
+                Mandatory.sitLocations.remove(event.getPlayer());
+            }
+        }
+
         Mandatory.firstTimePlayer.remove(event.getPlayer());
         Mandatory.promptedPayment.remove(event.getPlayer());
         Metropolis.afkPlayers.remove(event.getPlayer().getUniqueId());
@@ -563,6 +588,83 @@ public class MandatoryListerner implements Listener {
         if (!e.isAnchorSpawn() || !e.isBedSpawn()) {
             if (location != null) {
                 e.setRespawnLocation(location);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onSit(PlayerInteractEvent e) {
+        if (e.getHand() == null || !e.getHand().equals(EquipmentSlot.HAND)) return;
+        if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
+
+        Block block = e.getClickedBlock();
+        assert block != null;
+        BlockData blockData = block.getBlockData();
+
+        if (blockData instanceof Stairs bisected) {
+            if (!bisected.getHalf().equals(Bisected.Half.BOTTOM)) return;
+        } else if (blockData instanceof Slab) {
+            if (!((Slab) blockData).getType().equals(Slab.Type.BOTTOM)) return;
+        }
+
+        if (!(blockData instanceof Stairs) && !(blockData instanceof Slab)) return;
+
+        if (!block.getRelative(0, 1, 0).getType().equals(Material.AIR)) return;
+
+        Player player = e.getPlayer();
+        if (player.isSneaking()) return;
+        if (!player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) return;
+        if (player.isInsideVehicle()) return;
+        if (!player.hasPermission("mandatory.sit")) return;
+
+        e.setCancelled(true);
+
+        Location loc = block.getLocation();
+
+        loc.add(0.5, -1.4, 0.5);
+
+        if (blockData instanceof Directional) {
+            BlockFace facing = ((Directional) blockData).getFacing();
+            switch (facing) {
+                case SOUTH: loc.setYaw(180); break;
+                case WEST: loc.setYaw(270); break;
+                case EAST: loc.setYaw(90); break;
+                case NORTH: loc.setYaw(0); break;
+            }
+        } else {
+            loc.setYaw(player.getLocation().getYaw() + 180);
+        }
+
+        if (blockData instanceof Stairs) {
+            Stairs.Shape shape = ((Stairs) blockData).getShape();
+            if (shape == Stairs.Shape.INNER_RIGHT || shape == Stairs.Shape.OUTER_RIGHT) {
+                loc.setYaw(loc.getYaw() + 45);
+            } else if (shape == Stairs.Shape.INNER_LEFT || shape == Stairs.Shape.OUTER_LEFT) {
+                loc.setYaw(loc.getYaw() - 45);
+            }
+        }
+
+        Entity entity = player.getWorld().spawn(loc, ArmorStand.class, (armorStand -> {
+            armorStand.setVisible(false);
+            armorStand.setGravity(false);
+            armorStand.setInvulnerable(true);
+            Objects.requireNonNull(armorStand.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(1);
+            armorStand.setMetadata("stair", new FixedMetadataValue(Mandatory.getInstance(), true));
+        }));
+        Mandatory.sitLocations.put(player, player.getLocation());
+        entity.addPassenger(player);
+    }
+
+    @EventHandler
+    public void onEntityDismount(EntityDismountEvent e) {
+        if (e.getDismounted().hasMetadata("stair")) {
+            Bukkit.getScheduler().runTaskLater(Mandatory.getInstance(), e.getDismounted()::remove, 1L);
+            if (e.getEntity() instanceof Player player) {
+                Location loc = Mandatory.sitLocations.get(player);
+                if (loc != null) {
+                    player.teleport(loc);
+                    Mandatory.sitLocations.remove(player);
+                }
             }
         }
     }

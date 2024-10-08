@@ -13,7 +13,10 @@ import live.supeer.mandatory.commands.*;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +41,7 @@ public final class Mandatory extends JavaPlugin {
     public static HashMap<Player, Player> replyPlayers = new HashMap<>();
     public static HashMap<Player, Player> teleportRequests = new HashMap<>();
     public static HashMap<Player, Go> promptedPayment = new HashMap<>();
+    public static HashMap<Player, Location> sitLocations = new HashMap<>();
     public static List<Player> firstTimePlayer = new ArrayList<>();
     public static List<Player> kickedPlayers = new ArrayList<>();
     public static List<Player> vanishedPlayers = new ArrayList<>();
@@ -48,6 +52,7 @@ public final class Mandatory extends JavaPlugin {
     public static HashMap<UUID, Channel> activeChannel = new HashMap<>();
     public static HashMap<UUID, List<Channel>> playerChannels = new HashMap<>();
     public static HashMap<Player, String> lastMessage = new HashMap<>();
+
 
     public static Mandatory getInstance() {
         return plugin;
@@ -164,6 +169,20 @@ public final class Mandatory extends JavaPlugin {
     public void onDisable() {
         PacketEvents.getAPI().terminate();
         DB.close();
+
+        for (Player player : getServer().getOnlinePlayers()) {
+            if (player.isInsideVehicle() && player.getVehicle() instanceof ArmorStand) {
+                Entity vehicle = player.getVehicle();
+                if (vehicle.hasMetadata("stair")) {
+                    vehicle.remove();
+                }
+                Location loc = Mandatory.sitLocations.get(player);
+                if (loc != null) {
+                    player.teleport(loc);
+                    Mandatory.sitLocations.remove(player);
+                }
+            }
+        }
     }
     public static void sendMessage(
             @NotNull CommandSender sender, @NotNull String key, String... replacements) {
