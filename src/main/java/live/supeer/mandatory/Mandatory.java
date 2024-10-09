@@ -126,6 +126,7 @@ public final class Mandatory extends JavaPlugin {
         manager.registerCommand(new CommandTeleportAccept());
         manager.registerCommand(new CommandTeleportAsk());
         manager.registerCommand(new CommandTeleportDeny());
+        manager.registerCommand(new CommandUnban());
         manager.registerCommand(new CommandUpdate());
         manager.registerCommand(new CommandVision());
 

@@ -8,6 +8,7 @@ import live.supeer.apied.ApiedAPI;
 import live.supeer.apied.MPlayer;
 import live.supeer.apied.MPlayerManager;
 import live.supeer.mandatory.Mandatory;
+import live.supeer.metropolis.JailManager;
 import org.bukkit.entity.Player;
 
 @CommandAlias("unban")
@@ -30,6 +31,7 @@ public class CommandUnban extends BaseCommand {
             return;
         }
         MPlayerManager.removeBan(targetPlayer.getUuid());
+        JailManager.handleUnban(targetPlayer.getUuid());
         Mandatory.sendMessage(player, "messages.unban.success", "%player%", targetPlayer.getName());
     }
 }

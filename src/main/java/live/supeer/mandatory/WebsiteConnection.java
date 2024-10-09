@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import live.supeer.apied.ApiedAPI;
+import live.supeer.apied.MPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;
@@ -24,6 +25,7 @@ public class WebsiteConnection {
             server.createContext("/ticketAnswered", new TicketAnsweredHandler());
             server.createContext("/newTicket", new newTicketHandler());
             server.createContext("/modzoneNewTicket", new modzoneNewTicketHandler());
+            server.createContext("/checkBan", new CheckBanHandler());
             server.setExecutor(null);
             server.start();
         } catch (Exception e) {
@@ -63,6 +65,34 @@ public class WebsiteConnection {
                 os.close();
             } else {
                 exchange.sendResponseHeaders(405, -1);
+            }
+        }
+    }
+
+    static class CheckBanHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if ("GET".equals(exchange.getRequestMethod())) {
+                String query = exchange.getRequestURI().getQuery();
+                String[] queryParts = query.split("=");
+                if (queryParts.length == 2 && "uuid".equals(queryParts[0])) {
+                    String uuid = queryParts[1];
+
+                    // Check if the player is banned using ApiedAPI
+                    MPlayer targetPlayer = ApiedAPI.getPlayer(UUID.fromString(uuid));
+                    boolean isBanned = targetPlayer != null && targetPlayer.isBanned();
+
+                    // Build response
+                    String response = isBanned ? "yes" : "no";
+                    exchange.sendResponseHeaders(200, response.length());
+                    OutputStream os = exchange.getResponseBody();
+                    os.write(response.getBytes());
+                    os.close();
+                } else {
+                    exchange.sendResponseHeaders(400, -1); // Bad Request if query is invalid
+                }
+            } else {
+                exchange.sendResponseHeaders(405, -1); // Method not allowed if not GET
             }
         }
     }
