@@ -8,12 +8,16 @@ import live.supeer.metropolis.MetropolisAPI;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import static live.supeer.metropolis.utils.TeleportUtil.teleportingPlayers;
+import static live.supeer.metropolis.utils.TeleportUtil.teleportingTasks;
+import static live.supeer.metropolis.utils.TeleportUtil.startingLocations;
+
 
 public class TeleportUtil {
     public static void teleportAfk(Player player, boolean bypassCooldown) {
@@ -41,7 +45,7 @@ public class TeleportUtil {
         teleportingPlayers.add(player);
         int cooldown = Metropolis.configuration.getTeleportCooldown();
         Mandatory.sendMessage(player, "messages.teleport.started", "%cooldown%", String.valueOf(cooldown));
-        Mandatory.getInstance().getServer().getScheduler().runTaskLater(Mandatory.getInstance(), () -> {
+        BukkitTask task = Mandatory.getInstance().getServer().getScheduler().runTaskLater(Mandatory.getInstance(), () -> {
             if (!teleportingPlayers.contains(player)) {
                 sendAfkMessages(player);
                 Mandatory.sendMessage(player, "messages.teleport.failed");
@@ -54,7 +58,11 @@ public class TeleportUtil {
             Objects.requireNonNull(player.getPlayer()).playerListName(ApiedAPI.getTABPrefix(player.getPlayer(), true));
             Mandatory.sendMessage(player, "messages.teleport.success", "%name%", Mandatory.getMessage("messages.names.afk"));
             teleportingPlayers.remove(player);
+            teleportingTasks.remove(player);
+            startingLocations.remove(player);
         }, 20L * cooldown);
+        teleportingTasks.put(player, task);
+        startingLocations.put(player, player.getLocation());
     }
 
     public static void teleportGo(Player player, Go go, boolean bypassCooldown, boolean allowNature) {
@@ -95,7 +103,7 @@ public class TeleportUtil {
             }
             teleportingPlayers.add(player);
             int cooldown = Metropolis.configuration.getTeleportCooldown();
-            Mandatory.getInstance().getServer().getScheduler().runTaskLater(Mandatory.getInstance(), () -> {
+            BukkitTask task = Mandatory.getInstance().getServer().getScheduler().runTaskLater(Mandatory.getInstance(), () -> {
                 if (!teleportingPlayers.contains(player)) {
                     sendAfkMessages(player);
                     Mandatory.sendMessage(player, "messages.teleport.failed");
@@ -103,7 +111,11 @@ public class TeleportUtil {
                 }
                 teleportMethod(player, go, goName);
                 teleportingPlayers.remove(player);
+                teleportingTasks.remove(player);
+                startingLocations.remove(player);
             }, 20L * cooldown);
+            teleportingTasks.put(player, task);
+            startingLocations.put(player, player.getLocation());
         } else {
             Mandatory.sendMessage(player, "messages.go.notOpen");
         }

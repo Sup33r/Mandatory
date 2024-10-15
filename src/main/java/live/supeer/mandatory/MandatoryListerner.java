@@ -10,6 +10,7 @@ import live.supeer.metropolis.event.CityCreationEvent;
 import live.supeer.metropolis.event.CityDeletionEvent;
 import live.supeer.metropolis.event.CityJoinEvent;
 import live.supeer.metropolis.event.CityLeaveEvent;
+import live.supeer.metropolis.utils.TeleportUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.title.TitlePart;
@@ -588,6 +589,44 @@ public class MandatoryListerner implements Listener {
         if (!e.isAnchorSpawn() || !e.isBedSpawn()) {
             if (location != null) {
                 e.setRespawnLocation(location);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        if (TeleportUtil.teleportingPlayers.contains(event.getPlayer())) {
+            Location from = event.getFrom();
+            Location to = event.getTo();
+
+            if (distanceSquaredIgnoreDirection(from, to) > 0.4) {
+                if (TeleportUtil.teleportingTasks.containsKey(event.getPlayer())) {
+                    TeleportUtil.teleportingTasks.get(event.getPlayer()).cancel();
+                    TeleportUtil.teleportingTasks.remove(event.getPlayer());
+                    TeleportUtil.teleportingPlayers.remove(event.getPlayer());
+                    Mandatory.sendMessage(event.getPlayer(), "messages.teleport.cancelled");
+                }
+            }
+        }
+    }
+
+    private double distanceSquaredIgnoreDirection(Location from, Location to) {
+        double deltaX = from.getX() - to.getX();
+        double deltaY = from.getY() - to.getY();
+        double deltaZ = from.getZ() - to.getZ();
+        return (deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ);
+    }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            if (TeleportUtil.teleportingPlayers.contains(player)) {
+                if (TeleportUtil.teleportingTasks.containsKey(player)) {
+                    TeleportUtil.teleportingTasks.get(player).cancel();
+                    TeleportUtil.teleportingTasks.remove(player);
+                    TeleportUtil.teleportingPlayers.remove(player);
+                    Mandatory.sendMessage(player, "messages.teleport.cancelled");
+                }
             }
         }
     }

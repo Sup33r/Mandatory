@@ -71,6 +71,7 @@ messages:
     hasTeleport: "<red>Du har redan en pågående teleportering.</red>"
     started: "<red>Stå still!</red> <aqua>Du kommer att teleporteras om %cooldown% sekunder, men endast om du inte rör dig och inte tar skada.</aqua>"
     success: "<green>Teleporterar dig till</green> <dark_green>%name%</dark_green><green>...</green>"
+    cancelled: "<red>Teleporteringen avbröts.</red>"
   error:
     cooldown: "<red>Du måste vänta ett litet tag innan du kan använda detta kommando igen.</red>"
     nearTooLarge: "<red>Det angivna avståndet är för stort. Det maximala avståndet är 3000 block.</red>"
