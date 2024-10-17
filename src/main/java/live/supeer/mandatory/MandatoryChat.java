@@ -208,26 +208,12 @@ public class MandatoryChat {
 
     public static void sendMessage(Player player, TextComponent component) {
         String message = component.content();
-        MPlayer mPlayer = ApiedAPI.getPlayer(player);
-        if (mPlayer == null) {
-            return;
-        }
-        if (mPlayer.hasFlag('c')) {
-            message = "<aqua>" + message + "</aqua>";
-        }
         Channel channel = Mandatory.activeChannel.get(player.getUniqueId());
         sendChannelMessage(player, channel, message);
     }
 
     public static void sendMessage(Player player, Channel channel, TextComponent component) {
         String message = component.content();
-        MPlayer mPlayer = ApiedAPI.getPlayer(player);
-        if (mPlayer == null) {
-            return;
-        }
-        if (mPlayer.hasFlag('c')) {
-            message = "<aqua>" + message + "</aqua>";
-        }
         sendChannelMessage(player, channel, message);
     }
 
@@ -262,6 +248,9 @@ public class MandatoryChat {
             }
             if (!mPlayer.isModzoneAccess()) {
                 message = Mandatory.cleanedMessage(message);
+            }
+            if (mPlayer.hasFlag('c')) {
+                message = "<aqua>" + message + "</aqua>";
             }
             if (isDuplicateMessage(player, message) && !mPlayer.isModzoneAccess()) {
                 Mandatory.sendMessage(player, "messages.chat.duplicate");

@@ -151,10 +151,10 @@ public class Database {
         }
     }
 
-    public static Long createLoginLog(UUID uuid, String ip) {
+    public static Long createLoginLog(UUID uuid) {
         try {
             Long dateTime = DateUtil.getTimestamp();
-            DB.executeUpdate("INSERT INTO md_loginlogs (playerUUID, playerIp, dateTime) VALUES (?, ?, ?)", uuid.toString(), ip, dateTime);
+            DB.executeUpdate("INSERT INTO md_loginlogs (playerUUID, dateTime) VALUES (?, ?)", uuid.toString(), dateTime);
             return dateTime;
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -109,7 +109,7 @@ public class MandatoryListerner implements Listener {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, Objects.requireNonNull(Mandatory.getMessageComponent("messages.disabled.other")));
             MandatoryChat.modChatAnnouncement(Mandatory.getMessage("messages.modchat.messages.disabledOther", "%player%", event.getPlayer().getName()));
         }
-        Mandatory.startTime.put(player.getUuid(), Database.createLoginLog(player.getUuid(), event.getAddress().getHostAddress()));
+        Mandatory.startTime.put(player.getUuid(), Database.createLoginLog(player.getUuid()));
         ApiedAPI.addPlayer(player);
         ChannelManager.initiatePlayer(event.getPlayer());
     }
