@@ -46,7 +46,7 @@ public class CommandLogin extends BaseCommand {
                 String urlParameters = "uuid=" + uuid + "&password=" + password;
                 byte[] postData = urlParameters.getBytes();
 
-                URL url = new URL("https://enserver.se/generate_link");
+                URL url = new URL("https://example.com/generate_link");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setDoOutput(true);

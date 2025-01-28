@@ -38,9 +38,9 @@ messages:
   me: "⋆ %player% %message%"
 
   helpop:
-    noRecipient: "<red>Tyvärr så är ongen personalmedlem online för tillfället. Överväg istället att göra ett supportärende. <underlined>https://enserver.se/support/new</underlined>."
+    noRecipient: "<red>Tyvärr så är ingen personalmedlem online för tillfället.>."
     message: "<dark_red>#modzone <gray>| <red>%player% behöver hjälp: <white>%message%</white>"
-    sent: "<green>Ditt meddelande har skickats till våra moderatorer, och de kontaktar dig så fort det finns tid och möjlighet. Du kan alltid komma i kontakt med oss genom att skapa ett ärende på hemsidan: <underlined>https://enserver.se/support/new</underlined>"
+    sent: "<green>Ditt meddelande har skickats till våra moderatorer, och de kontaktar dig så fort det finns tid och möjlighet.</underlined>"
 
   teleportRequests:
     cityNotAllowed: "<red>Du har inte teleporteringsrättigheter där %target% befinner sig.</red>"
@@ -116,8 +116,8 @@ messages:
     afk: "AFK-rummet"
     back: "din tidigare position"
   afk:
-    alreadyAfk: "<red>Du har redan tagt avstånd från EnServers stadsvärld (AFK).</red>"
-    alreadyAfkOther: "<red>%player% har redan tagit avstånd från EnServers stadsvärld (AFK).</red>"
+    alreadyAfk: "<red>Du är redan AFK.</red>"
+    alreadyAfkOther: "<red>%player% är redan AFK.</red>"
 
   broadcast:
     admin: "<aqua>\n%message%\n</aqua>"
@@ -165,7 +165,7 @@ messages:
       chargeamount:
         removed: "<green>Kostnaden för teleportering till <dark_green>%name%</dark_green> har tagits bort.</green>"
         set: "<green>Kostnaden för teleportering till <dark_green>%name%</dark_green> har uppdaterats.</green>"
-        tooMuch: "<red>Kostnaden för teleportering till <dark_red>%name%</dark_red> kan inte vara mer än %max% encoins.</red>"
+        tooMuch: "<red>Kostnaden för teleportering till <dark_red>%name%</dark_red> kan inte vara mer än %max% coins.</red>"
       displayname:
         tooLong: "<red>Visningsnamnet får maximalt vara %max% tecken långt.</red>"
         success: "<green>Visningsnamnet för <dark_green>%name%</dark_green> har uppdaterats.</green>"
@@ -198,8 +198,8 @@ messages:
         false: "Nej"
       created: "<dark_green>Skapad: <green>%created%</green>"
       price: "<dark_green>Kostnad för teleportering: <green>%price%"
-    charged: "<green>Du har betalat %charge% encoins för att teleportera till teleporteringspunkten.</green>"
-    charges: "<green>Teleporteringspunkten kostar <dark_green>%charge% encoins<green> att använda. Skriv kommandot igen om du godkänner kostnaden."
+    charged: "<green>Du har betalat %charge% coins för att teleportera till teleporteringspunkten.</green>"
+    charges: "<green>Teleporteringspunkten kostar <dark_green>%charge% coins<green> att använda. Skriv kommandot igen om du godkänner kostnaden."
     notFound: "<red>Det finns ingen teleporteringspunkt med detta namn.</red>"
     notInCity: "<red>Teleporteringspunkten är belagd i naturen, och där är <bold>PVP påslaget</bold>.\nSkriv <dark_red>/go %name%!<red> för att teleportera dit.</red>"
     notOpen: "<red>Denna teleporteringspunkt är inte öppen för allmänheten.</red>"
@@ -209,17 +209,17 @@ messages:
       list: "<dark_green>--- <green>Teleporteringspunkter (sida <click:run_command:/go %previous%><bold>%start%</bold></click> av <click:run_command:/go %next%><bold>%end%</bold></click>)</green> <dark_green>---"
 
   balance:
-    received: "<dark_aqua>--- <aqua>Mottagen transferrering</aqua> ---\nFrån: <aqua><italic>staten</italic>/aqua>\nBelopp: <aqua>%amount% encoins</aqua>\nAnledning: <aqua>%reason%</aqua>"
+    received: "<dark_aqua>--- <aqua>Mottagen transferrering</aqua> ---\nFrån: <aqua><italic>staten</italic>/aqua>\nBelopp: <aqua>%amount% coins</aqua>\nAnledning: <aqua>%reason%</aqua>"
     modify:
       syntax: "<gray>Syntax: /balance <underlined>namn</underlined> <bold>-mängd</bold>/<bold>+mängd</bold>/<bold>all</bold> <underlined>anledning</underlined>"
-    reimburse: "<aqua>Du har betalat %amount% encoins till %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+    reimburse: "<aqua>Du har betalat %amount% coins till %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
     confiscate:
-      none: "<red>Den angivna spelaren har inga encoins att konfiskera.</red>"
-      notEnough: "<red>Den angivna spelaren har inte så mycket encoins. Överväg att använda /balance <underlined>namn</underlined> all istället.</red>"
-      success: "<aqua>Du konfiskerade %amount% encoins från %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
-      all: "<aqua>Du konfiskerade alla encoins från %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
-    own: "<green>Saldo: %balance% encoins</green>"
-    others: "<green>Saldo för %player%: %balance% encoins</green>"
+      none: "<red>Den angivna spelaren har inga coins att konfiskera.</red>"
+      notEnough: "<red>Den angivna spelaren har inte så mycket coins. Överväg att använda /balance <underlined>namn</underlined> all istället.</red>"
+      success: "<aqua>Du konfiskerade %amount% coins från %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+      all: "<aqua>Du konfiskerade alla coins från %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+    own: "<green>Saldo: %balance% coins</green>"
+    others: "<green>Saldo för %player%: %balance% coins</green>"
 
   kick:
     message: "<red>Du har fått en varning:</red>\n%reason%"
@@ -239,24 +239,24 @@ messages:
 
   buy:
     copyright:
-      success: "<green>Du har köpt ett kopieringsskydd för %price% encoins.</green>"
+      success: "<green>Du har köpt ett kopieringsskydd för %price% coins.</green>"
       notCopyrightable: "<red>Föremålet du håller i handen kan inte kopieringsskyddas.</red>"
       noItemInHand: "<red>Vänligen håll det du vill kopieringsskydda i handen.</red>"
-      notEnoughMoney: "<red>Du har inte råd med %price% encoins, som ett kopieringsskydd kostar.</red>"
+      notEnoughMoney: "<red>Du har inte råd med %price% coins, som ett kopieringsskydd kostar.</red>"
       alreadyCopyrighted: "<red>Föremålet du håller i handen är redan kopieringsskyddat.</red>"
     head:
-      notEnoughMoney: "<red>Du har inte råd med %price% encoins, som ett exemplar av ditt huvud kostar.</red>"
-      success: "<green>Du har köpt ett exemplar av ditt huvud för %price% encoins.</green>"
+      notEnoughMoney: "<red>Du har inte råd med %price% coins, som ett exemplar av ditt huvud kostar.</red>"
+      success: "<green>Du har köpt ett exemplar av ditt huvud för %price% coins.</green>"
       noSpace: "<red>Ditt inventory saknar plats.</red>"
     go:
       cityNotAllowed: "<red>Du kan inte köpa en teleporteringspunkt på ett ställe där du inte har byggrättigheter.</red>"
       alreadyExists: "<red>En teleporteringspunkt med detta namn finns redan.</red>"
       syntax: "<gray>Syntax: /buy go <underlined>namn</underlined>"
-      notEnoughMoney: "<red>Du har inte råd med %price% encoins, som en teleporteringspunkt kostar.</red>"
-      success: "<green>Du har köpt teleporteringspunkten %name% för %price% encoins.</green>"
+      notEnoughMoney: "<red>Du har inte råd med %price% coins, som en teleporteringspunkt kostar.</red>"
+      success: "<green>Du har köpt teleporteringspunkten %name% för %price% coins.</green>"
     broadcast:
-      success: "<green>Du har köpt ett meddelande till allmänheten som kostade %price% encoins.</green>"
-      notEnoughMoney: "<red>Du har inte råd med %price% encoins, som ett meddelande till allmänheten kostar.</red>"
+      success: "<green>Du har köpt ett meddelande till allmänheten som kostade %price% coins.</green>"
+      notEnoughMoney: "<red>Du har inte råd med %price% coins, som ett meddelande till allmänheten kostar.</red>"
     syntax: "<gray>Syntax: /buy broadcast <underlined>meddelande</underlined>\nSyntax: /buy go <underlined>namn</underlined>\nSyntax: /buy head\nSyntax: /buy copyright"
 
   update:
@@ -278,14 +278,14 @@ messages:
     onlyOnePlayer: "<red>Du kan inte göra en payall när det endast är en annan spelare online! Använd /pay istället!</red>"
     noPlayers: "<red>Det finns inga spelare online som kan ta emot din payall!</red>"
     reasonInvalid: "<red>Anledningen är inte tillräckligt bra. Tydliggör, precisera!</red>"
-    notEnoughMoney: "<red>Du har inte %amount% encoins.</red>"
+    notEnoughMoney: "<red>Du har inte %amount% coins.</red>"
     cantPaySelf: "<red>Du kan inte betala dig själv.</red>"
-    received: "<dark_aqua>--- <aqua>Mottagen överföring</aqua> ---\nFrån: <aqua>%player%</aqua>\nBelopp: <aqua>%amount% encoins</aqua>\nAnledning: <aqua>%reason%</aqua>"
-    success: "<aqua>Du skickade %amount% encoins till %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+    received: "<dark_aqua>--- <aqua>Mottagen överföring</aqua> ---\nFrån: <aqua>%player%</aqua>\nBelopp: <aqua>%amount% coins</aqua>\nAnledning: <aqua>%reason%</aqua>"
+    success: "<aqua>Du skickade %amount% coins till %player%, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
 
   payall:
-    received: "<dark_aqua>--- <aqua>Mottagen massöverföring</aqua> ---\nFrån: <aqua>%player%</aqua>\nBelopp: <aqua>%amount% encoins</aqua>\nAnledning: <aqua>%reason%</aqua>"
-    success: "<aqua>Du skickade %amount% encoins till alla online, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
+    received: "<dark_aqua>--- <aqua>Mottagen massöverföring</aqua> ---\nFrån: <aqua>%player%</aqua>\nBelopp: <aqua>%amount% coins</aqua>\nAnledning: <aqua>%reason%</aqua>"
+    success: "<aqua>Du skickade %amount% coins till alla online, med anledningen: <dark_aqua>%reason%</dark_aqua>.</aqua>"
 
   player:
     info:
@@ -295,7 +295,7 @@ messages:
         online: "<dark_green>Status: <green>Online, sedan %playedSince%"
         offline: "<dark_green>Status: <green>Offline, sedan %playedLatest%"
       latestPosition: "<dark_green>Senaste position: <green>%location%"
-      wallet: "<dark_green>Plånbok: <green>%amount% encoins"
+      wallet: "<dark_green>Plånbok: <green>%amount% coins"
     toggle:
       invites:
         ion: "<green>Du tillåter nu städer att bjuda in dig.</green>"
@@ -347,8 +347,8 @@ messages:
     others: "<dark_green>--- <green>Hempositioner för %player% (%count%/%max%)</green> ---\n<dark_green>%list%</dark_green>"
 
   disabled:
-    name: "<red>Namnet %name% är avstängt på EnServer. Vänligen byt namn för att kunna logga in.</red>"
-    other: "<red>Du är avstängd från EnServer. Kontakta supporten för mer information.</red>"
+    name: "<red>Namnet %name% är avstängt. Vänligen byt namn för att kunna logga in.</red>"
+    other: "<red>Du är avstängd. Kontakta administratör för mer information.</red>"
 
   copyrighted: "<red>Föremålet du försöker kopiera är kopieringsskyddat.</red>"
 
@@ -378,8 +378,8 @@ messages:
         added: "<green>%player% har fått sina externa prefixar återaktiverade i chatten.</green>"
         removed: "<green>%player% har fått sina externa prefixar avaktiverade i chatten.</green>"
       chatcolor:
-        added: "<green>%player har fått färgen på sina chattmeddelanden aktiverat.</green>"
-        removed: "<green>%player har fått färgen på sina chattmeddelanden avaktiverat.</green>"
+        added: "<green>%player% har fått färgen på sina chattmeddelanden aktiverat.</green>"
+        removed: "<green>%player% har fått färgen på sina chattmeddelanden avaktiverat.</green>"
     disablename:
       success: "<green>Namnet %name% har nu blockerats från servern.</green>"
     set:
@@ -424,22 +424,22 @@ messages:
     filtered: "<red>Ditt meddelande kunde inte skickas.</red>"
     duplicate: "<red>Du kan inte skicka samma meddelande två gånger i rad.</red>"
     tablist:
-      header: "<white><bold>EnServer</bold></white>"
-      footer: "<white><bold>IP:</bold> enserver.se</white>"
+      header: "<white><bold>Mandatory</bold></white>"
+      footer: "<white><bold>IP:</bold> example.com</white>"
     noActiveChannel: "<red>Du har ingen aktiv chattkanal.</red>"
     channelDisabled: "<red>Chattkanalen är tillfälligt inaktiverad.</red>"
     prefix:
       tab:
         mod: "<#FF3561> %player%"
-      vip: "<hover:show_text:'<green>VIP-medlem</green>'><dark_green>[</dark_green><green>VIP</green><dark_green>]</dark_green></hover> "
-      mod: "<hover:show_text:'<#FF3561>Moderator</#FF3561>'><#FF3561>ᴍᴏᴅ</hover> "
+      vip: "<hover:show_text:'<yellow>VIP-medlem</yellow>'><yellow>★</yellow></hover> "
+      mod: "<hover:show_text:'<#FF3561>Moderator</#FF3561>'><#FF3561>ᴍᴏᴅ</#FF3561></hover> "
       city:
         name: "<dark_gray>[</dark_gray><gray>%cityname%</gray><dark_gray>]</dark_gray> "
         role:
-          inviter: "<hover:show_text:'<green>Inbjudare</green>'><dark_green>[</dark_green><green>i</green><dark_green>]</dark_green></hover> "
-          assistant: "<hover:show_text:'<green>Assistent</green>'><dark_green>[</dark_green><green>a</green><dark_green>]</dark_green></hover> "
-          vicemayor: "<hover:show_text:'<green>Vice Borgmästare</green>'><dark_green>[</dark_green><green>b</green><dark_green>]</dark_green></hover> "
-          mayor: "<hover:show_text:'<green>Borgmästare</green>'><dark_green>[</dark_green><green>B</green><dark_green>]</dark_green></hover> "
+          inviter: "<hover:show_text:'<green>Inbjudare</green>'><green>ɪ</green></hover> "
+          assistant: "<hover:show_text:'<green>Assistent</green>'><green>ᴀ</green></hover> "
+          vicemayor: "<hover:show_text:'<green>Vice Borgmästare</green>'><green>ᴠ</green></hover> "
+          mayor: "<hover:show_text:'<green>Borgmästare</green>'><green>ʙ</green></hover> "
     # Sätt cityrank efter playerrank.
     city: "<yellow>%cityname% <gray>| <gold>%player%<gray> <yellow>%message%</yellow>"
     mod: "<dark_red>#modzone <gray>| <gold>%player%<gray>> <red>%message%</red>"
@@ -466,7 +466,7 @@ messages:
     hidden: ""
     greeting:
       title: "Tjuhu, %player%!"
-      subtitle: "Välkommen till EnServer."
+      subtitle: "Välkommen hit."
 
   ban:
     commandNotAllowed: "<red>Kommandot kan inte användas när man är bannlyst.</red>"
@@ -584,7 +584,7 @@ messages:
     kill: "<gray>%player% dödades av %killer%.</gray>"
     killWeapon: "<gray>%player% dödades av %killer% med %weapon%%weaponName%</hover></gray>"
 
-  discord: "<#5865F2><click:open_url:https://enserver.se/discord>Klicka här för att ansluta dig till vår Discord-server.</click></#5865F2>"
+  discord: "<#5865F2><click:open_url:https://discord.gg/example>Klicka här för att ansluta dig till vår Discord-server.</click></#5865F2>"
 
   online:
     header: "<dark_green>--- <green>Spelare online <dark_green>(%count%)<green> <dark_green>---"

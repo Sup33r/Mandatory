@@ -121,7 +121,7 @@ public class CommandAdmin extends BaseCommand {
             } else {
                 currentFlags += "c";
                 mPlayer.setFlags(currentFlags);
-                Mandatory.sendMessage(player, "messages.player.toggle.chestmessages.added", "%player%", mPlayer.getName());
+                Mandatory.sendMessage(player, "messages.admin.toggle.chatcolor.added", "%player%", mPlayer.getName());
             }
             return;
         }

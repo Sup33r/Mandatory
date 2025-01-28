@@ -19,6 +19,8 @@ import java.util.UUID;
 
 public class WebsiteConnection {
 
+    // Class that handles connection to a website
+
     public static void startServer() {
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(8765), 0);
